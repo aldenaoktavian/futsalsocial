@@ -5,12 +5,18 @@ class Social extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		redirect('social/timeline');
 	}
 
 	public function timeline()
 	{
 		$data['title'] = "Futsal Yuk";
 		$this->load->view('timeline', $data);
+	}
+
+	public function comment()
+	{
+		$data['title'] = "Futsal Yuk";
+		$this->load->view('comment', $data);
 	}
 }

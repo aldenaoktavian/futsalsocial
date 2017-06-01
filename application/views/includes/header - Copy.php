@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?=$title?></title>
 	<!-- Start CSS Bootstrap -->
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	<link href="<?=base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
 	<!--link href="<?=base_url()?>assets/css/bootstrap-grid.min.css" rel="stylesheet">
 	<link href="<?=base_url()?>assets/css/bootstrap-reboot.min.css" rel="stylesheet"-->
 	<!-- End CSS Bootstrap -->
@@ -23,7 +22,7 @@
 <body>
     <nav class="navbar-default navbar-static-top" role="navigation">
         <div class="navbar-header">
-            <h1><a class="navbar-brand" href="<?=base_url()?>">Futsal Yuk</a></h1>         
+            <h1><a class="navbar-brand" href="/">Futsal Yuk</a></h1>         
         </div>
         <div class="border-bottom">
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -94,7 +93,7 @@
                     </li>
                     <img class="img-circle" src="<?=base_url()?>uploadfiles/member-images/profil.jpg" style="width: 35px;">
                     <a href="profile.html" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Profile</span></a>
-                    <a href="<?=base_url()?>" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Home</span></a>
+                    <a href="profile.html" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Home</span></a>
                     <a href="profile.html" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Setting&nbsp;<i class="fa fa-gear"></i></span></a>
                 </ul>
             </div><!-- /.navbar-collapse -->
