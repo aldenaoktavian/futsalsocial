@@ -92,7 +92,7 @@
                         <li><a href="#" class="view">View all messages</a></li>
                       </ul>
                     </li>
-                    <img class="img-circle" src="<?=base_url()?>uploadfiles/member-images/profil.jpg" style="width: 35px;">
+                    <img class="img-circle" src="<?=base_url()?>uploadfiles/member-images/<?=$member_image?>" style="width: 35px;">
                     <a href="profile.html" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Profile</span></a>
                     <a href="<?=base_url()?>" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Home</span></a>
                     <a href="profile.html" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Setting&nbsp;<i class="fa fa-gear"></i></span></a>

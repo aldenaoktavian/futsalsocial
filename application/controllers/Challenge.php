@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Challenge extends CI_Controller {
 
+	function __construct() {
+		parent::__construct();
+        if ( !isset($_SESSION['login']['username']) ) { 
+			redirect('login'); 
+		}
+    }
+
 	public function index()
 	{
 		redirect('challenge/pilihtim');

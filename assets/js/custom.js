@@ -3,10 +3,11 @@ $(document).ready(function() {
 	$('.popup-with-move-anim').click(function(){
 		$.post(base_url + "social/comment",
 		{
-		  id: '1'
+		  post_id: $('.popup-with-move-anim').attr("data-id")
 		},
 		function(data,status){
 			if(status == 'success'){
+				alert($(this).attr("data-id"));
 				$("#comment-content").empty().html(data); 
 			}
 		});
@@ -146,6 +147,21 @@ $(document).ready(function() {
 	  midClick: true,
 	  removalDelay: 300,
 	  mainClass: 'my-mfp-slide-bottom'
+	});
+	/* end pop up list team */
+
+	/* start pop up list team */
+	$('#write-member-post-btn').click(function(){
+		$.post(base_url + "social/add_new_post",
+		{
+		  new_post: $('#new_post').val()
+		},
+		function(data,status){
+			if(status == 'success'){
+				$('#new_member_post').append(data);
+				$('#new_post').val('');
+			}
+		});
 	});
 	/* end pop up list team */
 })
