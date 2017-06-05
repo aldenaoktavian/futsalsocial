@@ -26,7 +26,6 @@ class Social_model extends CI_Model {
 		$this->db->join('member b', 'a.member_id = b.member_id');
 		$this->db->where('md5(post_id)', $post_id);
 		$query = $this->db->get('member_post_comment a');
-		print_r($this->db->last_query());
 		return $query->result_array();
 	}
 	

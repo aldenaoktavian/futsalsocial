@@ -11,16 +11,16 @@
         <div class="sidebar-nav navbar-collapse collapse">
 	        <ul class="nav" id="side-menu">
 	            <li>
-	                <a href="<?=base_url()?>social/timeline" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Timeline</span> </a>
+	                <a href="<?php echo base_url(); ?>social/timeline" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Timeline</span> </a>
 	            </li>
 				<li>
-	                <a href="<?=base_url()?>team/challengelist" class=" hvr-bounce-to-right"><i class="fa fa-inbox nav_icon"></i> <span class="nav-label">Team</span> </a>
+	                <a href="<?php echo base_url(); ?>team/challengelist" class=" hvr-bounce-to-right"><i class="fa fa-inbox nav_icon"></i> <span class="nav-label">Team</span> </a>
 	            </li>
 	            <li>
-	                <a href="<?=base_url()?>team/profile" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">My Team</span> </a>
+	                <a href="<?php echo base_url(); ?>team/profile" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">My Team</span> </a>
 	            </li>
 	            <li>
-	                <a href="<?=base_url()?>challenge/pilihtim" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Challenge</span> </a>
+	                <a href="<?php echo base_url(); ?>challenge/pilihtim" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Challenge</span> </a>
 	            </li>
 	            <li>
 	                <a href="layout.html" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Booking</span> </a>

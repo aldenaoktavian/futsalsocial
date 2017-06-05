@@ -1,13 +1,13 @@
 $(document).ready(function() {
 	/* start pop up post comment */
-	$('.popup-with-move-anim').click(function(){
+	$('.popup-with-move-anim').on('click', function(event){
+		var post_id = $(this).attr('data-id');
 		$.post(base_url + "social/comment",
 		{
-		  post_id: $('.popup-with-move-anim').attr("data-id")
+		  post_id: post_id
 		},
 		function(data,status){
 			if(status == 'success'){
-				alert($(this).attr("data-id"));
 				$("#comment-content").empty().html(data); 
 			}
 		});
@@ -62,9 +62,10 @@ $(document).ready(function() {
 
 	/* start pop up edit description team */
 	$('.popup-edit-desc').click(function(){
+		var team_id = $(this).attr('data-id');
 		$.post(base_url + "team/edit_description",
 		{
-		  id: '1'
+		  team_id: team_id
 		},
 		function(data,status){
 			if(status == 'success'){
@@ -92,9 +93,10 @@ $(document).ready(function() {
 
 	/* start pop up add member team */
 	$('.popup-add-member').click(function(){
+		var team_id = $(this).attr('data-id');
 		$.post(base_url + "team/add_member",
 		{
-		  id: '1'
+		  team_id: team_id
 		},
 		function(data,status){
 			if(status == 'success'){
@@ -164,4 +166,35 @@ $(document).ready(function() {
 		});
 	});
 	/* end pop up list team */
+
+	/* start pop up detail notif */
+	$('.popup-detail-notif').click(function(){
+		var notif_id = $(this).attr('data-id');
+		$.post($(this).attr('data-url'),
+		{
+		  notif_id: notif_id
+		},
+		function(data,status){
+			if(status == 'success'){
+				$("#detail-notif").empty().html(data); 
+			}
+		});
+	})
+	$('.popup-detail-notif').magnificPopup({
+	  type: 'inline',
+
+	  fixedContentPos: false,
+	  fixedBgPos: true,
+	  alignTop: true,
+
+	  overflowY: 'auto',
+
+	  closeBtnInside: true,
+	  preloader: false,
+	  
+	  midClick: true,
+	  removalDelay: 300,
+	  mainClass: 'my-mfp-slide-bottom'
+	});
+	/* end pop up detail notif */
 })

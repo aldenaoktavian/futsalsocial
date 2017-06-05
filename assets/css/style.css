@@ -420,7 +420,7 @@ i.fa.fa-globe {
 }
 .number{
 	position: absolute;
-    top: -10px;
+    top: -5px;
     background-color: #EB0000;
     color: #fff;
     border-radius: 100px;
@@ -445,6 +445,7 @@ i.fa.fa-globe {
 }
 .user-new-left {
     float: right;
+    margin-top: 9px;
 }
 .user-new-left i.fa-user-plus,.user-new-left i.fa-heart,.user-new-left i.fa-times
 ,.user-new-left i.fa-info,.user-new-left i.fa-rss{
@@ -492,7 +493,7 @@ i.fa.fa-globe {
 	color:#999;
 }
 .dropdown-menu li {
-    border-bottom: 1px solid #F7F7F7 ;
+    border-bottom: 1px solid #dee3ea ;
 }
 .dropdown-menu li:last-child {
     border-bottom: none;
@@ -508,7 +509,7 @@ i.fa.fa-globe {
 	color: #d4f4dd;
 }
  .dropdown-menu {
- border: 1px solid #ebeff6;
+ border: 1px solid #b7c8e6;
     border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-o-border-radius: 4px;

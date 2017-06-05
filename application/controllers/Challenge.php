@@ -8,6 +8,8 @@ class Challenge extends CI_Controller {
         if ( !isset($_SESSION['login']['username']) ) { 
 			redirect('login'); 
 		}
+		$data_header = header_member();
+		$this->load->vars($data_header);
     }
 
 	public function index()
