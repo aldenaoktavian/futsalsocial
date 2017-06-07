@@ -1,8 +1,8 @@
-<? include(APPPATH.'views/includes/header.php'); ?>
-<? include(APPPATH.'views/includes/team-banner.php'); ?>
+<?php include(APPPATH.'views/includes/header.php'); ?>
+<?php include(APPPATH.'views/includes/team-banner.php'); ?>
 <div class="container-fluid main-content nomargin">
 	<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-		<? include(APPPATH.'views/includes/left-menu-team.php'); ?>
+		<?php include(APPPATH.'views/includes/left-menu-team.php'); ?>
 	</div>
 	<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
 		<!-- start top column -->
@@ -50,4 +50,4 @@
 		<!-- end top column -->
 	</div>
 </div>
-<? include(APPPATH.'views/includes/footer.php'); ?>
+<?php include(APPPATH.'views/includes/footer.php'); ?>

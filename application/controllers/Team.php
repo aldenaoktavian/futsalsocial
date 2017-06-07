@@ -159,15 +159,33 @@ class Team extends CI_Controller {
 		}
 	}
 
-	public function statistic()
+	public function statistic($get_team_id='')
 	{
-		$data['title'] = "Team - Futsal Yuk";
+		$data['title'] = "Statistik Team - Futsal Yuk";
+		$team_id = ($get_team_id != '' ? $get_team_id : ($this->session->login['team_id'] != 0 ? md5($this->session->login['team_id']) : ''));
+		if($team_id == ''){
+			redirect('team/no_team');
+		}
+		$data_team = $this->team_model->data_team($team_id);
+		$data['team_id'] = $team_id;
+		$data['team_banner'] = ($data_team['team_banner'] ? $data_team['team_banner'] : 'no-banner.jpg');
+		$data['team_image'] = ($data_team['team_image'] ? $data_team['team_image'] : 'no-img-profil.png');
+		$data['team_name'] = $data_team['team_name'];
 		$this->load->view('team/statistic', $data);
 	}
 
-	public function history()
+	public function history($get_team_id='')
 	{
-		$data['title'] = "Team - Futsal Yuk";
+		$data['title'] = "History Pertandingan - Futsal Yuk";
+		$team_id = ($get_team_id != '' ? $get_team_id : ($this->session->login['team_id'] != 0 ? md5($this->session->login['team_id']) : ''));
+		if($team_id == ''){
+			redirect('team/no_team');
+		}
+		$data_team = $this->team_model->data_team($team_id);
+		$data['team_id'] = $team_id;
+		$data['team_banner'] = ($data_team['team_banner'] ? $data_team['team_banner'] : 'no-banner.jpg');
+		$data['team_image'] = ($data_team['team_image'] ? $data_team['team_image'] : 'no-img-profil.png');
+		$data['team_name'] = $data_team['team_name'];
 		$this->load->view('team/challenge-history', $data);
 	}
 }

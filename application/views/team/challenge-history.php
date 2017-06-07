@@ -1,15 +1,15 @@
-<? include(APPPATH.'views/includes/header.php'); ?>
-<? include(APPPATH.'views/includes/team-banner.php'); ?>
+<?php include(APPPATH.'views/includes/header.php'); ?>
+<?php include(APPPATH.'views/includes/team-banner.php'); ?>
 <div class="container-fluid main-content nomargin">
 	<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-		<? include(APPPATH.'views/includes/left-menu-team.php'); ?>
+		<?php include(APPPATH.'views/includes/left-menu-team.php'); ?>
 	</div>
 	<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
 		<!-- start list of challenge -->
 		<div class="bg-post post-item challenge-item">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?=base_url()?>uploadfiles/member-images/profil.jpg">
+				<img class="img-circle post-img" src="<?php echo base_url(); ?>uploadfiles/member-images/profil.jpg">
 				<div class="clearfix"> </div>
 				<h5>Team Coba</h5>
 				<div class="score-item">
@@ -24,7 +24,7 @@
 				</p>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?=base_url()?>uploadfiles/member-images/profil.jpg">
+				<img class="img-circle post-img" src="<?php echo base_url(); ?>uploadfiles/member-images/profil.jpg">
 				<div class="clearfix"> </div>
 				<h5>Team Coba</h5>
 				<div class="score-item">
@@ -38,7 +38,7 @@
 		<div class="bg-post post-item challenge-item">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?=base_url()?>uploadfiles/member-images/profil.jpg">
+				<img class="img-circle post-img" src="<?php echo base_url(); ?>uploadfiles/member-images/profil.jpg">
 				<div class="clearfix"> </div>
 				<h5>Team Coba</h5>
 				<div class="score-item">
@@ -53,7 +53,7 @@
 				</p>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?=base_url()?>uploadfiles/member-images/profil.jpg">
+				<img class="img-circle post-img" src="<?php echo base_url(); ?>uploadfiles/member-images/profil.jpg">
 				<div class="clearfix"> </div>
 				<h5>Team Coba</h5>
 				<div class="score-item">
@@ -66,4 +66,4 @@
 		<!-- end list of challenge -->
 	</div>
 </div>
-<? include(APPPATH.'views/includes/footer.php'); ?>
+<?php include(APPPATH.'views/includes/footer.php'); ?>

@@ -3162,9 +3162,9 @@ hr {
   font-size: 35px;
 }
 
-.challenge-item div {
+/*.challenge-item div {
   margin-bottom: 50px;
-}
+}*/
 
 .pilih-tim {
   border-style: solid;
@@ -3385,5 +3385,5 @@ opacity: 0;
 }
 
 .lap-price {
-  
+
 }
