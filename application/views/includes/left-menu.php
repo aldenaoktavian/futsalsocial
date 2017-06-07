@@ -20,7 +20,7 @@
 	                <a href="<?php echo base_url(); ?>team/profile" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">My Team</span> </a>
 	            </li>
 	            <li>
-	                <a href="<?php echo base_url(); ?>challenge/pilihtim" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Challenge</span> </a>
+	                <a href="<?php echo base_url(); ?>challenge/newchallenge" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Challenge</span> </a>
 	            </li>
 	            <li>
 	                <a href="layout.html" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Booking</span> </a>

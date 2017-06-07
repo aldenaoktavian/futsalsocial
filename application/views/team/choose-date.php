@@ -1,46 +1,81 @@
-<? include(APPPATH.'views/includes/header.php'); ?>
-<? include(APPPATH.'views/includes/team-challenge.php'); ?>
-<div class="container-fluid main-content nomargin">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-		<div class="challenge-step">
-			<div class="col-lg-3 col-md-3 hidden-sm hidden-xs"></div>
-			<div class="col-lg-2 col-md-2 col-sm-12 col-xs12 step-item">
-				Pilih Tim
+<link href="<?php echo base_url(); ?>assets/css/nouislider.min.css" rel="stylesheet">
+			<br/>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin">
+				<input type="text" class="form-control" placeholder="Pilih Daerah" id="search-area" />
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-12 col-xs12" style="margin-top: 8px;">
-				<i class="fa fa-chevron-right" aria-hidden="true"></i>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin">
+				<input id='datetimepicker' type='text' class="form-control" placeholder="Pilih Tanggal dan Waktu" />
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-12 col-xs12 step-item active">
-				Tanggal & Lapangan
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin" style="padding-top: 7px;">
+				<div id="slider-range" class="noUi-target noUi-ltr noUi-horizontal" style="margin-bottom: 10px;"></div>
+				<span id="slider-range-value">1</span><span> Jam</span>
 			</div>
-			<div class="col-lg-3 col-md-3 hidden-sm hidden-xs"></div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<button type="button" class="btn btn-default" style="margin-bottom: 20px;" id="get-list-area">Cari Lapangan</button>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<hr/>
+				<div id="list-lapangan" style="padding-top: 15px;"></div>
+			</div>
 			<div class="clearfix"> </div>
-		</div>
-
-		<!-- start column -->
-		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
-		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 bg-post challenge-item">
-			<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs"></div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-			        <input id='datetimepicker' type='text' class="form-control" />
-				<img class="img-circle" src="<?=base_url()?>uploadfiles/member-images/profil.jpg">
-				<h4>Team Coba</h4>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs challenge-vs">VS</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-				<div class="img-circle pilih-tim"></div>
-				<!--h4>Team Coba</h4-->
-				<a href="#list-team" class="popup-list-team"><button type="button" class="btn btn-primary">Pilih Tim</button>
-			</div>
-			<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs"></div>
-			<div class="clearfix"> </div>
-			<hr/><br/>
-			<a href="<?=base_url()?>challenge/pilihtim"><button type="button" class="btn btn-default">Back</button>
-			<a href="<?=base_url()?>challenge/pilihtanggal"><button type="button" class="btn btn-default">Next</button>
-		</div>
-		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
-		<!-- end column -->
-	</div>
-</div>
 <div id="list-team" class="main-content zoom-anim-dialog mfp-hide popup-content"></div>
-<? include(APPPATH.'views/includes/footer.php'); ?>
+<script src="<?php echo base_url(); ?>assets/js/nouislider.min.js"></script>
+<script src='<?php echo base_url(); ?>assets/js/wNumb.min.js'></script>
+<script type="text/javascript">
+var rangeSlider = document.getElementById('slider-range');
+
+noUiSlider.create(rangeSlider, {
+	start: 0,
+	step: 1,
+	format: wNumb({
+		decimals: 0
+	}),
+	range: {
+	  'min': [  1 ],
+	  'max': [ 5 ]
+	}
+});
+
+var rangeSliderValueElement = document.getElementById('slider-range-value');
+
+rangeSlider.noUiSlider.on('update', function( values, handle ) {
+rangeSliderValueElement.innerHTML = values[handle];
+});
+
+$( function() {
+    var availableTags = [
+      <?php 
+      	foreach($search_area as $list_search){
+      		echo '"'.$list_search['value_search'].'",';
+      	}
+      ?>
+    ];
+    $( "#search-area" ).autocomplete({
+      source: availableTags
+    });
+} );
+
+$('#get-list-area').click(function(){
+	var search_area = $('#search-area').val();
+	var search_date = $('#datetimepicker').val();
+	var search_hour = $('#slider-range-value').html();
+	if(search_area != '' && search_date != ''){
+		$.post(base_url + "challenge/search_lapangan",
+		{
+		  search_area: search_area,
+		  search_date: search_date,
+		  search_hour: search_hour
+		},
+		function(data,status){
+			$('#list-lapangan').html(data);
+		});
+	} else{
+		alert('Pilih daerah dan tanggal terlebih dahulu');
+	}
+});
+
+$( document ).ready(function(){
+	$('#list-lapangan').load("<?php echo base_url().'challenge/search_lapangan'; ?>");
+});
+</script>
+<?php include(APPPATH.'views/includes/footer.php'); ?>

@@ -16,6 +16,9 @@
     <link href="<?php echo base_url(); ?>assets/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/magnific-popup.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript">
         base_url = '<?php echo base_url(); ?>';
     </script>

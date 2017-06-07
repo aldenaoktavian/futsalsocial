@@ -61,5 +61,11 @@ class Team_model extends CI_Model {
 		return $this->db->update('team_request', $dataedit);
 	}
 
+	function list_other_team($team_id)
+	{
+		$data = $this->db->get_where('team', array('md5(team_id) !='=>$team_id));
+		return $data->result_array();
+	}
+
 }
 ?>

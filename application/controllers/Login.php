@@ -20,8 +20,8 @@ class Login extends CI_Controller {
 		/*$this->load->library('form_validation');
 		$this->form_validation->set_rules('user', 'Uername', 'required');
 		$this->form_validation->set_rules('pass', 'Password', 'required');*/
-		$user = 'reno123';
-		$pass = 'reno123';
+		$user = 'vian123';
+		$pass = 'vian123';
 		//if ( $this->form_validation->run() == TRUE ) {
 			/*$result = $this->login_model->cek_user_login(
 				$this->input->post('user'),

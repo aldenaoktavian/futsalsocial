@@ -1,6 +1,5 @@
 </body>
 	<!--script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script-->
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/isotope.pkgd.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

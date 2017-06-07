@@ -123,36 +123,6 @@ $(document).ready(function() {
 	/* end pop up add member team */
 
 	/* start pop up list team */
-	$('.popup-list-team').click(function(){
-		$.post(base_url + "challenge/list_team",
-		{
-		  id: '1'
-		},
-		function(data,status){
-			if(status == 'success'){
-				$("#list-team").empty().html(data); 
-			}
-		});
-	})
-	$('.popup-list-team').magnificPopup({
-	  type: 'inline',
-
-	  fixedContentPos: false,
-	  fixedBgPos: true,
-	  alignTop: true,
-
-	  overflowY: 'auto',
-
-	  closeBtnInside: true,
-	  preloader: false,
-	  
-	  midClick: true,
-	  removalDelay: 300,
-	  mainClass: 'my-mfp-slide-bottom'
-	});
-	/* end pop up list team */
-
-	/* start pop up list team */
 	$('#write-member-post-btn').click(function(){
 		$.post(base_url + "social/add_new_post",
 		{
