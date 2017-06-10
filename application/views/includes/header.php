@@ -61,4 +61,4 @@
             <div class="clearfix" style=""></div>
         </div>
     </nav>
-    <div id="detail-notif" class="main-content zoom-anim-dialog mfp-hide popup-content" style="width: 40%;min-height: 370px;"></div>
+    <div id="detail-notif" class="main-content zoom-anim-dialog mfp-hide popup-content" style="width: 70%;min-height: 370px;"></div>

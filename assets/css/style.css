@@ -3384,6 +3384,10 @@ opacity: 0;
   max-width: 110px;
 }
 
+.lapangan-item.active{
+  background-color: #99bda3;
+}
+
 .lap-price {
 
 }

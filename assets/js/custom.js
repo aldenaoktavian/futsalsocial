@@ -32,9 +32,10 @@ $(document).ready(function() {
 
 	/* start pop up challenge comment */
 	$('.popup-with-move-anim-challenge').click(function(){
+		var challenge_id = $(this).attr('data-id');
 		$.post(base_url + "team/challengecomment",
 		{
-		  id: '1'
+		  challenge_id: challenge_id
 		},
 		function(data,status){
 			if(status == 'success'){

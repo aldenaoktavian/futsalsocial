@@ -13,6 +13,7 @@ class Team extends CI_Controller {
 		$this->load->model('team_model');
 		$this->load->model('member_model');
 		$this->load->model('notif_model');
+		$this->load->model('social_model');
     }
 
 	public function index()
@@ -23,13 +24,52 @@ class Team extends CI_Controller {
 	public function challengelist()
 	{
 		$data['title'] = "Team - Futsal Yuk";
+		$upcoming_challenge = $this->team_model->upcoming_challenge();
+		foreach ($upcoming_challenge as $key => $value) {
+			$upcoming_challenge[$key]['inviter_team_image'] = ($value['inviter_team_image'] ? $value['inviter_team_image'] : 'no-img-profil.png');
+			$upcoming_challenge[$key]['rival_team_image'] = ($value['rival_team_image'] ? $value['rival_team_image'] : 'no-img-profil.png');
+			$upcoming_challenge[$key]['challenge_date'] = date('d/m/Y', strtotime($value['challenge_date']));
+			$upcoming_challenge[$key]['challenge_time'] = date('H:i', strtotime($value['challenge_time']));
+		}
+		$data['upcoming_challenge'] = $upcoming_challenge;
 		$this->load->view('team/challenge-list', $data);
 	}
 
 	public function challengecomment()
 	{
-		$data['title'] = "Futsal Yuk";
+		$challenge_id = $this->input->post('challenge_id');
+		$data['challenge_id'] = $challenge_id;
+		$data['challenge_comment'] = $this->social_model->get_all_challenge_comment($challenge_id);
 		$this->load->view('team/challengecomment', $data);
+	}
+
+	public function add_new_comment()
+	{
+		$data_input = array(
+				'challenge_id'			=> $this->social_model->get_challenge_id($this->input->post('challenge_id')),
+				'member_id'				=> $this->session->login['id'],
+				'comment_description'	=> $this->input->post('new_challenge_comment')
+			);
+		$insert_new_comment = $this->social_model->add_new_challenge_comment($data_input);
+		$data_html = '';
+		if($insert_new_comment != 0){
+			$dataMember = $this->member_model->data_member($this->session->login['id']);
+			$member_image = ($dataMember['member_image'] ? $dataMember['member_image'] : 'no-img-profil.png');
+			$data_html = '<div class="post-item" style="margin-top: 15px;">
+							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopadding">
+								<img class="img-circle post-img" src="'.base_url().'uploadfiles/member-images/'.$member_image.'">
+							</div>
+							<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 nopadding">
+								<h4>'.$dataMember['member_name'].'</h4>
+								<hr/>
+								<p>
+									'.$this->input->post('new_challenge_comment').'
+								</p>
+							</div>
+							<div class="clearfix"> </div>
+						</div>';
+		}
+		echo $data_html;
 	}
 
 	public function no_team()
@@ -171,6 +211,9 @@ class Team extends CI_Controller {
 		$data['team_banner'] = ($data_team['team_banner'] ? $data_team['team_banner'] : 'no-banner.jpg');
 		$data['team_image'] = ($data_team['team_image'] ? $data_team['team_image'] : 'no-img-profil.png');
 		$data['team_name'] = $data_team['team_name'];
+
+		$data['statistic'] = $this->team_model->statistic($team_id);
+
 		$this->load->view('team/statistic', $data);
 	}
 
@@ -186,6 +229,16 @@ class Team extends CI_Controller {
 		$data['team_banner'] = ($data_team['team_banner'] ? $data_team['team_banner'] : 'no-banner.jpg');
 		$data['team_image'] = ($data_team['team_image'] ? $data_team['team_image'] : 'no-img-profil.png');
 		$data['team_name'] = $data_team['team_name'];
+
+		$history_challenge = $this->team_model->history_challenge($team_id);
+		foreach ($history_challenge as $key => $value) {
+			$history_challenge[$key]['inviter_team_image'] = ($value['inviter_team_image'] ? $value['inviter_team_image'] : 'no-img-profil.png');
+			$history_challenge[$key]['rival_team_image'] = ($value['rival_team_image'] ? $value['rival_team_image'] : 'no-img-profil.png');
+			$history_challenge[$key]['challenge_date'] = date('d/m/Y', strtotime($value['challenge_date']));
+			$history_challenge[$key]['challenge_time'] = date('H:i', strtotime($value['challenge_time']));
+		}
+		$data['history_challenge'] = $history_challenge;
+
 		$this->load->view('team/challenge-history', $data);
 	}
 }

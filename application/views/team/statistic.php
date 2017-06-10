@@ -9,19 +9,19 @@
 		<div class="bg-post statistic-data">
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center statistic-item">
 				<div class="item-number">
-					<span>1</span>
+					<span><?php echo $statistic['all_challenge']; ?></span>
 				</div>
 				<h4>Jumlah Pertandingan</h4>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center statistic-item">
 				<div class="item-number">
-					<span>1</span>
+					<span><?php echo $statistic['win_challenge']; ?></span>
 				</div>
 				<h4>Jumlah Menang</h4>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center statistic-item">
 				<div class="item-number">
-					<span>1</span>
+					<span><?php echo $statistic['lose_challenge']; ?></span>
 				</div>
 				<h4>Jumlah Kalah</h4>
 			</div>

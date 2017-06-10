@@ -41,5 +41,26 @@ class Social_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 
+	function get_challenge_id($id){
+		$this->db->select('challenge_id');
+		$this->db->where('md5(challenge_id)', $id);
+		$data = $this->db->get('team_challenge')->row_array();
+		return $data['challenge_id'];
+	}
+
+	function get_all_challenge_comment($challenge_id){
+		$this->db->select('challenge_comment_id, member_name, member_image, comment_description');
+		$this->db->join('member b', 'a.member_id = b.member_id');
+		$this->db->where('md5(challenge_id)', $challenge_id);
+		$query = $this->db->get('member_challenge_comment a');
+		return $query->result_array();
+	}
+	
+	function add_new_challenge_comment($data)
+	{
+		$this->db->insert('member_challenge_comment', $data);
+		return $this->db->insert_id();
+	}
+
 }
 ?>

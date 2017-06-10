@@ -21,9 +21,6 @@
 		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
 		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 bg-post challenge-item" id="challenge-content">
 			<div id="detail-challenge"></div>
-			<hr/><br/>
-			<button type="button" class="btn btn-default hidden" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtim')" id="back">Back</button>
-			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtanggal')" id="next">Next</button>
 		</div>
 		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
 		<!-- end column -->

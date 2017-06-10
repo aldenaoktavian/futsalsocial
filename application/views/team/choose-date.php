@@ -18,6 +18,9 @@
 				<div id="list-lapangan" style="padding-top: 15px;"></div>
 			</div>
 			<div class="clearfix"> </div>
+			<hr/><br/>
+			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtim')" id="back">Back</button>
+			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/preview')" id="next">Next</button>
 <div id="list-team" class="main-content zoom-anim-dialog mfp-hide popup-content"></div>
 <script src="<?php echo base_url(); ?>assets/js/nouislider.min.js"></script>
 <script src='<?php echo base_url(); ?>assets/js/wNumb.min.js'></script>

@@ -6,7 +6,7 @@
 	    <span class="icon-bar"></span>
 	</button>
 </div>
-<div class="navbar-left" style="float: right !important;">
+<div class="navbar-left" style="float: right !important;width: 100%;">
 	<div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse collapse">
 	        <ul class="nav" id="side-menu">
