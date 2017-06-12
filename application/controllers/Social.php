@@ -9,7 +9,7 @@ class Social extends CI_Controller {
 			redirect('login'); 
 		}
 		$data_header = header_member();
-		$this->load->vars($data_header);
+		$this->load->vars(array_merge($data_header, team_rank()));
 		$this->load->model('social_model');
 		$this->load->model('member_model');
     }

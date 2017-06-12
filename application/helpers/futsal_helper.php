@@ -38,10 +38,84 @@ function header_member()
     return $data;
 }
 
+function team_rank()
+{
+	$CI = get_instance();
+	$CI->load->model('team_model');
+
+	$all_rangking = $CI->team_model->all_rangking(0, 40);
+	$count_all_rangking = count($all_rangking);
+	$data_rangking = array();
+	$i = 1;
+	$i20 = 1;
+	/*$bagi_count_all_rangking = (int)($count_all_rangking / 10);
+	$sisa_count_all_rangking = (int)($count_all_rangking - (10 * $bagi_count_all_rangking));*/
+	foreach ($all_rangking as $key => $value) {
+		$team_image = ($value['team_image'] ? $value['team_image'] : 'no-img-profil.png');
+
+		$i = ($i == 11 ? 1 : $i);
+		$i20 = ($i20 == 21 ? 1 : $i20);
+
+		if($i20 > 10){
+			$mod = 1;
+		} else{
+			$mod = 0;
+		}
+
+		if($i20 == 1){
+			$bagi_count_all_rangking = (int)($count_all_rangking / 20);
+			$part_rangking = ($bagi_count_all_rangking > 0 ? 10 : $count_all_rangking - 10);
+		}
+		
+		if($i <= $part_rangking){
+			if($mod == 0){
+				$data_rangking[$count_all_rangking] = '<div class="sngl_team">   
+                        <div class="team_item">                  
+                            <img class="img-circle" src="'.base_url().'uploadfiles/team-images/'.$team_image.'" alt=""/>  
+                            <h2>'.$value['rangking'].'</h2>
+                            <h5>'.$value['team_name'].'</h5>
+                        </div>';
+                        //echo var_dump($data_rangking[$count_all_rangking]).$i."---".$mod."---".$count_all_rangking;
+			} else{
+				$data_rangking[$count_all_rangking + 10] = $data_rangking[$count_all_rangking + 10].'<div class="team_item">                  
+                            <img class="img-circle" src="'.base_url().'uploadfiles/team-images/'.$team_image.'" alt=""/>  
+                            <h2>'.$value['rangking'].'</h2>
+                            <h5>'.$value['team_name'].'</h5>
+                        </div>
+                    </div>';
+			}
+			$i++;
+			$i20++;
+		} else{
+			$data_rangking[$count_all_rangking] = '<div class="sngl_team">   
+                        <div class="team_item">                  
+                            <img class="img-circle" src="'.base_url().'uploadfiles/team-images/'.$team_image.'" alt=""/>  
+                            <h2>'.$value['rangking'].'</h2>
+                            <h5>'.$value['team_name'].'</h5>
+                        </div>
+                        </div>';
+			$i++;
+			$i20++;
+		}
+		$count_all_rangking--;
+	}
+	$data['data_rangking'] = implode(' ', $data_rangking);
+	$data['count_all_rangking'] = count($all_rangking);
+
+	return $data;
+}
+
 function db_get_one_data($field, $table, $where)
 {
 	$CI = get_instance();
 	$CI->db->select($field);
 	$data = $CI->db->get_where($table, $where)->row_array();
 	return $data[$field];
+}
+
+function header_team()
+{
+	$CI = get_instance();
+	$data['url_team_id'] = md5($CI->session->login['team_id']);
+	return $data;
 }

@@ -1,3 +1,4 @@
+<div id="team-auth" class="main-content zoom-anim-dialog mfp-hide popup-content" style="width: 50%;min-height: 430px;"></div>
 </body>
 	<!--script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script-->
 	<script src="<?php echo base_url(); ?>assets/js/isotope.pkgd.min.js"></script>

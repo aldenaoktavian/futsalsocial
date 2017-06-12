@@ -50,8 +50,8 @@ jQuery(document).ready(function () {
 		loop:true,
 		margin:10,
 		nav:true,
-		autoplay:true,
-		smartSpeed:3000,
+		autoplay:false,
+		smartSpeed:1000,
 		navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
 		responsive:{
 			0:{

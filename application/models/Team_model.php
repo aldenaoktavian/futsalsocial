@@ -111,16 +111,25 @@ class Team_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	function team_challenge($team_id)
+	{
+		$query = $this->db->query("SELECT b.challenge_id as challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, status_challenge_name FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id INNER JOIN ref_status_challenge e ON b.status_challenge = e.status_challenge_id WHERE md5(inviter_team) = '".$team_id."' OR md5(rival_team) = '".$team_id."' ORDER BY a.start_time DESC, a.tanggal DESC");
+		return $query->result_array();
+	}
+
 	function statistic($team_id)
 	{
 		$all_challenge = $this->db->query("SELECT count(*) AS jumlah FROM team_challenge WHERE ( md5(inviter_team) = '".$team_id."' OR md5(rival_team) = '".$team_id."' ) AND ( status_challenge = 1 OR status_challenge = 5 )")->row_array();
 		$data['all_challenge'] = $all_challenge['jumlah'];
 
-		$win_challenge = $this->db->query("SELECT count(*) AS jumlah FROM team_challenge WHERE ( md5(inviter_team) = '".$team_id."' AND inviter_score > rival_score ) OR ( md5(rival_team) = '".$team_id."' AND rival_score > inviter_score ) AND ( status_challenge = 1 OR status_challenge = 5 )")->row_array();
+		$win_challenge = $this->db->query("SELECT count(*) AS jumlah FROM team_challenge WHERE ( md5(inviter_team) = '".$team_id."' AND inviter_score > rival_score ) OR ( md5(rival_team) = '".$team_id."' AND rival_score > inviter_score ) AND ( status_challenge = 5 )")->row_array();
 		$data['win_challenge'] = $win_challenge['jumlah'];
 
-		$lose_challenge = $this->db->query("SELECT count(*) AS jumlah FROM team_challenge WHERE ( md5(inviter_team) = '".$team_id."' AND inviter_score < rival_score ) OR ( md5(rival_team) = '".$team_id."' AND rival_score < inviter_score ) AND ( status_challenge = 1 OR status_challenge = 5 )")->row_array();
+		$lose_challenge = $this->db->query("SELECT count(*) AS jumlah FROM team_challenge WHERE ( md5(inviter_team) = '".$team_id."' AND inviter_score < rival_score ) OR ( md5(rival_team) = '".$team_id."' AND rival_score < inviter_score ) AND ( status_challenge = 5 )")->row_array();
 		$data['lose_challenge'] = $lose_challenge['jumlah'];
+
+		$team_rangking = $this->db->query("SELECT find_in_set(team_id, (SELECT GROUP_CONCAT(team_id) FROM view_team_rangking)) AS rangking FROM team WHERE md5(team_id) = '".$team_id."'")->row_array();
+		$data['team_rangking'] = $team_rangking['rangking'];
 
 		return $data;
 	}
@@ -128,6 +137,12 @@ class Team_model extends CI_Model {
 	function history_challenge($team_id)
 	{
 		$query = $this->db->query("SELECT b.challenge_id as challenge_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, inviter_score, rival_score FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE ( md5(inviter_team) = '".$team_id."' OR md5(rival_team) = '".$team_id."' ) AND status_challenge = 5 AND transaksi_challenge_status = 3 ORDER BY a.tanggal DESC");
+		return $query->result_array();
+	}
+
+	function all_rangking($start, $limit)
+	{
+		$query = $this->db->query("SELECT rangking, b.team_id AS team_id, team_name, team_image FROM view_team_rangking a INNER JOIN team b ON a.team_id = b.team_id LIMIT ".$start.",".$limit);
 		return $query->result_array();
 	}
 

@@ -34,7 +34,7 @@
 			<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs"></div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center statistic-item">
 				<div class="item-number">
-					<span>1</span>
+					<span><?php echo $statistic['team_rangking']; ?></span>
 				</div>
 				<h4>Rangking</h4>
 			</div>

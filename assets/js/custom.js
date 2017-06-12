@@ -168,4 +168,26 @@ $(document).ready(function() {
 	  mainClass: 'my-mfp-slide-bottom'
 	});
 	/* end pop up detail notif */
+
+	/* start pop up team auth */
+	$('.popup-team-auth').click(function(){
+		$('#team-auth').load(base_url + "team/myteam");
+	})
+	$('.popup-team-auth').magnificPopup({
+	  type: 'inline',
+
+	  fixedContentPos: false,
+	  fixedBgPos: true,
+	  alignTop: true,
+
+	  overflowY: 'auto',
+
+	  closeBtnInside: true,
+	  preloader: false,
+	  
+	  midClick: true,
+	  removalDelay: 300,
+	  mainClass: 'my-mfp-slide-bottom'
+	});
+	/* end pop up team auth */
 })

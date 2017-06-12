@@ -19,6 +19,14 @@
 	            <li>
 	                <a href="<?php echo base_url(); ?>team/history" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">History Pertandingan</span> </a>
 	            </li>
+	            <li>
+	                <a href="<?php echo base_url().'team/mychallenge/'.$url_team_id; ?>" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">My Challenge</span> </a>
+	            </li>
+	            <?php if($this->session->login['is_team_admin'] == 1){ ?>
+	            <li>
+	                <a href="<?php echo base_url().'team/setting/'.$url_team_id; ?>" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">Setting Team</span> </a>
+	            </li>
+	            <?php } ?>
 	        </ul>
     	</div>
 	</div>

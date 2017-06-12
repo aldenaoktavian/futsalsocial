@@ -37,6 +37,7 @@ class Login extends CI_Controller {
 				$login_session['username'] = $dataMemberLogin['username'];
 				$login_session['id'] = $dataMemberLogin['member_id'];
 				$login_session['team_id'] = $dataMemberLogin['team_id'];
+				$login_session['is_team_admin'] = $dataMemberLogin['is_team_admin'];
 				$this->session->set_userdata('login', $login_session);
 				$data["msg"] = "";
 				log_message('error', "SUKSES login member dengan id ".$dataMemberLogin['member_id']." , IP Address : ".$_SERVER['REMOTE_ADDR'], false);
