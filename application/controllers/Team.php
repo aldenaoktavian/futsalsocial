@@ -10,7 +10,7 @@ class Team extends CI_Controller {
 		}
 		$data_header = header_member();
 		$header_team = header_team();
-		$this->load->vars(array_merge($data_header, $header_team));
+		$this->load->vars(array_merge($data_header, $header_team, team_rank()));
 		$this->load->model('team_model');
 		$this->load->model('member_model');
 		$this->load->model('notif_model');
