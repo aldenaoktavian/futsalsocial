@@ -65,6 +65,38 @@ class Notif extends CI_Controller {
 			);
 		$this->notif_model->update_data_notif($id, $dataedit);
 	}
+
+	public function detail_score_challenge($challenge_id, $notif_id)
+	{
+	    $this->read_notif($notif_id);
+	    $team_id = $this->session->login['team_id'];
+		$detail_challenge = $this->team_model->detail_challenge($challenge_id);
+
+		if($detail_challenge['status_challenge'] != 5){
+			if( ( ($team_id == $detail_challenge['inviter_team_id']) && $detail_challenge['status_challenge'] == 8 ) || ( ($team_id == $detail_challenge['rival_team_id']) && $detail_challenge['status_challenge'] == 7 ) ){
+			    $data['challenge_id']	= $challenge_id;
+				$data['rival_team_id']	= md5($detail_challenge['rival_team_id']);
+				$data['inviter_team_name']	= $detail_challenge['inviter_team_name'];
+				$data['inviter_team_image'] = ($detail_challenge['inviter_team_image'] ? $detail_challenge['inviter_team_image'] : 'no-img-profil.png');
+				$data['rival_team_name']	= $detail_challenge['rival_team_name'];
+				$data['rival_team_image'] = ($detail_challenge['rival_team_image'] ? $detail_challenge['rival_team_image'] : 'no-img-profil.png');
+				$data['challenge_date'] = date('d/m/Y', strtotime($detail_challenge['challenge_date']));
+				$data['challenge_time'] = date('H:i', strtotime($detail_challenge['challenge_time']));
+				$data['nama_lapangan'] = $detail_challenge['nama_lapangan'];
+				$data['lapangan_daerah'] = $detail_challenge['daerah'];
+				$data['lapangan_kota'] = $detail_challenge['kota'];
+				$data['status_challenge'] = $detail_challenge['status_challenge'];
+				$data['inviter_score'] = $detail_challenge['inviter_score'];
+				$data['rival_score'] = $detail_challenge['rival_score'];
+			} else{
+				$data['message'] = "Score challenge sedang dalam persetujuan tim lawan.";
+			}
+		} else{
+			$data['message'] = "Score challenge telah disetujui oleh kedua tim.";
+		}
+
+		$this->load->view('team/score-update', $data);
+	}
 }
 
 ?>

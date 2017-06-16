@@ -75,6 +75,12 @@ class Team_model extends CI_Model {
 		return $data->result_array();
 	}
 
+	function challenge_log($data)
+	{
+		$this->db->insert('team_challenge_log', $data);
+		return $this->db->insert_id();
+	}
+
 	function create_challenge($data)
 	{
 		$this->db->insert('team_challenge', $data);
@@ -89,7 +95,7 @@ class Team_model extends CI_Model {
 
 	function detail_challenge($challenge_id)
 	{
-		$query = $this->db->query("SELECT b.challenge_id as challenge_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE md5(b.challenge_id) = '".$challenge_id."'");
+		$query = $this->db->query("SELECT b.challenge_id as challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, inviter_score, rival_score FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE md5(b.challenge_id) = '".$challenge_id."'");
 		return $query->row_array();
 	}
 	
@@ -131,6 +137,9 @@ class Team_model extends CI_Model {
 		$team_rangking = $this->db->query("SELECT find_in_set(team_id, (SELECT GROUP_CONCAT(team_id) FROM view_team_rangking)) AS rangking FROM team WHERE md5(team_id) = '".$team_id."'")->row_array();
 		$data['team_rangking'] = $team_rangking['rangking'];
 
+		$team_point = $this->db->query("SELECT ( team_inviter_point(a.team_id) + team_rival_point(a.team_id) ) AS point FROM team a WHERE md5(a.team_id) = '".$team_id."'")->row_array();
+		$data['team_point'] = $team_point['point'];
+
 		return $data;
 	}
 
@@ -142,7 +151,7 @@ class Team_model extends CI_Model {
 
 	function all_rangking($start, $limit)
 	{
-		$query = $this->db->query("SELECT rangking, b.team_id AS team_id, team_name, team_image FROM view_team_rangking a INNER JOIN team b ON a.team_id = b.team_id LIMIT ".$start.",".$limit);
+		$query = $this->db->query("SELECT rangking, b.team_id AS team_id, team_name, team_image FROM view_team_rangking a INNER JOIN team b ON a.team_id = b.team_id ORDER BY rangking ASC LIMIT ".$start.",".$limit);
 		return $query->result_array();
 	}
 

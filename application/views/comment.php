@@ -23,7 +23,7 @@
 		<div id="new_member_post_comment"></div>
 	</div>
 	<div class="write-comment">
-		<textarea class="form-control" name="new_post_comment" id="new_post_comment" placeholder="Write a comment . . ."></textarea>
+		<textarea class="form-control" onkeyup="textAreaAdjust(this)" style="overflow:hidden" name="new_post_comment" id="new_post_comment" placeholder="Write a comment . . ."></textarea>
 		<input type="hidden">
 	</div>
 </div>
@@ -37,11 +37,20 @@ $('#new_post_comment').on('keydown', function(e){
 		},
 		function(data,status){
 			if(status == 'success'){
+				document.getElementById('new_post_comment').style.height = "inherit";
+				document.getElementById('comment-content').style.height = "inherit";
 				$("#new_member_post_comment").append(data); 
 				$('#new_post_comment').val('');
 			}
 		});
 	}
 });
+
+function textAreaAdjust(o) {
+  o.style.height = "1px";
+  document.getElementById('comment-content').style.height = "1px";
+  o.style.height = (25+o.scrollHeight)+"px";
+  document.getElementById('comment-content').style.height = (document.getElementById('comment-content').scrollHeight)+"px";
+}
 </script>
 <button title="Close (Esc)" type="button" class="mfp-close">×</button>

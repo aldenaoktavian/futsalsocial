@@ -14,9 +14,14 @@ class Member_model extends CI_Model {
 		return $data;
 	}
 	
-	function member_no_team()
+	function member_no_team($search_keyword='')
 	{
-		$query = $this->db->query("SELECT * FROM member WHERE team_id = 0 AND member_id NOT IN ( SELECT member_id FROM team_request WHERE team_request_status = 0 )");
+		if($search_keyword != ''){
+			$query = $this->db->query("SELECT * FROM member WHERE team_id = 0 AND member_id NOT IN ( SELECT member_id FROM team_request WHERE team_request_status = 0 ) AND ( member_name LIKE '%".$search_keyword."%' )");
+		} else{
+			$query = $this->db->query("SELECT * FROM member WHERE team_id = 0 AND member_id NOT IN ( SELECT member_id FROM team_request WHERE team_request_status = 0 )");	
+		}
+		
 		$data = $query->result_array();
 		return $data;
 	}

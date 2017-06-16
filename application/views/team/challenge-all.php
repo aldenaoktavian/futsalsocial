@@ -38,7 +38,11 @@
 					Status : <?php echo $list_challenge['status_challenge_name']; ?>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<a href="#comment-content" class="popup-with-move-anim-challenge <?php echo (($team_id == md5($list_challenge['inviter_team_id'])) && $list_challenge['status_challenge'] == 1 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Input Score</button></a>
+					<a href="#input-score" class="popup-input-score <?php echo (($team_id == md5($list_challenge['inviter_team_id'])) && $list_challenge['status_challenge'] == 1 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Input Score</button></a>
+
+					<a href="#input-score" class="popup-input-score <?php echo (($team_id == md5($list_challenge['rival_team_id'])) && $list_challenge['status_challenge'] == 7 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Update Score</button></a>
+
+					<a href="#input-score" class="popup-input-score <?php echo (($team_id == md5($list_challenge['inviter_team_id'])) && $list_challenge['status_challenge'] == 8 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Update Score</button></a>
 				</div>
 			</div>
 			<div class="clearfix"> </div>
@@ -47,5 +51,5 @@
 		<!-- end list of challenge -->
 	</div>
 </div>
-<div id="comment-content" class="main-content zoom-anim-dialog mfp-hide"></div>
+<div id="input-score" class="main-content zoom-anim-dialog mfp-hide popup-content"></div>
 <?php include(APPPATH.'views/includes/footer.php'); ?>

@@ -16,6 +16,7 @@ class Notif_model extends CI_Model {
 	function notif_updates($member_id)
 	{
 		$this->db->order_by('notif_status', 'asc');
+		$this->db->order_by('notif_created', 'desc');
 		$this->db->limit(8, 0);
 		$data = $this->db->get_where('notifikasi', array('member_id'=>$member_id))->result_array();
 		return $data;

@@ -72,7 +72,7 @@ class Challenge extends CI_Controller {
 
 		if(isset($post['search_area'])){
 			$date = date('Y-m-d', strtotime($post['search_date']));
-			$start_hour = date('H:i:s', strtotime($post['search_date']));
+			$start_hour = date('H:i:s', strtotime($post['search_time']));
 			$end_hour = date_format(date_add(date_create($start_hour), date_interval_create_from_date_string('+'.$post['search_hour'].' hours')), 'H:i:s');
 			$search_area_val = $post['search_area'];
 			if(strpos($search_area_val, ' - ') == TRUE){
@@ -290,5 +290,148 @@ class Challenge extends CI_Controller {
 	        $data['message'] = 'Password Salah';   
 	    }
 	    echo json_encode($data);
+	}
+
+	public function input_score()
+	{
+		$detail_challenge = $this->team_model->detail_challenge($this->input->post('challenge_id'));
+		$data['challenge_id']	= $this->input->post('challenge_id');
+		$data['rival_team_id']	= md5($detail_challenge['rival_team_id']);
+		$data['inviter_team_name']	= $detail_challenge['inviter_team_name'];
+		$data['inviter_team_image'] = ($detail_challenge['inviter_team_image'] ? $detail_challenge['inviter_team_image'] : 'no-img-profil.png');
+		$data['rival_team_name']	= $detail_challenge['rival_team_name'];
+		$data['rival_team_image'] = ($detail_challenge['rival_team_image'] ? $detail_challenge['rival_team_image'] : 'no-img-profil.png');
+		$data['challenge_date'] = date('d/m/Y', strtotime($detail_challenge['challenge_date']));
+		$data['challenge_time'] = date('H:i', strtotime($detail_challenge['challenge_time']));
+		$data['nama_lapangan'] = $detail_challenge['nama_lapangan'];
+		$data['lapangan_daerah'] = $detail_challenge['daerah'];
+		$data['lapangan_kota'] = $detail_challenge['kota'];
+		$data['status_challenge'] = $detail_challenge['status_challenge'];
+		$data['inviter_score'] = $detail_challenge['inviter_score'];
+		$data['rival_score'] = $detail_challenge['rival_score'];
+
+		if($detail_challenge['status_challenge'] == 1){
+			$this->load->view('team/score-input', $data);
+		} else{
+			$this->load->view('team/score-update', $data);
+		}
+	}
+
+	public function input_score_save()
+	{
+		$post = $this->input->post();
+		$detail_challenge = $this->team_model->detail_challenge($post['challenge_id']);
+		
+		$data_score = array(
+				'inviter_score'	=> $post['inviter_score'],
+				'rival_score'	=> $post['rival_score'],
+				'status_challenge'	=> 7
+			);
+		$update_score = $this->team_model->update_challenge($post['challenge_id'], $data_score);
+
+		if($update_score == TRUE){
+			team_challenge_log($post['challenge_id']);
+			$team_members = $this->team_model->team_members(md5($detail_challenge['rival_team_id']));
+			foreach($team_members as $member){
+				$datanotif = array(
+					'member_id'		=> $member['member_id'],
+					'notif_type'	=> 9,
+					'notif_detail'	=> 'Tim "'.$detail_challenge['inviter_team_name'].'" mengajukan score challenge.',
+					'notif_url'		=> base_url().'notif/detail_score_challenge/'.$post['challenge_id'],
+					'notif_created'	=> date('Y-m-d H:i:s')
+				);
+				$addnotif = $this->notif_model->add_notif($datanotif);
+			}
+			$result['status'] = 1;
+			$result['message'] = '<span>Berhasil mengajukan score challenge. Silahkan menunggu respon dari tim lawan.</span>';
+		} else{
+			$result['status'] = 0;
+			$result['message'] = 'Gagal update data score. Silahkan coba kembali nanti.';
+		}
+
+		echo json_encode($result);
+	}
+
+	public function update_score_save()
+	{
+		$post = $this->input->post();
+		$detail_challenge = $this->team_model->detail_challenge($post['challenge_id']);
+		
+		$data_score = array(
+				'inviter_score'	=> $post['inviter_score'],
+				'rival_score'	=> $post['rival_score'],
+				'status_challenge'	=> 8
+			);
+		$update_score = $this->team_model->update_challenge($post['challenge_id'], $data_score);
+
+		if($update_score == TRUE){
+			team_challenge_log($post['challenge_id']);
+			$team_members = $this->team_model->team_members(md5($detail_challenge['inviter_team_id']));
+			foreach($team_members as $member){
+				$datanotif = array(
+					'member_id'		=> $member['member_id'],
+					'notif_type'	=> 10,
+					'notif_detail'	=> 'Tim "'.$detail_challenge['rival_team_name'].'" mengajukan revisi untuk score challenge.',
+					'notif_url'		=> base_url().'notif/detail_score_challenge/'.$post['challenge_id'],
+					'notif_created'	=> date('Y-m-d H:i:s')
+				);
+				$addnotif = $this->notif_model->add_notif($datanotif);
+			}
+			$result['status'] = 1;
+			$result['message'] = '<span>Berhasil merubah score challenge.</span>';
+		} else{
+			$result['status'] = 0;
+			$result['message'] = 'Gagal update data score. Silahkan coba kembali nanti.';
+		}
+
+		echo json_encode($result);
+	}
+
+	public function approve_score()
+	{
+		$post = $this->input->post();
+		$team_id = $this->session->login['team_id'];
+		$detail_challenge = $this->team_model->detail_challenge($post['challenge_id']);
+
+		if($post['inviter_score'] > $post['rival_score']){
+			$inviter_point = 2;
+			$rival_point = 1;
+		} else{
+			$inviter_point = 1;
+			$rival_point = 2;
+		}
+
+		$data_score = array(
+				'status_challenge'	=> 5,
+				'inviter_point'		=> $inviter_point,
+				'rival_point'		=> $rival_point
+			);
+		$update_score = $this->team_model->update_challenge($post['challenge_id'], $data_score);
+
+		if($update_score == TRUE){
+			team_challenge_log($post['challenge_id']);
+			if($team_id == $detail_challenge['inviter_team_id']){
+				$team_members = $this->team_model->team_members(md5($detail_challenge['rival_team_id']));
+			} else{
+				$team_members = $this->team_model->team_members(md5($detail_challenge['inviter_team_id']));
+			}
+			foreach($team_members as $member){
+				$datanotif = array(
+					'member_id'		=> $member['member_id'],
+					'notif_type'	=> 11,
+					'notif_detail'	=> 'Score challenge telah disetujui',
+					'notif_url'		=> base_url().'notif/detail_score_challenge/'.$post['challenge_id'],
+					'notif_created'	=> date('Y-m-d H:i:s')
+				);
+				$addnotif = $this->notif_model->add_notif($datanotif);
+			}
+			$result['status'] = 1;
+			$result['message'] = '<span>Score telah disetujui.</span>';
+		} else{
+			$result['status'] = 0;
+			$result['message'] = 'Gagal update data score. Silahkan coba kembali nanti.';
+		}
+
+		echo json_encode($result);
 	}
 }

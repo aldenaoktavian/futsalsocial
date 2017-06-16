@@ -2,7 +2,7 @@
 	<h3>Tambah Anggota</h3>
 	<hr/>
 	<br/>
-	<input class="form-control" type="text" name="search_team" id="search_team" value="" placeholder="Cari . . ." /><br/>
+	<input class="form-control" type="text" name="search_member" id="search_member" value="" placeholder="Cari . . ." /><br/>
 
 	<!-- start list member terdaftar -->
 	<div id="list-member-no-team">
@@ -43,5 +43,22 @@ $('.add-member-team').click(function(){
 	});
 });
 /* end add new team member */
+
+/* start search member */
+$('#search_member').on('keydown', function(e){
+	if(e.which == 13){
+		var team_id = '<?php echo $team_id; ?>';
+		var search_keyword = $(this).val();
+		$.post(base_url + "team/add_member",
+		{
+		  team_id: team_id,
+		  search_keyword: search_keyword
+		},
+		function(data,status){
+			$('#list-member-no-team').html(data);
+		});
+	}
+});
+/* end search member */
 </script>
 <button title="Close (Esc)" type="button" class="mfp-close">×</button>

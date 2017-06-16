@@ -119,3 +119,20 @@ function header_team()
 	$data['url_team_id'] = md5($CI->session->login['team_id']);
 	return $data;
 }
+
+function team_challenge_log($challenge_id)
+{
+	$CI = get_instance();
+	$CI->load->model('team_model');
+
+	$new_challenge_id = db_get_one_data('challenge_id', 'team_challenge', array('md5(challenge_id)' => $challenge_id));
+	$data = array(
+			'challenge_id'	=> $new_challenge_id,
+			'modify_by'		=> $CI->session->login['id'],
+			'modify_date'	=> date('Y-m-d H:i:s')
+		);
+
+	$insert_log = $CI->team_model->challenge_log($data);
+
+	return $insert_log;
+}

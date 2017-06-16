@@ -3,10 +3,17 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin">
 				<input type="text" class="form-control" placeholder="Pilih Daerah" id="search-area" />
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin">
-				<input id='datetimepicker' type='text' class="form-control" placeholder="Pilih Tanggal dan Waktu" />
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 nomargin">
+				<input id='datepicker' type='text' class="form-control" placeholder="Pilih Tanggal" />
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin" style="padding-top: 7px;">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nomargin">
+				<select id="search-time" class="form-control">
+					<?php for($i=0; $i<=24; $i++){ ?>
+					<option><?php echo date('H:i', strtotime($i.':00:00')) ?></option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 nomargin" style="padding-top: 7px;">
 				<div id="slider-range" class="noUi-target noUi-ltr noUi-horizontal" style="margin-bottom: 10px;"></div>
 				<span id="slider-range-value">1</span><span> Jam</span>
 			</div>
@@ -28,13 +35,13 @@
 var rangeSlider = document.getElementById('slider-range');
 
 noUiSlider.create(rangeSlider, {
-	start: 0,
+	start: 3,
 	step: 1,
 	format: wNumb({
 		decimals: 0
 	}),
 	range: {
-	  'min': [  1 ],
+	  'min': [ 1 ],
 	  'max': [ 5 ]
 	}
 });
@@ -60,13 +67,15 @@ $( function() {
 
 $('#get-list-area').click(function(){
 	var search_area = $('#search-area').val();
-	var search_date = $('#datetimepicker').val();
+	var search_date = $('#datepicker').val();
+	var search_time = $('#search-time').val();
 	var search_hour = $('#slider-range-value').html();
 	if(search_area != '' && search_date != ''){
 		$.post(base_url + "challenge/search_lapangan",
 		{
 		  search_area: search_area,
 		  search_date: search_date,
+		  search_time: search_time,
 		  search_hour: search_hour
 		},
 		function(data,status){

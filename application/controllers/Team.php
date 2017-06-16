@@ -151,8 +151,30 @@ class Team extends CI_Controller {
 		$data['title'] = "Team - Futsal Yuk";
 		$team_id = $this->input->post('team_id');
 		$data['team_id'] = $team_id;
-		$data['member_no_team'] = $this->member_model->member_no_team();
-		$this->load->view('team/add-member', $data);
+
+		if($this->input->post('search_keyword'))
+		{
+			$search_keyword = $this->input->post('search_keyword');
+			$member_no_team = $this->member_model->member_no_team($search_keyword);
+			$list_member_no_team = '';
+			foreach($member_no_team as $list_member){
+				$member_image = ($list_member['member_image'] ? $list_member['member_image'] : 'no-img-profil.png');
+				$list_member_no_team .= '<div class="bg-post member-item">
+					<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+						<img class="img-circle hidden-xs" src="'.base_url().'uploadfiles/member-images/'.$member_image.'">
+						<span>'.$list_member['member_name'].'</span>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+						<button type="button" class="btn btn-primary add-member-team" data-id="'.md5($list_member['member_id']).'" data-team="'.$team_id.'">Tambah</button>
+					</div>
+					<div class="clearfix"> </div>
+				</div>';
+			}
+			echo $list_member_no_team;
+		} else{
+			$data['member_no_team'] = $this->member_model->member_no_team();
+			$this->load->view('team/add-member', $data);
+		}
 	}
 
 	public function add_member_save()

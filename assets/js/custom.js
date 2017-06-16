@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	/* start pop up post comment */
 	$('.popup-with-move-anim').on('click', function(event){
+		document.getElementById('comment-content').style.height = "inherit";
 		var post_id = $(this).attr('data-id');
 		$.post(base_url + "social/comment",
 		{
@@ -32,6 +33,7 @@ $(document).ready(function() {
 
 	/* start pop up challenge comment */
 	$('.popup-with-move-anim-challenge').click(function(){
+		document.getElementById('comment-content').style.height = "inherit";
 		var challenge_id = $(this).attr('data-id');
 		$.post(base_url + "team/challengecomment",
 		{
@@ -190,4 +192,35 @@ $(document).ready(function() {
 	  mainClass: 'my-mfp-slide-bottom'
 	});
 	/* end pop up team auth */
+
+	/* start pop up challenge input score */
+	$('.popup-input-score').click(function(){
+		var challenge_id = $(this).attr('data-id');
+		$.post(base_url + "challenge/input_score",
+		{
+		  challenge_id: challenge_id
+		},
+		function(data,status){
+			if(status == 'success'){
+				$("#input-score").empty().html(data); 
+			}
+		});
+	})
+	$('.popup-input-score').magnificPopup({
+	  type: 'inline',
+
+	  fixedContentPos: false,
+	  fixedBgPos: true,
+	  alignTop: true,
+
+	  overflowY: 'auto',
+
+	  closeBtnInside: true,
+	  preloader: false,
+	  
+	  midClick: true,
+	  removalDelay: 300,
+	  mainClass: 'my-mfp-slide-bottom'
+	});
+	/* end pop up challenge input score */
 })
