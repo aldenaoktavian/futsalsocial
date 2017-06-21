@@ -1,5 +1,61 @@
 <?php include(APPPATH.'views/includes/header.php'); ?>
 <?php include(APPPATH.'views/includes/team-challenge.php'); ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
+<script type="text/javascript">
+var placeSearch, autocomplete;
+/*var componentForm = {
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_2: 'short_name',
+  country: 'long_name'
+};*/
+ 
+function initialize() {
+ 
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {HTMLInputElement} */(document.getElementById('search-area')),
+      { types: ['geocode'] });
+ 
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    fillInAddress();
+  });
+}
+ 
+ 
+/*function fillInAddress() {
+ 
+  var place = autocomplete.getPlace();
+ 
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+ 
+ 
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    console.log(addressType);
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}*/
+ 
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = new google.maps.LatLng(
+          position.coords.latitude, position.coords.longitude);
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+</script>
 <div class="container-fluid main-content nomargin">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 		<div class="challenge-step">

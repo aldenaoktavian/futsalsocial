@@ -65,14 +65,27 @@ class Social extends CI_Controller {
 
 	public function add_new_comment()
 	{
+		$post_id = $this->social_model->get_post_id($this->input->post('post_id'));
 		$data_input = array(
-				'post_id'				=> $this->social_model->get_post_id($this->input->post('post_id')),
+				'post_id'				=> $post_id,
 				'member_id'				=> $this->session->login['id'],
 				'comment_description'	=> $this->input->post('new_post_comment')
 			);
 		$insert_new_comment = $this->social_model->add_new_comment($data_input);
 		$data_html = '';
 		if($insert_new_comment != 0){
+			$member_post_id = db_get_one_data('member_id', 'member_post', array('post_id'=>$post_id));
+			$member_post_name = db_get_one_data('member_name', 'member', array('member_id'=>$member_post_id));
+			$datanotif = array(
+				'member_id'		=> $member_post_id,
+				'notif_type'	=> 13,
+				'notif_detail'	=> $member_post_name.'" mengomentari post Anda.',
+				'notif_url'		=> base_url().'social/detail_comment/'.$this->input->post('post_id'),
+				'notif_created'	=> date('Y-m-d H:i:s'),
+				'notif_chow'	=> 1
+			);
+			$addnotif = $this->notif_model->add_notif($datanotif);
+
 			$dataMember = $this->member_model->data_member($this->session->login['id']);
 			$member_image = ($dataMember['member_image'] ? $dataMember['member_image'] : 'no-img-profil.png');
 			$data_html = '<div class="post-item" style="margin-top: 15px;">

@@ -120,7 +120,7 @@ function header_team()
 	return $data;
 }
 
-function team_challenge_log($challenge_id)
+function team_challenge_log($challenge_id, $note='')
 {
 	$CI = get_instance();
 	$CI->load->model('team_model');
@@ -131,6 +131,9 @@ function team_challenge_log($challenge_id)
 			'modify_by'		=> $CI->session->login['id'],
 			'modify_date'	=> date('Y-m-d H:i:s')
 		);
+	if($note != ''){
+	    $data['note'] = $note;
+	}
 
 	$insert_log = $CI->team_model->challenge_log($data);
 

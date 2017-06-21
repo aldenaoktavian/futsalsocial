@@ -16,7 +16,7 @@
 				<span><?php echo $list_member['member_name']; ?></span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-				<button type="button" class="btn btn-primary add-member-team" data-id="<?php echo md5($list_member['member_id']); ?>" data-team="<?php echo $team_id; ?>">Tambah</button>
+				<button type="button" class="btn btn-primary add-member-team" onclick="add_member_team(this)" data-id="<?php echo md5($list_member['member_id']); ?>" data-team="<?php echo $team_id; ?>">Tambah</button>
 			</div>
 			<div class="clearfix"> </div>
 		</div>
@@ -30,9 +30,9 @@
 </div>
 <script type="text/javascript">
 /* start add new team member */
-$('.add-member-team').click(function(){
-	var team_id = $(this).attr('data-team');
-	var member_id = $(this).attr('data-id');
+function add_member_team(e){
+    var team_id = $(e).attr('data-team');
+	var member_id = $(e).attr('data-id');
 	$.post(base_url + "team/add_member_save",
 	{
 	  team_id: team_id,
@@ -41,7 +41,7 @@ $('.add-member-team').click(function(){
 	function(data,status){
 		window.location.href = base_url + data;
 	});
-});
+}
 /* end add new team member */
 
 /* start search member */

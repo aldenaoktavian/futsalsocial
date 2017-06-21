@@ -48,8 +48,30 @@ class Challenge extends CI_Controller {
 	{
 		$data['title'] = "Futsal Yuk";
 		$team_id = md5($this->session->login['team_id']);
-		$data['list_other_team'] = $this->team_model->list_other_team($team_id);
-		$this->load->view('team/list-team', $data);
+
+		if($this->input->post('search_keyword'))
+		{
+			$search_keyword = $this->input->post('search_keyword');
+			$list_other_team = $this->team_model->list_other_team($team_id, $search_keyword);
+			$content_list_other_team = '';
+			foreach($list_other_team as $list_team){
+				$team_image = ($list_team['team_image'] ? $list_team['team_image'] : 'no-img-profil.png');
+				$content_list_other_team .= '<div class="bg-post member-item">
+							<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+								<img class="img-circle hidden-xs" src="'.base_url().'uploadfiles/team-images/'.$team_image.'">
+								<span>'.$list_team['team_name'].'</span>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+								<button type="button" class="btn btn-primary add-team" onclick="add_team(this)" data-id="'.md5($list_team['team_id']).'">Tambah</button>
+							</div>
+							<div class="clearfix"> </div>
+						</div>';
+			}
+			echo $content_list_other_team;
+		} else{
+			$data['list_other_team'] = $this->team_model->list_other_team($team_id);
+			$this->load->view('team/list-team', $data);
+		}
 	}
 
 	public function add_rival_team()
@@ -98,6 +120,8 @@ class Challenge extends CI_Controller {
 		$post = $this->input->post();
 		$data_lapangan['id_tipe'] = $post['id_tipe'];
 		$data_lapangan['search_date'] = $post['search_date'];
+		$data_lapangan['search_time'] = $post['search_time'];
+		$data_lapangan['search_area'] = $post['search_area'];
 		$data_lapangan['search_hour'] = $post['search_hour'];
 		$this->session->set_userdata('newchallenge', array_merge($this->session->newchallenge, $data_lapangan));
 	}
@@ -108,7 +132,7 @@ class Challenge extends CI_Controller {
 		$data['inviter_team']	= $this->team_model->data_team($sess_newchallenge['inviter_team_id']);
 		$data['rival_team']	= $this->team_model->data_team($sess_newchallenge['rival_team_id']);
 		$data['challenge_date'] = date('d/m/Y', strtotime($sess_newchallenge['search_date']));
-		$data['challenge_time'] = date('H:i', strtotime($sess_newchallenge['search_date']));
+		$data['challenge_time'] = date('H:i', strtotime($sess_newchallenge['search_time']));
 		$data['lapangan'] = $this->lapangan_model->data_lap($sess_newchallenge['id_tipe']);
 		$this->load->view('team/challenge-preview', $data);
 	}
@@ -120,7 +144,7 @@ class Challenge extends CI_Controller {
 		$inviter_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$sess_newchallenge['inviter_team_id']));
 		$rival_team_id = db_get_one_data('team_id', 'team', array('md5(team_id)'=>$sess_newchallenge['rival_team_id']));
 		$id_tipe = db_get_one_data('id_tipe', 'tipe_lapangan', array('md5(id_tipe)'=>$sess_newchallenge['id_tipe']));
-		$start_hour = date('H:i:s', strtotime($sess_newchallenge['search_date']));
+		$start_hour = date('H:i:s', strtotime($sess_newchallenge['search_time']));
 		$end_hour = date_format(date_add(date_create($start_hour), date_interval_create_from_date_string('+'.$sess_newchallenge['search_hour'].' hours')), 'H:i:s');
 
 		$data['message'] = '';
@@ -141,10 +165,10 @@ class Challenge extends CI_Controller {
 				);
 			$add_booking = $this->lapangan_model->add_booking($data_booking);
 			if($add_booking != 0){
-				$team_admin = $this->team_model->team_admin(md5($rival_team_id));
-				foreach($team_admin as $admin){
+				$team_members = $this->team_model->team_members(md5($rival_team_id));
+				foreach($team_members as $member){
 					$datanotif = array(
-						'member_id'		=> $admin['member_id'],
+						'member_id'		=> $member['member_id'],
 						'notif_type'	=> 4,
 						'notif_detail'	=> 'Tim "'.$inviter_team_name.'" mengundang tim Anda untuk melakukan pertandingan.',
 						'notif_url'		=> base_url().'notif/detail_challenge/'.md5($create_challenge),
@@ -180,12 +204,13 @@ class Challenge extends CI_Controller {
 	            );
 	        $update_revisi = $this->team_model->update_challenge($post['challenge_id'], $data_revisi);
 	        if($update_revisi == TRUE){
+	            team_challenge_log($post['challenge_id']);
 	            $inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
 	            $rival_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$post['team_id']));
-	            $team_admin = $this->team_model->team_admin(md5($inviter_team_id));
-				foreach($team_admin as $admin){
+	            $team_members = $this->team_model->team_members(md5($inviter_team_id));
+				foreach($team_members as $member){
 					$datanotif = array(
-						'member_id'		=> $admin['member_id'],
+						'member_id'		=> $member['member_id'],
 						'notif_type'	=> 5,
 						'notif_detail'	=> 'Tim "'.$rival_team_name.'" mengajukan revisi.',
 						'notif_url'		=> base_url().'notif/detail_revisi_challenge/'.$post['challenge_id'],
@@ -206,6 +231,81 @@ class Challenge extends CI_Controller {
 	    echo json_encode($data);
 	}
 	
+	public function revisi_challenge($challenge_id)
+	{
+	    $data['title'] = "Revisi Challenge - Futsal Yuk";
+	    
+	    $data['challenge_id'] = $challenge_id;
+	    $data['notes_challenge'] = $this->team_model->notes_challenge($challenge_id);
+	    
+	    $this->load->view('team/challenge-detail-revisi', $data);
+	}
+	
+	public function change_schedule($challenge_id)
+	{
+	    $data['title'] = "Atur Jadwal";
+	    
+	    /*$data['search_area'] = $this->lapangan_model->search_area();
+	    $detail_challenge = $this->team_model->detail_challenge($challenge_id);
+	    $time1 = new DateTime($detail_challenge['challenge_time']);
+		$time2 = new DateTime($detail_challenge['end_time']);
+		$challenge_hour = $time1->diff($time2);
+		$detail_challenge['challenge_hour'] = $challenge_hour->format('%h');
+	    $detail_challenge['challenge_time'] = date('H:i', strtotime($detail_challenge['challenge_time']));
+	    $data['detail_challenge'] = $detail_challenge;*/
+
+	    $post = $this->input->post();
+	    $detail_challenge = $this->team_model->detail_challenge($challenge_id);
+	    $time1 = new DateTime($detail_challenge['challenge_time']);
+		$time2 = new DateTime($detail_challenge['end_time']);
+		$challenge_hour = $time1->diff($time2);
+		$get_challenge_hour = $challenge_hour->format('%h');
+		$data['challenge_id'] = $challenge_id;
+	    if(!$post){
+	    	$data['search_area'] = $this->lapangan_model->search_area();
+	    	$detail_challenge['challenge_hour'] = $get_challenge_hour;
+		    $detail_challenge['challenge_time'] = date('H:i', strtotime($detail_challenge['challenge_time']));
+		    $detail_challenge['transaksi_challenge_id'] = md5($detail_challenge['transaksi_challenge_id']);
+	    } else{
+	    	$start_hour = date('H:i:s', strtotime($post['start_time']));
+			$end_hour = date_format(date_add(date_create($start_hour), date_interval_create_from_date_string('+'.$get_challenge_hour.' hours')), 'H:i:s');
+			$data_challenge = array(
+					'status_challenge'	=> 4
+				);
+			$update_challenge = $this->team_model->update_challenge($challenge_id, $data_challenge);
+			if($update_challenge == TRUE){
+				team_challenge_log($challenge_id);
+				$data_booking = array(
+						'tanggal'		=> date('Y-m-d', strtotime($post['challenge_date'])),
+						'start_time'	=> $start_hour,
+						'end_time'		=> $end_hour
+					);
+				$update_booking = $this->lapangan_model->edit_booking(md5($detail_challenge['transaksi_challenge_id']), $data_booking);
+				if($update_booking == TRUE){
+					$team_members = $this->team_model->team_members(md5($detail_challenge['rival_team_id']));
+					foreach($team_members as $member){
+						$datanotif = array(
+							'member_id'		=> $member['member_id'],
+							'notif_type'	=> 12,
+							'notif_detail'	=> 'Tim "'.$detail_challenge['rival_team_name'].'" merubah challenge.',
+							'notif_url'		=> base_url().'notif/detail_challenge/'.md5($detail_challenge['challenge_id']),
+							'notif_created'	=> date('Y-m-d H:i:s')
+						);
+						$addnotif = $this->notif_model->add_notif($datanotif);
+					}
+					$data['message'] = "Sukses merubah challenge. Silahkan menunggu konfirmasi selanjutnya dari team lawan.";
+				} else{
+					$data['message'] = "Gagal merubah data booking. Silahkan coba kembali nanti.";
+				}
+			} else{
+				$data['message'] = "Gagal merubah data challenge. Silahkan coba kembali nanti.";
+			}
+	    }
+	    $data['detail_challenge'] = $detail_challenge;
+	    
+	    $this->load->view('team/change-schedule', $data);
+	}
+	
 	public function decline()
 	{
 	    $data['challenge_id'] = $this->input->post('challenge_id');
@@ -223,21 +323,32 @@ class Challenge extends CI_Controller {
 	            );
 	        $data_decline = $this->team_model->update_challenge($post['challenge_id'], $data_decline);
 	        if($data_decline == TRUE){
-	            $inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
-	            $rival_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$post['team_id']));
-	            $team_admin = $this->team_model->team_admin(md5($inviter_team_id));
-				foreach($team_admin as $admin){
-					$datanotif = array(
-						'member_id'		=> $admin['member_id'],
-						'notif_type'	=> 6,
-						'notif_detail'	=> 'Tim "'.$rival_team_name.'" menolak challenge.',
-						'notif_url'		=> base_url().'notif/detail_decline_challenge/'.$post['challenge_id'],
-						'notif_created'	=> date('Y-m-d H:i:s')
-					);
-					$addnotif = $this->notif_model->add_notif($datanotif);
-				}
-	            $data['status'] = 1;
-	            $data['message'] = '<span>Berhasil menolak challenge.</span>';
+	            team_challenge_log($post['challenge_id']);
+	            $data_booking = array(
+	            		'transaksi_challenge_status'	=> 2,
+	            	);
+	            $transaksi_challenge_id = db_get_one_data('transaksi_challenge_id', 'transaksi_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
+	            $edit_booking = $this->lapangan_model->edit_booking(md5($transaksi_challenge_id), $data_booking);
+	            if($edit_booking == TRUE){
+		            $inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
+		            $rival_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$post['team_id']));
+		            $team_members = $this->team_model->team_members(md5($inviter_team_id));
+					foreach($team_members as $member){
+						$datanotif = array(
+							'member_id'		=> $member['member_id'],
+							'notif_type'	=> 6,
+							'notif_detail'	=> 'Tim "'.$rival_team_name.'" menolak challenge.',
+							'notif_url'		=> base_url().'notif/detail_decline_challenge/'.$post['challenge_id'],
+							'notif_created'	=> date('Y-m-d H:i:s')
+						);
+						$addnotif = $this->notif_model->add_notif($datanotif);
+					}
+		            $data['status'] = 1;
+		            $data['message'] = '<span>Berhasil menolak challenge.</span>';
+		        } else{
+		        	$data['status'] = 0;
+	            	$data['message'] = 'Gagal merubah data booking. Silahkan coba kembali nanti.';
+		        }
 	        } else{
 	            $data['status'] = 0;
 	            $data['message'] = 'Gagal menolak challenge. Silahkan coba kembali nanti.';
@@ -266,21 +377,32 @@ class Challenge extends CI_Controller {
 	            );
 	        $data_decline = $this->team_model->update_challenge($post['challenge_id'], $data_decline);
 	        if($data_decline == TRUE){
-	            $inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
-	            $rival_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$post['team_id']));
-	            $team_admin = $this->team_model->team_admin(md5($inviter_team_id));
-				foreach($team_admin as $admin){
-					$datanotif = array(
-						'member_id'		=> $admin['member_id'],
-						'notif_type'	=> 7,
-						'notif_detail'	=> 'Tim "'.$rival_team_name.'" menyetujui challenge.',
-						'notif_url'		=> base_url().'notif/detail_accept_challenge/'.$post['challenge_id'],
-						'notif_created'	=> date('Y-m-d H:i:s')
-					);
-					$addnotif = $this->notif_model->add_notif($datanotif);
-				}
-	            $data['status'] = 1;
-	            $data['message'] = '<span>Berhasil menyetujui challenge.</span>';
+	            team_challenge_log($post['challenge_id']);
+	            $data_booking = array(
+	            		'transaksi_challenge_status'	=> 1,
+	            	);
+	            $transaksi_challenge_id = db_get_one_data('transaksi_challenge_id', 'transaksi_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
+	            $edit_booking = $this->lapangan_model->edit_booking(md5($transaksi_challenge_id), $data_booking);
+	            if($edit_booking == TRUE){
+		            $inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
+		            $rival_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$post['team_id']));
+		            $team_members = $this->team_model->team_members(md5($inviter_team_id));
+					foreach($team_members as $member){
+						$datanotif = array(
+							'member_id'		=> $member['member_id'],
+							'notif_type'	=> 7,
+							'notif_detail'	=> 'Tim "'.$rival_team_name.'" menyetujui challenge.',
+							'notif_url'		=> base_url().'notif/detail_accept_challenge/'.$post['challenge_id'],
+							'notif_created'	=> date('Y-m-d H:i:s')
+						);
+						$addnotif = $this->notif_model->add_notif($datanotif);
+					}
+		            $data['status'] = 1;
+		            $data['message'] = '<span>Berhasil menyetujui challenge.</span>';
+		        } else{
+		        	$data['status'] = 0;
+	            	$data['message'] = 'Gagal merubah data booking. Silahkan coba kembali nanti.';
+		        }
 	        } else{
 	            $data['status'] = 0;
 	            $data['message'] = 'Gagal menyetujui challenge. Silahkan coba kembali nanti.';

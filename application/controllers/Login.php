@@ -17,19 +17,13 @@ class Login extends CI_Controller {
 			redirect('social'); 
 		}
 
-		/*$this->load->library('form_validation');
+		$this->load->library('form_validation');
 		$this->form_validation->set_rules('user', 'Uername', 'required');
-		$this->form_validation->set_rules('pass', 'Password', 'required');*/
-		$user = 'vero123';
-		$pass = 'vero123';
-		//if ( $this->form_validation->run() == TRUE ) {
-			/*$result = $this->login_model->cek_user_login(
+		$this->form_validation->set_rules('pass', 'Password', 'required');
+		if ( $this->form_validation->run() == TRUE ) {
+			$result = $this->login_model->cek_user_login(
 				$this->input->post('user'),
 				md5($this->input->post('pass'))
-			);*/
-			$result = $this->login_model->cek_user_login(
-				$user,
-				md5($pass)
 			);
 			
 			if ( $result != FALSE) {
@@ -46,10 +40,9 @@ class Login extends CI_Controller {
 				$data["msg"] = "Username atau Password salah";
 				log_message('error', "GAGAL Login , IP Address : ".$_SERVER['REMOTE_ADDR'], false);
 			}
-		//}
+		}
 
-		//$this->load->view('login', $data);
-		echo "Login Dulu Yaa";
+		$this->load->view('login', $data);
 	}
 
 	public function pilihtim()

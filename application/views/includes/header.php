@@ -35,20 +35,36 @@
                     <li class="dropdown at-drop">
                       <a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-globe" style="vertical-align: middle;"></i> <span class="number"><?php echo $count_notif_updates; ?></span></a>
                       <ul class="dropdown-menu menu1 " role="menu">
-                        <?php foreach($notif_updates as $notif){ ?>
-                        <li>
-                            <a href="#detail-notif" class="popup-detail-notif" data-url="<?php echo $notif['notif_url'].'/'.md5($notif['notif_id']) ?>">
-                                <div class="user-new" style="width:100px;">
-                                    <p><?php echo $notif['notif_detail']; ?>...</p>
-                                    <span><?php echo $notif['notif_time']; ?></span>
-                                </div>
-                                <div class="user-new-left">
-                                    <?php echo $notif['notif_icon']; ?>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </a>
-                        </li>
-                        <?php } ?>
+                        <?php 
+                            foreach($notif_updates as $notif){ 
+                                if($notif['notif_show'] == 1){
+                        ?>
+                            <li>
+                                <a href="<?php echo $notif['notif_url'].'/'.md5($notif['notif_id']) ?>">
+                                    <div class="user-new" style="width:100px;">
+                                        <p><?php echo $notif['notif_detail']; ?>...</p>
+                                        <span><?php echo $notif['notif_time']; ?></span>
+                                    </div>
+                                    <div class="user-new-left">
+                                        <?php echo $notif['notif_icon']; ?>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </a>
+                            </li>
+                        <?php } else{ ?>
+                            <li>
+                                <a href="#detail-notif" class="popup-detail-notif" data-url="<?php echo $notif['notif_url'].'/'.md5($notif['notif_id']) ?>">
+                                    <div class="user-new" style="width:100px;">
+                                        <p><?php echo $notif['notif_detail']; ?>...</p>
+                                        <span><?php echo $notif['notif_time']; ?></span>
+                                    </div>
+                                    <div class="user-new-left">
+                                        <?php echo $notif['notif_icon']; ?>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </a>
+                            </li>
+                        <?php } } ?>
                         <li><a href="#" class="view">View all messages</a></li>
                       </ul>
                     </li>

@@ -46,14 +46,34 @@ class Team extends CI_Controller {
 
 	public function add_new_comment()
 	{
+		$challenge_id = $this->social_model->get_challenge_id($this->input->post('challenge_id'));
 		$data_input = array(
-				'challenge_id'			=> $this->social_model->get_challenge_id($this->input->post('challenge_id')),
+				'challenge_id'			=> $challenge_id,
 				'member_id'				=> $this->session->login['id'],
 				'comment_description'	=> $this->input->post('new_challenge_comment')
 			);
 		$insert_new_comment = $this->social_model->add_new_challenge_comment($data_input);
 		$data_html = '';
 		if($insert_new_comment != 0){
+			$inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('challenge_id'=>$challenge_id));
+			$rival_team_id = db_get_one_data('rival_team', 'team_challenge', array('challenge_id'=>$challenge_id));
+
+			$inviter_team = $this->team_model->team_members(md5($inviter_team_id));
+			$rival_team = $this->team_model->team_members(md5($inviter_team_id));
+
+			$team_members = array_merge($inviter_team, $rival_team);
+			foreach($team_members as $member){
+				$datanotif = array(
+					'member_id'		=> $member['member_id'],
+					'notif_type'	=> 14,
+					'notif_detail'	=> $member['member_name'].'" mengomentari challenge tim Anda.',
+					'notif_url'		=> base_url().'team/detail_comment/'.$this->input->post('challenge_id'),
+					'notif_created'	=> date('Y-m-d H:i:s'),
+					'notif_chow'	=> 1
+				);
+			}
+			$addnotif = $this->notif_model->add_notif($datanotif);
+
 			$dataMember = $this->member_model->data_member($this->session->login['id']);
 			$member_image = ($dataMember['member_image'] ? $dataMember['member_image'] : 'no-img-profil.png');
 			$data_html = '<div class="post-item" style="margin-top: 15px;">
@@ -77,6 +97,68 @@ class Team extends CI_Controller {
 	{
 		$data['title'] = "Futsal Yuk";
 		$this->load->view('team/no-team', $data);
+	}
+
+	public function newteam()
+	{
+		$data['title'] = "Create Team - Futsal Yuk";
+
+		$post = $this->input->post();
+		if($post){
+			if($post['pass'] == $post['confirm_pass']){
+				$this->load->helper('directory');
+				
+				$config['upload_path']          = './uploadfiles/team-images/';
+				$config['allowed_types']        = 'gif|jpg|png|doc|pdf|gif';
+				$config['max_size']             = 2000;
+
+				$this->load->library('upload', $config, 'team_image_upload');
+				if ( ! $this->team_image_upload->do_upload('team_image')){
+					$data['message'] = $this->team_image_upload->display_errors();
+					$this->load->view('team/new-team', $data);
+				} else{
+					$data_image = $this->team_image_upload->data();
+				}
+
+				$config_banner['upload_path']          = './uploadfiles/team-banner/';
+				$config_banner['allowed_types']        = 'gif|jpg|png|doc|pdf|gif';
+				$config_banner['max_size']             = 2000;
+
+				$this->load->library('upload', $config_banner, 'team_banner_upload');
+				if ( ! $this->team_banner_upload->do_upload('team_banner')){
+					$data['message'] = $this->team_banner_upload->display_errors();
+					$this->load->view('team/new-team', $data);
+				} else{
+					$data_banner = $this->team_banner_upload->data();
+				}
+
+				$data_team = array(
+						'team_name'		=> $post['team_name'],
+						'team_description'	=> $post['team_desc'],
+						'team_image'	=> $data_image["raw_name"].$data_image["file_ext"],
+						'team_banner'	=> $data_banner["raw_name"].$data_banner["file_ext"],
+						'password'		=> md5($post['pass'])
+					);
+				$create_team = $this->team_model->create_team($data_team);
+
+				if($create_team != 0){
+					$data_member = array(
+							'team_id'	=> $create_team
+						);
+					$update_member = $this->member_model->update_member($this->session->login['id'], $data_member);
+
+					if($update_member == TRUE){
+						$this->session->set_userdata('login', array_merge($this->session->login, array('team_id'=>$create_team)));
+						$this->session->set_userdata('team_pass', 1);
+						redirect('team/profile/'.md5($create_team));
+					}
+				}
+			} else{
+				$data['message'] = "Password dan Konfirmasi Password tidak cocok";
+			}
+		}
+
+		$this->load->view('team/new-team', $data);
 	}
 
 	public function myteam()
@@ -165,7 +247,7 @@ class Team extends CI_Controller {
 						<span>'.$list_member['member_name'].'</span>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-						<button type="button" class="btn btn-primary add-member-team" data-id="'.md5($list_member['member_id']).'" data-team="'.$team_id.'">Tambah</button>
+						<button type="button" class="btn btn-primary add-member-team" onclick="add_member_team(this)" data-id="'.md5($list_member['member_id']).'" data-team="'.$team_id.'">Tambah</button>
 					</div>
 					<div class="clearfix"> </div>
 				</div>';

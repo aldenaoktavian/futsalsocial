@@ -6,6 +6,12 @@ class Team_model extends CI_Model {
 	{
 		parent::__construct();
 	}
+	
+	function create_team($data)
+	{
+		$this->db->insert('team', $data);
+		return $this->db->insert_id();
+	}
 
 	function data_team($id)
 	{
@@ -69,9 +75,14 @@ class Team_model extends CI_Model {
 		return $this->db->update('team_request', $dataedit);
 	}
 
-	function list_other_team($team_id)
+	function list_other_team($team_id, $search_keyword='')
 	{
-		$data = $this->db->get_where('team', array('md5(team_id) !='=>$team_id));
+		if($search_keyword != ''){
+			$data = $this->db->query("SELECT * FROM team WHERE md5(team_id) != '".$team_id."' AND ( team_name LIKE '%".$search_keyword."%' )");
+		} else{
+			$data = $this->db->get_where('team', array('md5(team_id) !='=>$team_id));
+		}
+		
 		return $data->result_array();
 	}
 
@@ -95,8 +106,15 @@ class Team_model extends CI_Model {
 
 	function detail_challenge($challenge_id)
 	{
-		$query = $this->db->query("SELECT b.challenge_id as challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, inviter_score, rival_score FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE md5(b.challenge_id) = '".$challenge_id."'");
+		$query = $this->db->query("SELECT b.challenge_id as challenge_id, a.transaksi_challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, a.end_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, inviter_score, rival_score FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE md5(b.challenge_id) = '".$challenge_id."'");
 		return $query->row_array();
+	}
+	
+	function notes_challenge($challenge_id)
+	{
+	    $this->db->where('md5(challenge_id)', $challenge_id);
+	    $query = $this->db->get('team_challenge');
+	    return $query->row_array();
 	}
 	
 	function check_team_password($team_id, $pass)

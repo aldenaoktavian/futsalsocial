@@ -27,13 +27,17 @@
 				<script type="text/javascript">
 					$('.choose-lap').click(function(){
 						var item_id = $(this).attr('data-id');
-						var search_date = $('#datetimepicker').val();
-						var search_hour = $('#slider-range-value').html();
+						var search_area = $('#search-area').val();
+                    	var search_date = $('#datepicker').val();
+                    	var search_time = $('#search-time').val();
+                    	var search_hour = $('#slider-range-value').html();
 						$.post(base_url + "challenge/add_lapangan",
 						{
 						  id_tipe: item_id,
-						  search_date: search_date,
-						  search_hour: search_hour
+						  search_area: search_area,
+                		  search_date: search_date,
+                		  search_time: search_time,
+                		  search_hour: search_hour
 						},
 						function(data,status){
 							$('.lapangan-item').removeClass('active');

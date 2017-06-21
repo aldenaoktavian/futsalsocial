@@ -48,14 +48,31 @@ class Notif extends CI_Controller {
     		$data['lapangan_daerah'] = $detail_challenge['daerah'];
     		$data['lapangan_kota'] = $detail_challenge['kota'];
 		} else if($detail_challenge['status_challenge'] == 1){
-		    $data['message'] = 'Challenge ini telah berlangsung.';
+		    $data['message'] = 'Challenge ini telah disetujui oleh kedua tim.';
 		} else if($detail_challenge['status_challenge'] == 2){
 		    $data['message'] = 'Challenge ini telah dibatalkan.';
 		} else if($detail_challenge['status_challenge'] == 3){
 		    $data['message'] = 'Challenge ini sedang dalam proses pertimbangan karena revisi telah dikirimkan. Silahkan menunggu sampai tim lawan memberikan balasan.';
+		} else if($detail_challenge['status_challenge'] == 4){
+			$data = $detail_challenge;
+			$data['challenge_id']	= $challenge_id;
+    		$data['rival_team_id']	= md5($detail_challenge['rival_team_id']);
+    		$data['inviter_team_image'] = ($detail_challenge['inviter_team_image'] ? $detail_challenge['inviter_team_image'] : 'no-img-profil.png');
+    		$data['rival_team_image'] = ($detail_challenge['rival_team_image'] ? $detail_challenge['rival_team_image'] : 'no-img-profil.png');
+    		$data['challenge_date'] = date('d/m/Y', strtotime($detail_challenge['challenge_date']));
+    		$data['challenge_time'] = date('H:i', strtotime($detail_challenge['challenge_time']));
+
+    		$notes_challenge = $this->team_model->notes_challenge($challenge_id);
+    		$data['detail_revisi'] = $notes_challenge['detail_revisi'];
 		}
 		$data['status_challenge'] = $detail_challenge['status_challenge'];
 		$this->load->view('notif/detail-challenge', $data);
+	}
+	
+	public function detail_revisi_challenge($challenge_id, $notif_id)
+	{
+	     $this->read_notif($notif_id);
+	     redirect("challenge/revisi_challenge/".$challenge_id);
 	}
 
 	public function read_notif($id)

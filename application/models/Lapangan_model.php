@@ -53,5 +53,11 @@ class Lapangan_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 
+	function edit_booking($id, $dataedit)
+	{
+		$this->db->where('md5(transaksi_challenge_id)', $id);
+		return $this->db->update('transaksi_challenge', $dataedit);
+	}
+
 }
 ?>
