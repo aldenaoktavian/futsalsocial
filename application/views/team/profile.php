@@ -11,8 +11,10 @@
 			<p>
 				<?php echo $team_description; ?>
 			</p>
-			<hr/>
-			<a href="#edit-desc" class="popup-edit-desc" data-id="<?php echo $team_id; ?>"><button type="button" class="btn btn-inverse">Edit</button></a>
+			<?php if(isset($this->session->team_pass) && $this->session->team_pass == 1){ ?>
+				<hr/>
+				<a href="#edit-desc" class="popup-edit-desc" data-id="<?php echo $team_id; ?>"><button type="button" class="btn btn-inverse">Edit</button></a>
+			<?php } ?>
 			<div class="clearfix"> </div>
 		</div>
 		<!-- end team description -->
@@ -30,10 +32,12 @@
 				</div>
 			<?php } ?>
 			</div>
+			<?php if(isset($this->session->team_pass) && $this->session->team_pass == 1){ ?>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<hr/>
 				<a href="#add-member" class="popup-add-member" data-id="<?php echo $team_id; ?>"><button type="button" class="btn btn-inverse">Tambah Anggota</button></a>
 			</div>
+			<?php } ?>
 			<div class="clearfix"> </div>
 		</div>
 		<!-- end team members -->

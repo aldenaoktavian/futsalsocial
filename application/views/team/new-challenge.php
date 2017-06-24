@@ -3,12 +3,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
 <script type="text/javascript">
 var placeSearch, autocomplete;
-/*var componentForm = {
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_2: 'short_name',
-  country: 'long_name'
-};*/
  
 function initialize() {
  
@@ -21,26 +15,13 @@ function initialize() {
   });
 }
  
+function fillInAddress() {
  
-/*function fillInAddress() {
+  var place = autocomplete.getPlace().geometry.location;
  
-  var place = autocomplete.getPlace();
- 
-  for (var component in componentForm) {
-    document.getElementById(component).value = '';
-    document.getElementById(component).disabled = false;
-  }
- 
- 
-  for (var i = 0; i < place.address_components.length; i++) {
-    var addressType = place.address_components[i].types[0];
-    console.log(addressType);
-    if (componentForm[addressType]) {
-      var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
-    }
-  }
-}*/
+  $('#lng').val(place.lng());
+  $('#lat').val(place.lat());
+}
  
 function geolocate() {
   if (navigator.geolocation) {

@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/owl.carousel.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/magnific-popup.css">
     <script type="text/javascript">
-        base_url = '<?=base_url()?>';
+        base_url = '<?php echo base_url(); ?>';
     </script>
 </head>
 <body>

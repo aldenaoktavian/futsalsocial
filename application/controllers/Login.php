@@ -7,7 +7,6 @@ class Login extends CI_Controller {
 		parent::__construct();
         $this->load->model('login_model');
         $this->load->model('member_model');
-        $this->session->unset_userdata('login');
     }
 
 	public function index()
@@ -45,22 +44,10 @@ class Login extends CI_Controller {
 		$this->load->view('login', $data);
 	}
 
-	public function pilihtim()
+	public function logout()
 	{
-		$data['title'] = "Futsal Yuk";
-		$this->load->view('team/choose-team', $data);
-	}
-
-	public function pilihtanggal()
-	{
-		$data['title'] = "Futsal Yuk";
-		$this->load->view('team/choose-date', $data);
-	}
-
-	public function list_team()
-	{
-		$data['title'] = "Futsal Yuk";
-		$this->load->view('team/list-team', $data);
+		session_destroy();
+		redirect('social');
 	}
 }
 

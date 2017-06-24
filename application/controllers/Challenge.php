@@ -13,6 +13,7 @@ class Challenge extends CI_Controller {
 		$this->load->model('team_model');
 		$this->load->model('lapangan_model');
 		$this->load->model('notif_model');
+		$this->session->unset_userdata('team_pass');
     }
 
 	public function index()
@@ -101,7 +102,7 @@ class Challenge extends CI_Controller {
 				$search_area_val = explode(" - ", $search_area_val);
 				$search_area_val = $search_area_val[0];
 			}
-			$data['result_search_lap'] = $this->lapangan_model->get_search_lap($search_area_val, $date, $start_hour, $end_hour, $page);
+			$data['result_search_lap'] = $this->lapangan_model->get_search_lap($search_area_val, $date, $start_hour, $end_hour, $page, $post['search_lat'], $post['search_lng']);
 			$all_pages = $this->lapangan_model->count_search_lap($search_area_val, $date, $start_hour, $end_hour);
 		} else{
 			$data['result_search_lap'] = $this->lapangan_model->all_available_lap($page);

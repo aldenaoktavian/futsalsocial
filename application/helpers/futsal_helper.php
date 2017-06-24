@@ -10,6 +10,7 @@ function header_member()
 	$data = array();
 	$data['member_name'] = $dataMember['member_name'];
 	$data['member_image'] = ($dataMember['member_image'] ? $dataMember['member_image'] : 'no-img-profil.png');
+	$data['member_banner'] = ($dataMember['member_banner'] ? $dataMember['member_banner'] : 'no-banner.jpg');
 
 	$notif_updates = $CI->notif_model->notif_updates($CI->session->login['id']);
 	$date_now = new DateTime();
@@ -70,29 +71,29 @@ function team_rank()
 		if($i <= $part_rangking){
 			if($mod == 0){
 				$data_rangking[$count_all_rangking] = '<div class="sngl_team">   
-                        <div class="team_item">                  
+                        <a href="'.base_url().'team/profile/'.md5($value['team_id']).'" class="url-color"><div class="team_item">                  
                             <img class="img-circle" src="'.base_url().'uploadfiles/team-images/'.$team_image.'" alt=""/>  
                             <h2>'.$value['rangking'].'</h2>
-                            <h5>'.$value['team_name'].'</h5>
-                        </div>';
+                            <a href="'.base_url().'team/profile/'.md5($value['team_id']).'"><h5>'.$value['team_name'].'</h5></a>
+                        </div></a>';
                         //echo var_dump($data_rangking[$count_all_rangking]).$i."---".$mod."---".$count_all_rangking;
 			} else{
-				$data_rangking[$count_all_rangking + 10] = $data_rangking[$count_all_rangking + 10].'<div class="team_item">                  
+				$data_rangking[$count_all_rangking + 10] = $data_rangking[$count_all_rangking + 10].'<a href="'.base_url().'team/profile/'.md5($value['team_id']).'" class="url-color"><div class="team_item">                  
                             <img class="img-circle" src="'.base_url().'uploadfiles/team-images/'.$team_image.'" alt=""/>  
                             <h2>'.$value['rangking'].'</h2>
-                            <h5>'.$value['team_name'].'</h5>
-                        </div>
+                            <a href="'.base_url().'team/profile/'.md5($value['team_id']).'"><h5>'.$value['team_name'].'</h5></a>
+                        </div></a>
                     </div>';
 			}
 			$i++;
 			$i20++;
 		} else{
 			$data_rangking[$count_all_rangking] = '<div class="sngl_team">   
-                        <div class="team_item">                  
+                        <a href="'.base_url().'team/profile/'.md5($value['team_id']).'" class="url-color"><div class="team_item">                  
                             <img class="img-circle" src="'.base_url().'uploadfiles/team-images/'.$team_image.'" alt=""/>  
                             <h2>'.$value['rangking'].'</h2>
                             <h5>'.$value['team_name'].'</h5>
-                        </div>
+                        </div></a>
                         </div>';
 			$i++;
 			$i20++;
@@ -138,4 +139,15 @@ function team_challenge_log($challenge_id, $note='')
 	$insert_log = $CI->team_model->challenge_log($data);
 
 	return $insert_log;
+}
+
+function member_profile()
+{
+	$CI = get_instance();
+	$CI->load->model('team_model');
+
+	$data_team = $CI->team_model->data_team(md5($CI->session->login['team_id']));
+	$data['team_name'] = $data_team['team_name'];
+
+	return $data;
 }

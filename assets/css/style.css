@@ -3397,3 +3397,31 @@ opacity: 0;
   margin-top: 10px;
   color: #bf0202;
 }
+
+.cover-style {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+}
+
+.cover-style span {
+  vertical-align: super;
+}
+
+.cover-style:hover {
+  text-decoration: none;
+  color: #615f5f;
+}
+
+.url-color {
+  color: black;
+  text-decoration: none;
+}
+
+.url-color:hover {
+  text-decoration: none;
+  color: #676060;
+}

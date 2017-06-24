@@ -20,6 +20,36 @@ class Notif extends CI_Controller {
 		}
 	}
 
+	public function all()
+	{
+		$data['title']	= "Semua Notifikasi - Futsal Yuk";
+
+		$notif_updates = $this->notif_model->all_notif($this->session->login['id']);
+		$date_now = new DateTime();
+		foreach ($notif_updates as $key => $value) {
+			$date_created = new DateTime($value['notif_created']);
+			$diff_notif = date_diff($date_created, $date_now);
+			if($diff_notif->y != 0){
+				$notif_updates[$key]['notif_time'] = $diff_notif->y." tahun yang lalu.";
+			} else if($diff_notif->m != 0){
+				$notif_updates[$key]['notif_time'] = $diff_notif->m." bulan yang lalu.";
+			} else if($diff_notif->d != 0){
+				$notif_updates[$key]['notif_time'] = $diff_notif->d." hari yang lalu.";
+			} else if($diff_notif->h != 0){
+				$notif_updates[$key]['notif_time'] = $diff_notif->h." jam yang lalu.";
+			} else if($diff_notif->i != 0){
+				$notif_updates[$key]['notif_time'] = $diff_notif->i." menit yang lalu.";
+			} else if($diff_notif->s != 0){
+				$notif_updates[$key]['notif_time'] = $diff_notif->s." detik yang lalu.";
+			}
+			$notif_updates[$key]['notif_detail'] = $value['notif_detail'];
+			$notif_updates[$key]['notif_icon'] = ($value['notif_status'] == 0 ? '<i class="fa fa-circle"></i>' : '');
+		}
+		$data['all_notif'] = $notif_updates;
+
+		$this->load->view('notif/all', array_merge($data, header_member(), team_rank()));
+	}
+
 	public function team_request($team_request_id, $notif_id)
 	{
 		$notif_type = db_get_one_data('notif_type', 'notifikasi', array('md5(notif_id)'=>$notif_id));

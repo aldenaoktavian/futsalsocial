@@ -10,9 +10,13 @@
 		<div class="bg-post post-item challenge-item">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/team-images/'.$list_challenge['inviter_team_image']; ?>">
+				<a href="<?php echo base_url().'team/profile/'.md5($list_challenge['inviter_team_id']); ?>">
+					<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/team-images/'.$list_challenge['inviter_team_image']; ?>">
+				</a>
 				<div class="clearfix"> </div>
-				<h5><?php echo $list_challenge['inviter_team_name']; ?></h5>
+				<a href="<?php echo base_url().'team/profile/'.md5($list_challenge['inviter_team_id']); ?>" class="url-color">
+					<h5><?php echo $list_challenge['inviter_team_name']; ?></h5>
+				</a>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 challenge-det">
 				<h4>VS</h4>
@@ -26,9 +30,13 @@
 				</p>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/team-images/'.$list_challenge['rival_team_image']; ?>">
+				<a href="<?php echo base_url().'team/profile/'.md5($list_challenge['rival_team_id']); ?>">
+					<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/team-images/'.$list_challenge['rival_team_image']; ?>">
+				</a>
 				<div class="clearfix"> </div>
-				<h5><?php echo $list_challenge['rival_team_name']; ?></h5>
+				<a href="<?php echo base_url().'team/profile/'.md5($list_challenge['rival_team_id']); ?>" class="url-color">
+					<h5><?php echo $list_challenge['rival_team_name']; ?></h5>
+				</a>
 			</div>
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			<div class="clearfix"> </div>

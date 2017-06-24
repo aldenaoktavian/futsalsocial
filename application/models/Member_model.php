@@ -14,6 +14,13 @@ class Member_model extends CI_Model {
 		return $data;
 	}
 	
+	function data_member_md5($id)
+	{
+		$this->db->where('md5(member_id)', $id);
+		$data = $this->db->get('member')->row_array();
+		return $data;
+	}
+	
 	function member_no_team($search_keyword='')
 	{
 		if($search_keyword != ''){
@@ -30,6 +37,24 @@ class Member_model extends CI_Model {
 	{
 		$this->db->where('member_id', $id);
 		return $this->db->update('member', $dataedit);
+	}
+
+	function member_post_list($id)
+	{
+		$query = $this->db->query("SELECT post_id, member_name, member_image, post_description FROM member_post a INNER JOIN member b ON a.member_id = b.member_id WHERE md5(b.member_id) = '".$id."'");
+		return $query->result_array();
+	}
+	
+	function check_member_password($member_id, $pass)
+	{
+	    $this->db->where('member_id', $member_id);
+	    $this->db->where('password', $pass);
+	    $data = $this->db->get('member')->row_array();
+	    if($data != NULL){
+	        return TRUE;
+	    } else{
+	        return FALSE;
+	    }
 	}
 
 }

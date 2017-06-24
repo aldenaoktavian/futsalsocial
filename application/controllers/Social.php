@@ -12,6 +12,7 @@ class Social extends CI_Controller {
 		$this->load->vars(array_merge($data_header, team_rank()));
 		$this->load->model('social_model');
 		$this->load->model('member_model');
+		$this->session->unset_userdata('team_pass');
     }
 
 	public function index()

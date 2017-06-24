@@ -172,6 +172,7 @@ class Team extends CI_Controller {
 			$check_team_password = $this->team_model->check_team_password(md5($this->session->login['team_id']), md5($post['pass_team']));
 	    	if($check_team_password == TRUE){
 	    		$data['status'] = 1;
+	    		$this->session->set_userdata('team_pass', 1);
 	    		$data['url_redirect'] = "team/profile/".md5($this->session->login['team_id']);
 	    	} else{
 	    		$data['status'] = 0;
@@ -441,5 +442,57 @@ class Team extends CI_Controller {
 		}
 
 		$this->load->view('team/setting', $data);
+	}
+
+	public function update_cover()
+	{
+		$config_banner['upload_path']          = './uploadfiles/team-banner/';
+		$config_banner['allowed_types']        = 'gif|jpg|png|doc|pdf|gif';
+		$config_banner['max_size']             = 2000;
+
+		$this->load->library('upload', $config_banner, 'team_banner_upload');
+		if ( ! $this->team_banner_upload->do_upload('team_banner')){
+			$message = $this->team_banner_upload->display_errors();
+			echo "<script>alert('".$message."');</script>";
+		} else{
+			$data_banner = $this->team_banner_upload->data();
+		}
+
+		$data_update = array(
+				'team_banner'		=> $data_banner["raw_name"].$data_banner["file_ext"]
+			);
+		$edit_data_team = $this->team_model->edit_data_team($this->session->login['id'], $data_update);
+		if($edit_data_team == TRUE){
+			redirect('team/profile/'.md5($this->session->login['id']));
+		} else{
+			$message = "Gagal update cover photo. Silahkan coba kembali nanti.";
+			echo "<script>alert('".$message."');</script>";
+		}
+	}
+
+	public function update_image()
+	{
+		$config_image['upload_path']          = './uploadfiles/team-images/';
+		$config_image['allowed_types']        = 'gif|jpg|png|doc|pdf|gif';
+		$config_image['max_size']             = 2000;
+
+		$this->load->library('upload', $config_image, 'team_image_upload');
+		if ( ! $this->team_image_upload->do_upload('team_image')){
+			$message = $this->team_image_upload->display_errors();
+			echo "<script>alert('".$message."');</script>";
+		} else{
+			$data_image = $this->team_image_upload->data();
+		}
+
+		$data_update = array(
+				'team_image'		=> $data_image["raw_name"].$data_image["file_ext"]
+			);
+		$edit_data_team = $this->team_model->edit_data_team($this->session->login['id'], $data_update);
+		if($edit_data_team == TRUE){
+			redirect('team/profile/'.md5($this->session->login['id']));
+		} else{
+			$message = "Gagal update profile photo. Silahkan coba kembali nanti.";
+			echo "<script>alert('".$message."');</script>";
+		}
 	}
 }

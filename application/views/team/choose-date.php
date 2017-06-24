@@ -5,10 +5,8 @@
 				<div id="locationField">
 					<input type="text" class="form-control" placeholder="Masukkan Nama Daerah" id="search-area" onFocus="geolocate()" value="<?php echo (isset($sess_newchallenge['search_area']) ? $sess_newchallenge['search_area'] : ''); ?>" />
                 </div>
-                <!--<input class="field" id="route" disabled="true">
-                <input class="field" id="locality" disabled="true">
-            	<input class="field" id="administrative_area_level_1" disabled="true">
-            	<input class="field" id="country" disabled="true">-->
+                <input type="hidden" id="lng" readonly>
+                <input type="hidden" id="lat" readonly>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 nomargin">
 				<input id='datepicker' type='text' class="form-control" placeholder="Pilih Tanggal" value="<?php echo (isset($sess_newchallenge['search_date']) ? $sess_newchallenge['search_date'] : ''); ?>" />
@@ -68,6 +66,8 @@ $('#get-list-area').click(function(){
 		$.post(base_url + "challenge/search_lapangan",
 		{
 		  search_area: search_area,
+		  search_lng: $('#lng').val(),
+		  search_lat: $('#lat').val(),
 		  search_date: search_date,
 		  search_time: search_time,
 		  search_hour: search_hour

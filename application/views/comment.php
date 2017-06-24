@@ -11,7 +11,7 @@
 				<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/member-images/'.$member_image; ?>">
 			</div>
 			<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 nopadding">
-				<h4><?php echo $data['member_name']; ?></h4>
+				<a href="<?php echo base_url().'member/profile/'.md5($data['member_id']); ?>" class="url-color"><h4><?php echo $data['member_name']; ?></h4></a>
 				<hr/>
 				<p>
 					<?php echo $data['comment_description']; ?>
