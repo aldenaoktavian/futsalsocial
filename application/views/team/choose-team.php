@@ -28,6 +28,10 @@
 			<hr/><br/>
 			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtanggal')" id="next" <?php echo (isset($rival_team) ? '' : 'disabled'); ?>>Next</button>
 <script type="text/javascript">
+$(document).ready(function(){
+	$('#first-step').addClass('active');
+	$('#second-step').removeClass('active');
+})
 /* start pop up list team */
 $('.popup-list-team').click(function(){
 	$.post(base_url + "challenge/list_team",

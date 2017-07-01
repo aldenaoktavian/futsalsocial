@@ -12,7 +12,8 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs12">
                 <div class="all_team">
                     <?php echo $data_rangking; ?>
-                </div>          
+                </div>  
+                <a href="<?php echo base_url(); ?>social/all_rangking" style="float: right;margin-right: 18px;">Lihat Semua Rangking</a>
             </div>
         </div>
     </div>

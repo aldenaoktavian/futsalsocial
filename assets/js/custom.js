@@ -125,20 +125,27 @@ $(document).ready(function() {
 	});
 	/* end pop up add member team */
 
-	/* start pop up list team */
+	/* start save new post */
 	$('#write-member-post-btn').click(function(){
 		$.post(base_url + "social/add_new_post",
 		{
 		  new_post: $('#new_post').val()
 		},
 		function(data,status){
+			data = $.parseJSON(data);
 			if(status == 'success'){
-				$('#new_member_post').append(data);
+				var socket = io.connect( 'http://'+window.location.hostname+':'+port_socket );
+				socket.emit('new_count_all_post', { 
+						new_count_all_post: data.count_all_post,
+						user_new_post: data.user_new_post,
+						new_post_member_count: data.new_post_member_count
+				    });
+				$('#member_post').load(base_url + 'social/load_post');
 				$('#new_post').val('');
 			}
 		});
 	});
-	/* end pop up list team */
+	/* end save new post */
 
 	/* start pop up detail notif */
 	$('.popup-detail-notif').click(function(){
@@ -223,4 +230,19 @@ $(document).ready(function() {
 	  mainClass: 'my-mfp-slide-bottom'
 	});
 	/* end pop up challenge input score */
-})
+
+	/* start request process */
+	$('.request-process').click(function(){
+		var team_request_id = $(this).attr('data-request');
+		var team_request_status = $(this).attr('data-status');
+		$.post(base_url + "team/add_member_process",
+		{
+		  team_request_id: team_request_id,
+		  team_request_status: team_request_status
+		},
+		function(data,status){
+			window.location.href = base_url + data;
+		});
+	});
+	/* end request process */
+});

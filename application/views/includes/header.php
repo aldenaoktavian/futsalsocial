@@ -6,7 +6,6 @@
 	<title><?php echo $title; ?></title>
 	<!-- Start CSS Bootstrap -->
     <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	<!--link href="<?php echo base_url(); ?>assets/css/bootstrap-grid.min.css" rel="stylesheet">
 	<link href="<?php echo base_url(); ?>assets/css/bootstrap-reboot.min.css" rel="stylesheet"-->
 	<!-- End CSS Bootstrap -->
@@ -19,8 +18,16 @@
 
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.9.1.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jquery-ui.js"></script>
+
+    <link id="bsdp-css" href="<?php echo base_url(); ?>assets/plugin/datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
+    <script src="<?php echo base_url(); ?>node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
     <script type="text/javascript">
         base_url = '<?php echo base_url(); ?>';
+        port_socket = 3500;
     </script>
 </head>
 <body>
@@ -33,14 +40,13 @@
             <div class="drop-men">
                 <ul class=" nav_1">
                     <li class="dropdown at-drop">
-                      <a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-globe" style="vertical-align: middle;"></i> <span class="number"><?php echo $count_notif_updates; ?></span></a>
-                      <ul class="dropdown-menu menu1 " role="menu">
+                      <a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-globe" style="vertical-align: middle;"></i> <span class="number" id="count_unread_message"><?php echo $count_notif_updates; ?></span></a>
+                      <ul class="dropdown-menu menu1 " role="menu" id="dropdown-notif">
                         <?php 
                             foreach($notif_updates as $notif){ 
-                                if($notif['notif_show'] == 1){
                         ?>
                             <li>
-                                <a href="<?php echo $notif['notif_url'].'/'.md5($notif['notif_id']) ?>">
+                                <a href="<?php echo $notif['notif_url'] ?>">
                                     <div class="user-new" style="width:100px;">
                                         <p><?php echo $notif['notif_detail']; ?>...</p>
                                         <span><?php echo $notif['notif_time']; ?></span>
@@ -51,20 +57,7 @@
                                     <div class="clearfix"> </div>
                                 </a>
                             </li>
-                        <?php } else{ ?>
-                            <li>
-                                <a href="#detail-notif" class="popup-detail-notif" data-url="<?php echo $notif['notif_url'].'/'.md5($notif['notif_id']) ?>">
-                                    <div class="user-new" style="width:100px;">
-                                        <p><?php echo $notif['notif_detail']; ?>...</p>
-                                        <span><?php echo $notif['notif_time']; ?></span>
-                                    </div>
-                                    <div class="user-new-left">
-                                        <?php echo $notif['notif_icon']; ?>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </a>
-                            </li>
-                        <?php } } ?>
+                        <?php }  ?>
                         <li><a href="<?php echo base_url().'notif/all'; ?>" class="view">Lihat Semua Notifikasi</a></li>
                       </ul>
                     </li>
@@ -74,8 +67,8 @@
                     <li class="dropdown" style="margin-right: 25px;">
                       <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">Setting<i class="caret"></i></span></a>
                       <ul class="dropdown-menu" role="menu" style="left: -6em;">
-                        <li><a href="<?php echo base_url().'member/editprofile' ?>" title="Edit Profil"><i class="fa fa-user"></i>Edit Profile</a></li>
-                        <li><a href="<?php echo base_url().'member/ubahpassword'; ?>" title="Ubah Password"><i class="fa fa-lock"></i>Ubah Password</a></li>
+                        <li><a href="<?php echo base_url().'member/editprofile/'.md5($this->session->login['id']); ?>" title="Edit Profil"><i class="fa fa-user"></i>Edit Profile</a></li>
+                        <li><a href="<?php echo base_url().'member/ubahpassword/'.md5($this->session->login['id']); ?>" title="Ubah Password"><i class="fa fa-lock"></i>Ubah Password</a></li>
                         <li><a href="<?php echo base_url().'login/logout'; ?>" title="Logout"><i class="fa fa-cog"></i>Logout</a></li>
                       </ul>
                     </li>

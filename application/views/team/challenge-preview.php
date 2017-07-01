@@ -4,6 +4,7 @@
 		$rival_team_image = ($rival_team['team_image'] ? $rival_team['team_image'] : 'no-img-profil.png');
 	}
 ?>
+<?php $sess_newchallenge = $this->session->newchallenge; ?>
 			<div style="height: 50px;"></div>
 			<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs"></div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-center">
@@ -34,5 +35,10 @@
 			<div class="clearfix"> </div>
 			<div style="height: 80px;"></div>
 			<hr/><br/>
-			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtanggal')" id="next">Back</button>
-			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/create_challenge')" id="next">Finish</button>
+			<?php if(isset($sess_newchallenge['challenge_id'])){ ?>
+				<button type="button" class="btn btn-default" onclick="window.location.href = '<?php echo base_url().'challenge/change_schedule/'.md5($sess_newchallenge['challenge_id']); ?>'" id="next">Back</button>
+				<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/update_challenge')" id="next">Update Challenge</button>
+			<?php } else{ ?>
+				<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtanggal')" id="next">Back</button>
+				<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/create_challenge')" id="next">Finish</button>
+			<?php } ?>

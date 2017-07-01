@@ -16,7 +16,12 @@ class Member extends CI_Controller {
 
 		$data['member_id'] = $member_id;
 		$data['data_member'] = $this->member_model->data_member_md5($member_id);
-		$data['member_post_list'] = $this->member_model->member_post_list($member_id);
+		$member_post_list = $this->member_model->member_post_list($member_id);
+		foreach ($member_post_list as $key => $value) {
+			$member_post_list[$key]['long_time'] = get_long_time($value['post_created']);
+			$member_post_list[$key]['post_created'] = date('d F Y H:i:s', strtotime($value['post_created']));
+		}
+		$data['member_post_list'] = $member_post_list;
 
 		$this->load->view('member/profile', $data);
 	}

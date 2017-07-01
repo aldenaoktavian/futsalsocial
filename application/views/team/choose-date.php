@@ -1,12 +1,19 @@
 <?php $sess_newchallenge = $this->session->newchallenge; ?>
+<script type="text/javascript">
+	$('#datepicker').datepicker({
+	    format: 'mm/dd/yyyy',
+	    startDate: 'd'
+	});
+</script>
 <link href="<?php echo base_url(); ?>assets/css/nouislider.min.css" rel="stylesheet">
+
 			<br/>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 nomargin">
 				<div id="locationField">
 					<input type="text" class="form-control" placeholder="Masukkan Nama Daerah" id="search-area" onFocus="geolocate()" value="<?php echo (isset($sess_newchallenge['search_area']) ? $sess_newchallenge['search_area'] : ''); ?>" />
                 </div>
-                <input type="hidden" id="lng" readonly>
-                <input type="hidden" id="lat" readonly>
+                <input type="hidden" id="lng" value="<?php echo (isset($sess_newchallenge['search_lng']) ? $sess_newchallenge['search_lng'] : ''); ?>" readonly>
+                <input type="hidden" id="lat" value="<?php echo (isset($sess_newchallenge['search_lat']) ? $sess_newchallenge['search_lat'] : ''); ?>" readonly>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 nomargin">
 				<input id='datepicker' type='text' class="form-control" placeholder="Pilih Tanggal" value="<?php echo (isset($sess_newchallenge['search_date']) ? $sess_newchallenge['search_date'] : ''); ?>" />
@@ -27,13 +34,13 @@
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<hr/>
-				<div id="list-lapangan" style="padding-top: 15px;"></div>
+				<div id="list-lapangan" style="padding-top: 15px;padding-bottom: 15px;"></div>
 			</div>
 			<div class="clearfix"> </div>
 			<hr/><br/>
 			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/pilihtim')" id="back">Back</button>
-			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/preview')" id="next">Next</button>
-<div id="list-team" class="main-content zoom-anim-dialog mfp-hide popup-content"></div>
+			<button type="button" class="btn btn-default" onclick="reload_detail_challenge('<?php echo base_url(); ?>challenge/preview')" id="next" <?php echo (isset($sess_newchallenge['id_tipe']) ? '' : 'disabled'); ?>>Next</button>
+
 <script src="<?php echo base_url(); ?>assets/js/nouislider.min.js"></script>
 <script src='<?php echo base_url(); ?>assets/js/wNumb.min.js'></script>
 <script type="text/javascript">
@@ -81,6 +88,8 @@ $('#get-list-area').click(function(){
 });
 
 $( document ).ready(function(){
+	$('#first-step').removeClass('active');
+	$('#second-step').addClass('active');
 	initialize();
     var search_area = $('#search-area').val();
 	var search_date = $('#datepicker').val();
@@ -90,6 +99,8 @@ $( document ).ready(function(){
 		$.post(base_url + "challenge/search_lapangan",
 		{
 		  search_area: search_area,
+		  search_lng: $('#lng').val(),
+		  search_lat: $('#lat').val(),
 		  search_date: search_date,
 		  search_time: search_time,
 		  search_hour: search_hour
@@ -98,7 +109,7 @@ $( document ).ready(function(){
 			$('#list-lapangan').html(data);
 		});
 	} else{
-		$('#list-lapangan').load("<?php echo base_url().'challenge/search_lapangan'; ?>");
+		$('#list-lapangan').html('Tentukan lokasi, tanggal, jam mulai dan lama pertandingan terlebih dahulu.');
 	}
 });
 </script>

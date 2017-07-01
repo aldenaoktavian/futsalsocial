@@ -25,6 +25,7 @@ span{
 		function(data,status){
 			data = $.parseJSON(data);
 			if(data.status == 1){
+				emit_new_notif($.parseJSON(data.data_notif), $.parseJSON(data.data_count_notif));
 			    $('#area-decline').html(data.message);
 			} else{
 			    $('#message').html(data.message);
@@ -32,4 +33,3 @@ span{
 		});
 	});
 </script>
-<button title="Close (Esc)" type="button" class="mfp-close">×</button>

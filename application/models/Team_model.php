@@ -106,7 +106,7 @@ class Team_model extends CI_Model {
 
 	function detail_challenge($challenge_id)
 	{
-		$query = $this->db->query("SELECT b.challenge_id as challenge_id, a.transaksi_challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, a.end_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, inviter_score, rival_score FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE md5(b.challenge_id) = '".$challenge_id."'");
+		$query = $this->db->query("SELECT b.challenge_id as challenge_id, a.id_tipe, a.transaksi_challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, a.end_time, d.nama AS nama_lapangan, daerah, kota, d.lat, d.long, status_challenge, inviter_score, rival_score FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id WHERE md5(b.challenge_id) = '".$challenge_id."'");
 		return $query->row_array();
 	}
 	
@@ -171,6 +171,12 @@ class Team_model extends CI_Model {
 	{
 		$query = $this->db->query("SELECT rangking, b.team_id AS team_id, team_name, team_image FROM view_team_rangking a INNER JOIN team b ON a.team_id = b.team_id ORDER BY rangking ASC LIMIT ".$start.",".$limit);
 		return $query->result_array();
+	}
+
+	function count_all_rangking()
+	{
+		$result = $this->db->query("SELECT count(*) AS jml FROM view_team_rangking a INNER JOIN team b ON a.team_id = b.team_id ORDER BY rangking ASC")->row_array();
+		return $result['jml'];
 	}
 
 }

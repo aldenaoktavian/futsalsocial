@@ -71,15 +71,10 @@ function reload_detail_challenge(url){
 	$('#detail-challenge').load(url);
 }
 $('#back').click(function(){
-	$('#first-step').addClass('active');
-	$('#second-step').removeClass('active');
 	$('#challenge-content').addClass('challenge-item');
 });
 $('#next').click(function(){
-	$('#first-step').removeClass('active');
 	$('#challenge-content').removeClass('challenge-item');
-	$('#second-step').addClass('active');
-	$('#back').removeClass('hidden');
 });
 </script>
 <?php include(APPPATH.'views/includes/footer.php'); ?>

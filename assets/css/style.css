@@ -2941,9 +2941,9 @@ letter-spacing : 1px;
     float: left;
 }
 
-.post-item h4 {
+/*.post-item h4 {
 	margin-bottom: 5px;
-}
+}*/
 
 hr {
 	border-width: 1px;
@@ -3424,4 +3424,23 @@ opacity: 0;
 .url-color:hover {
   text-decoration: none;
   color: #676060;
+}
+
+.long-time {
+  color: #807F7F;
+  font-size: 0.8em;
+  font-family: 'Muli-Regular';
+}
+
+.long-time:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.post-item a:hover {
+  text-decoration: underline;
+}
+
+.post-item hr {
+  margin: 5px 0px 0px 0px !important;
 }

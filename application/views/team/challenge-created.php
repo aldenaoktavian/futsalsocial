@@ -5,3 +5,10 @@
 			</div>
 			<div class="clearfix"> </div>
 			<div style="height: 80px;"></div>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					var data_notif = <?php echo $data_notif; ?>;
+					var data_count_notif = <?php echo $data_count_notif; ?>;
+					emit_new_notif(data_notif, data_count_notif);
+				});
+			</script>

@@ -35,11 +35,14 @@
 						{
 						  id_tipe: item_id,
 						  search_area: search_area,
+						  search_lng: $('#lng').val(),
+						  search_lat: $('#lat').val(),
                 		  search_date: search_date,
                 		  search_time: search_time,
                 		  search_hour: search_hour
 						},
 						function(data,status){
+							$("#next").prop('disabled', false);
 							$('.lapangan-item').removeClass('active');
 							$('#' + item_id).addClass('active');
 						});

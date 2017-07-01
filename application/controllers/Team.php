@@ -40,7 +40,12 @@ class Team extends CI_Controller {
 	{
 		$challenge_id = $this->input->post('challenge_id');
 		$data['challenge_id'] = $challenge_id;
-		$data['challenge_comment'] = $this->social_model->get_all_challenge_comment($challenge_id);
+		$challenge_comment = $this->social_model->get_all_challenge_comment($challenge_id);
+		foreach ($challenge_comment as $key => $value) {
+			$challenge_comment[$key]['long_time'] = get_long_time($value['comment_created']);
+			$challenge_comment[$key]['comment_created'] = date('d F Y H:i:s', strtotime($value['comment_created']));
+		}
+		$data['challenge_comment'] = $challenge_comment;
 		$this->load->view('team/challengecomment', $data);
 	}
 
@@ -50,47 +55,82 @@ class Team extends CI_Controller {
 		$data_input = array(
 				'challenge_id'			=> $challenge_id,
 				'member_id'				=> $this->session->login['id'],
-				'comment_description'	=> $this->input->post('new_challenge_comment')
+				'comment_description'	=> $this->input->post('new_challenge_comment'),
+				'comment_created'		=> date('Y-m-d H:i:s')
 			);
 		$insert_new_comment = $this->social_model->add_new_challenge_comment($data_input);
 		$data_html = '';
 		if($insert_new_comment != 0){
+			$member_name = db_get_one_data('member_name', 'member', array('member_id'=>$this->session->login['id']));
+
 			$inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('challenge_id'=>$challenge_id));
 			$rival_team_id = db_get_one_data('rival_team', 'team_challenge', array('challenge_id'=>$challenge_id));
 
 			$inviter_team = $this->team_model->team_members(md5($inviter_team_id));
-			$rival_team = $this->team_model->team_members(md5($inviter_team_id));
+			$rival_team = $this->team_model->team_members(md5($rival_team_id));
 
-			$team_members = array_merge($inviter_team, $rival_team);
-			foreach($team_members as $member){
-				$datanotif = array(
-					'member_id'		=> $member['member_id'],
-					'notif_type'	=> 14,
-					'notif_detail'	=> $member['member_name'].'" mengomentari challenge tim Anda.',
-					'notif_url'		=> base_url().'team/detail_comment/'.$this->input->post('challenge_id'),
-					'notif_created'	=> date('Y-m-d H:i:s'),
-					'notif_chow'	=> 1
+			$notif_receiver = array_merge($inviter_team, $rival_team);
+			$data_notif = array(
+					'notif_type'	=> 15,
+					'notif_url'		=> base_url().'team/detail_challenge/'.$this->input->post('challenge_id')
 				);
-			}
-			$addnotif = $this->notif_model->add_notif($datanotif);
+			$arr_desc = array(
+					0	=> array('name'=>'member_name', 'value'=>$member_name)
+				);
+			
+			$saveNotif = saveNotif($data_notif, $arr_desc, $notif_receiver);
 
-			$dataMember = $this->member_model->data_member($this->session->login['id']);
-			$member_image = ($dataMember['member_image'] ? $dataMember['member_image'] : 'no-img-profil.png');
-			$data_html = '<div class="post-item" style="margin-top: 15px;">
-							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopadding">
-								<img class="img-circle post-img" src="'.base_url().'uploadfiles/member-images/'.$member_image.'">
-							</div>
-							<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 nopadding">
-								<h4>'.$dataMember['member_name'].'</h4>
-								<hr/>
-								<p>
-									'.$this->input->post('new_challenge_comment').'
-								</p>
-							</div>
-							<div class="clearfix"> </div>
-						</div>';
+			if($saveNotif['message'] == 'sukses'){
+				if($saveNotif['message'] == 'sukses'){
+					$result['status'] = 1;
+					$result['data_notif'] = $_SESSION['data_socket'];
+					$result['data_count_notif'] = $_SESSION['new_notif_updates_count'];
+
+					$detail_comment = $this->social_model->detail_challenge_comment($insert_new_comment);
+					$member_image = ($detail_comment['member_image'] ? $detail_comment['member_image'] : 'no-img-profil.png');
+					$long_time = get_long_time($detail_comment['comment_created']);
+					$comment_created = date('d F Y H:i:s', strtotime($detail_comment['comment_created']));
+
+					$result['data_html'] = '<div class="post-item" style="margin-top: 15px;">
+									<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopadding">
+										<img class="img-circle post-img" src="'.base_url().'uploadfiles/member-images/'.$member_image.'">
+									</div>
+									<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+										<h4>'.$detail_comment['member_name'].'</h4>
+										<span class="long-time" title="'.$comment_created.'">'.$long_time.'</span>
+										<hr/>
+										<p>
+											'.$detail_comment['comment_description'].'
+										</p>
+									</div>
+									<div class="clearfix"> </div>
+								</div>';
+	            	unset($_SESSION['new_notif_updates_count']);
+					unset($_SESSION['data_socket']);
+	            }
+			}
 		}
-		echo $data_html;
+		echo json_encode($result);
+	}
+
+	public function detail_challenge($challenge_id, $notif_id)
+	{
+		$data['title'] = "Detail Challenge - Futsal Yuk";
+	    read_notif($notif_id);
+	    $data['challenge_id'] = $challenge_id;
+		$detail_challenge = $this->team_model->detail_challenge($challenge_id);
+		$detail_challenge['inviter_team_image'] = ($detail_challenge['inviter_team_image'] ? $detail_challenge['inviter_team_image'] : 'no-img-profil.png');
+    	$detail_challenge['rival_team_image'] = ($detail_challenge['rival_team_image'] ? $detail_challenge['rival_team_image'] : 'no-img-profil.png');
+		$data['detail_challenge'] = $detail_challenge;
+
+		$challenge_comment = $this->social_model->get_all_challenge_comment($challenge_id);
+		foreach ($challenge_comment as $key => $value) {
+			$challenge_comment[$key]['long_time'] = get_long_time($value['comment_created']);
+			$challenge_comment[$key]['comment_created'] = date('d F Y H:i:s', strtotime($value['comment_created']));
+		}
+		$data['challenge_comment'] = $challenge_comment;
+
+		$this->load->view('detail-challenge-comment', $data);
 	}
 
 	public function no_team()
@@ -273,15 +313,16 @@ class Team extends CI_Controller {
 			);
 		$add_request = $this->team_model->team_request($datarequest);
 		if($add_request != 0){
-			$datanotif = array(
-					'member_id'		=> $member_id,
+			$notif_receiver = $this->member_model->list_member($member_id);
+			$data_notif = array(
 					'notif_type'	=> 1,
-					'notif_detail'	=> '"'.$team_name.'" mengundang Anda untuk bergabung dalam tim.',
-					'notif_url'		=> base_url().'notif/team_request/'.md5($add_request),
-					'notif_created'	=> date('Y-m-d H:i:s')
+					'notif_url'		=> base_url().'notif/team_request/'.md5($add_request)
 				);
-			$add_notif = $this->notif_model->add_notif($datanotif);
-			if($add_notif != 0){
+			$arr_desc = array(
+					0	=> array('name'=>'team_name', 'value'=>$team_name)
+				);
+			$saveNotif = saveNotif($data_notif, $arr_desc, $notif_receiver);
+			if($saveNotif['message'] == 'sukses'){
 				echo 'team/profile';
 			}
 		} else{
@@ -300,27 +341,33 @@ class Team extends CI_Controller {
 		$member_team_id = db_get_one_data('member_id', 'member', array('member_id'=>$member_id, 'is_team_admin'));
 		$member_name = db_get_one_data('member_name', 'member', array('member_id'=>$member_id));
 
+		$new_team_id = ($team_request_status == 1 ? $team_id : 0);
+
 		$editrequest = array(
 				'team_request_status'	=> $team_request_status
 			);
 		$editmember = array(
-				'team_id'	=> $team_id
+				'team_id'	=> $new_team_id
 			);
 		$edit_request = $this->team_model->edit_team_request($team_request_id, $editrequest, $member_id, $editmember);
 		if($edit_request == TRUE){
 			$notif_type = ($team_request_status == 1 ? 2 : 3);
-			$notif_detail = ($team_request_status == 1 ? $member_name." telah menerima permintaan Anda untuk bergabung dalam tim." : $member_name." tidak menerima permintaan Anda untuk bergabung dalam tim.");
-			$datanotif = array(
-					'member_id'		=> $member_admin_id,
+			$notif_receiver = $this->member_model->list_member($member_admin_id);
+			$data_notif = array(
 					'notif_type'	=> $notif_type,
-					'notif_detail'	=> $notif_detail,
-					'notif_url'		=> base_url().'notif/team_request/'.$team_request_id,
-					'notif_created'	=> date('Y-m-d H:i:s')
+					'notif_url'		=> base_url().'notif/team_request/'.$team_request_id
 				);
-			$add_notif = $this->notif_model->add_notif($datanotif);
-			if($add_notif != 0){
-				$this->session->set_userdata('login', array('team_id'=>$team_id));
-				echo 'team/profile';
+			$arr_desc = array(
+					0	=> array('name'=>'member_name', 'value'=>$member_name)
+				);
+			$saveNotif = saveNotif($data_notif, $arr_desc, $notif_receiver);
+			if($saveNotif['message'] == 'sukses'){
+				if($team_request_status == 1){
+					$this->session->set_userdata('login', array_merge($this->session->login, array('team_id'=>$team_id)));
+					echo 'team/profile';
+				} else{
+					echo 'social/timeline';
+				}
 			}
 		} else{
 			echo 'social/timeline';

@@ -15,6 +15,7 @@
 				</div>
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 nopadding">
 					<a href="<?php echo base_url().'member/profile/'.$this->uri->segment(3); ?>" class="url-color"><h4><?php echo $data['member_name']; ?></h4></a>
+					<span class="long-time" title="<?php echo $data['post_created']; ?>"><?php echo $data['long_time']; ?></span>
 					<hr/>
 					<p>
 						<?php echo $data['post_description']; ?>

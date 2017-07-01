@@ -8,6 +8,7 @@ class Notif extends CI_Controller {
         $this->load->model('notif_model');
         $this->load->model('team_model');
         $this->load->model('member_model');
+		$this->load->vars(array_merge(header_member(), team_rank()));
     }
 
 	public function index()
@@ -18,6 +19,14 @@ class Notif extends CI_Controller {
 			$this->team_request($notif_id, $notif_type);
 			//redirect('notif/team_request/?notif_id='.$notif_id);
 		}
+	}
+
+	public function load_unread_notif($member_id)
+	{
+		$data['title'] = "Unread Notif";
+		$notif_list = notif_list($member_id);
+		$data['new_notif_updates'] = $notif_list['notif_updates'];
+		$this->load->view('notif/notif-unread', $data);
 	}
 
 	public function all()
@@ -52,8 +61,9 @@ class Notif extends CI_Controller {
 
 	public function team_request($team_request_id, $notif_id)
 	{
+		$data['title']	= "Undangan Tim - Futsal Yuk";
 		$notif_type = db_get_one_data('notif_type', 'notifikasi', array('md5(notif_id)'=>$notif_id));
-		$this->read_notif($notif_id);
+		read_notif($notif_id);
 		$detail_notif = $this->team_model->data_team_request($team_request_id);
 		$data_notif = $this->notif_model->data_notif($notif_id);
 		$data['detail_notif'] = array_merge($detail_notif, $data_notif);
@@ -63,7 +73,8 @@ class Notif extends CI_Controller {
 
 	public function detail_challenge($challenge_id, $notif_id)
 	{
-	    $this->read_notif($notif_id);
+		$data['title'] = "Detail Challenge - Futsal Yuk";
+	    read_notif($notif_id);
 		$detail_challenge = $this->team_model->detail_challenge($challenge_id);
 		if($detail_challenge['status_challenge'] == 0){
 		    $data['challenge_id']	= $challenge_id;
@@ -79,12 +90,12 @@ class Notif extends CI_Controller {
     		$data['lapangan_kota'] = $detail_challenge['kota'];
 		} else if($detail_challenge['status_challenge'] == 1){
 		    $data['message'] = 'Challenge ini telah disetujui oleh kedua tim.';
-		} else if($detail_challenge['status_challenge'] == 2){
+		} else if($detail_challenge['status_challenge'] == 2 || $detail_challenge['status_challenge'] == 6){
 		    $data['message'] = 'Challenge ini telah dibatalkan.';
 		} else if($detail_challenge['status_challenge'] == 3){
 		    $data['message'] = 'Challenge ini sedang dalam proses pertimbangan karena revisi telah dikirimkan. Silahkan menunggu sampai tim lawan memberikan balasan.';
 		} else if($detail_challenge['status_challenge'] == 4){
-			$data = $detail_challenge;
+			$data = array_merge($data, $detail_challenge);
 			$data['challenge_id']	= $challenge_id;
     		$data['rival_team_id']	= md5($detail_challenge['rival_team_id']);
     		$data['inviter_team_image'] = ($detail_challenge['inviter_team_image'] ? $detail_challenge['inviter_team_image'] : 'no-img-profil.png');
@@ -101,21 +112,22 @@ class Notif extends CI_Controller {
 	
 	public function detail_revisi_challenge($challenge_id, $notif_id)
 	{
-	     $this->read_notif($notif_id);
-	     redirect("challenge/revisi_challenge/".$challenge_id);
+	    read_notif($notif_id);
+	    redirect("challenge/revisi_challenge/".$challenge_id);
 	}
 
-	public function read_notif($id)
+	/*public function read_notif($id)
 	{
 		$dataedit = array(
 				'notif_status'	=> 1
 			);
 		$this->notif_model->update_data_notif($id, $dataedit);
-	}
+	}*/
 
 	public function detail_score_challenge($challenge_id, $notif_id)
 	{
-	    $this->read_notif($notif_id);
+	    read_notif($notif_id);
+	    $data['title'] = "Update Score - Futsal Yuk";
 	    $team_id = $this->session->login['team_id'];
 		$detail_challenge = $this->team_model->detail_challenge($challenge_id);
 

@@ -9,7 +9,7 @@ class Lapangan_model extends CI_Model {
 
 	function data_lap($id_tipe)
 	{
-		$query = $this->db->query("SELECT id_lapangan, id_tipe, nama_tipe, tarif, a.deskripsi AS tipe_deskripsi, a.picture AS tipe_picture, b.nama AS nama_lapangan, b.deskripsi AS lapangan_deskripsi, daerah, kota, b.picture AS lapangan_picture FROM tipe_lapangan a INNER JOIN lapangan b ON a.id_lapangan = b.id WHERE md5(id_tipe) = '".$id_tipe."'");
+		$query = $this->db->query("SELECT id_lapangan, id_tipe, nama_tipe, tarif, a.deskripsi AS tipe_deskripsi, a.picture AS tipe_picture, b.nama AS nama_lapangan, b.deskripsi AS lapangan_deskripsi, daerah, kota, b.picture AS lapangan_picture, b.lat, b.long FROM tipe_lapangan a INNER JOIN lapangan b ON a.id_lapangan = b.id WHERE md5(id_tipe) = '".$id_tipe."'");
 		return $query->row_array();
 	}
 

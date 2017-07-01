@@ -7,6 +7,13 @@ class Member_model extends CI_Model {
 		parent::__construct();
 	}
 	
+	function list_member($id)
+	{
+		$this->db->where('member_id', $id);
+		$data = $this->db->get('member')->result_array();
+		return $data;
+	}
+	
 	function data_member($id)
 	{
 		$this->db->where('member_id', $id);
@@ -41,7 +48,7 @@ class Member_model extends CI_Model {
 
 	function member_post_list($id)
 	{
-		$query = $this->db->query("SELECT post_id, member_name, member_image, post_description FROM member_post a INNER JOIN member b ON a.member_id = b.member_id WHERE md5(b.member_id) = '".$id."'");
+		$query = $this->db->query("SELECT post_id, member_name, member_image, post_description, post_created FROM member_post a INNER JOIN member b ON a.member_id = b.member_id WHERE md5(b.member_id) = '".$id."'");
 		return $query->result_array();
 	}
 	

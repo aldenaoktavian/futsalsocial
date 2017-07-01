@@ -29,6 +29,7 @@ span{
 		function(data,status){
 			data = $.parseJSON(data);
 			if(data.status == 1){
+				emit_new_notif($.parseJSON(data.data_notif), $.parseJSON(data.data_count_notif));
 			    $('#area-revisi').html(data.message);
 			} else{
 			    $('#message').html(data.message);
@@ -36,4 +37,7 @@ span{
 		});
 	});
 </script>
-<button title="Close (Esc)" type="button" class="mfp-close">×</button>
+<?php
+	unset($_SESSION['new_notif_updates_count']);
+	unset($_SESSION['data_socket']);
+?>
