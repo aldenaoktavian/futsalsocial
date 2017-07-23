@@ -1,6 +1,6 @@
 <?php include(APPPATH.'views/includes/header.php'); ?>
 <?php include(APPPATH.'views/includes/member-banner.php'); ?>
-<div class="container-fluid main-content nomargin">
+<div class="container main-content nomargin">
 	<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 		<?php include(APPPATH.'views/includes/left-menu-member.php'); ?>
 	</div>

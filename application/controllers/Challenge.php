@@ -45,15 +45,22 @@ class Challenge extends CI_Controller {
 		$this->load->view('team/choose-date', $data);
 	}
 
-	public function list_team()
+	public function list_team($page=0)
 	{
 		$data['title'] = "Futsal Yuk";
 		$team_id = md5($this->session->login['team_id']);
 
+		$offset = 5;
+		if($page != 0){
+			$limit = 0 + (($page - 1) * $offset);
+		} else{
+			$limit = 0;
+		}
+
 		if($this->input->post('search_keyword'))
 		{
 			$search_keyword = $this->input->post('search_keyword');
-			$list_other_team = $this->team_model->list_other_team($team_id, $search_keyword);
+			$list_other_team = $this->team_model->list_other_team($team_id, $limit, $offset, $search_keyword);
 			$content_list_other_team = '';
 			foreach($list_other_team as $list_team){
 				$team_image = ($list_team['team_image'] ? $list_team['team_image'] : 'no-img-profil.png');
@@ -68,9 +75,13 @@ class Challenge extends CI_Controller {
 							<div class="clearfix"> </div>
 						</div>';
 			}
-			echo $content_list_other_team;
+			$all_pages = $this->team_model->count_list_other_team($team_id, $search_keyword);
+			$pagination = get_pagination($limit, $offset, $all_pages, base_url().'challenge/list_team/', 'load_page_other_team');
+			echo $content_list_other_team.$pagination;
 		} else{
-			$data['list_other_team'] = $this->team_model->list_other_team($team_id);
+			$data['list_other_team'] = $this->team_model->list_other_team($team_id, $limit, $offset);
+			$all_pages = $this->team_model->count_list_other_team($team_id);
+			$data['pagination'] = get_pagination($limit, $offset, $all_pages, base_url().'challenge/list_team/', 'load_page_other_team');
 			$this->load->view('team/list-team', $data);
 		}
 	}
@@ -81,16 +92,15 @@ class Challenge extends CI_Controller {
 		$this->session->set_userdata('newchallenge', array('inviter_team_id'=>md5($this->session->login['team_id']), 'rival_team_id'=>$post['rival_team_id']));
 	}
 
-	public function search_lapangan()
+	public function search_lapangan($page=0)
 	{
 		$post = $this->input->post();
 
-		if(isset($post['page'])){
-			$page = $post['page'];
-			$data['i'] = 0 + (($post['page'] - 1) * 2);
+		$offset = 5;
+		if($page != 0){
+			$limit = 0 + (($page - 1) * $offset);
 		} else{
-			$page = 0;
-			$data['i'] = 0;
+			$limit = 0;
 		}
 
 		if(isset($post['search_area'])){
@@ -102,13 +112,14 @@ class Challenge extends CI_Controller {
 				$search_area_val = explode(" - ", $search_area_val);
 				$search_area_val = $search_area_val[0];
 			}
-			$data['result_search_lap'] = $this->lapangan_model->get_search_lap($search_area_val, $date, $start_hour, $end_hour, $page, $post['search_lat'], $post['search_lng']);
-			
-			$all_pages = $this->lapangan_model->count_search_lap($search_area_val, $date, $start_hour, $end_hour);
-		} else{
+			$data['result_search_lap'] = $this->lapangan_model->get_search_lap($date, $start_hour, $end_hour, $post['search_lat'], $post['search_lng'], $limit, $offset);
+			$all_pages = $this->lapangan_model->count_search_lap($date, $start_hour, $end_hour, $post['search_lat'], $post['search_lng']);
+			$data['pagination'] = get_pagination($limit, $offset, $all_pages, base_url().'challenge/search_lapangan/', 'load_page_search_lap');
+		}
+		/* else{
 			$data['result_search_lap'] = $this->lapangan_model->all_available_lap($page);
 			$all_pages = $this->lapangan_model->count_all_available_lap();
-		}
+		}*/
 
 		$pages = ($all_pages['jml'] % 2 == 0 ? $all_pages['jml'] / 2 : ($all_pages['jml'] / 2)+1 );
 		$data['pages'] = (int)$pages;
@@ -213,7 +224,17 @@ class Challenge extends CI_Controller {
 	        $update_revisi = $this->team_model->update_challenge($post['challenge_id'], $data_revisi);
 	        if($update_revisi == TRUE){
 	            team_challenge_log($post['challenge_id'], $post['pesan_revisi']);
+
+	            $rival_team_id = db_get_one_data('rival_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
 	            $inviter_team_id = db_get_one_data('inviter_team', 'team_challenge', array('md5(challenge_id)'=>$post['challenge_id']));
+
+	            /* start create chat */
+	            $this->load->model('member_model');
+
+	            $create_group_message = $this->member_model->create_group_message(array_merge($this->team_model->team_members(md5($inviter_team_id)), $this->team_model->team_members(md5($rival_team_id))));
+	            $create_chat = $this->member_model->create_chat(md5($create_group_message), $this->session->login['id'], $post['pesan_revisi']);
+	            /* end create chat */
+
 	            $rival_team_name = db_get_one_data('team_name', 'team', array('md5(team_id)'=>$post['team_id']));
 	            $notif_receiver = $this->team_model->team_members(md5($inviter_team_id));
 				$data_notif = array(

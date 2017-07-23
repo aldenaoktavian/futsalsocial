@@ -26,6 +26,7 @@ class Login extends CI_Controller {
 			);
 			
 			if ( $result != FALSE) {
+				$this->member_model->add_login_log($result);
 				$dataMemberLogin = $this->member_model->data_member($result);
 				$login_session['username'] = $dataMemberLogin['username'];
 				$login_session['id'] = $dataMemberLogin['member_id'];
@@ -46,6 +47,7 @@ class Login extends CI_Controller {
 
 	public function logout()
 	{
+		$this->member_model->update_login_log($this->session->login['id']);
 		session_destroy();
 		redirect('social');
 	}

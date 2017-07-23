@@ -43,43 +43,20 @@ socket.on( 'new_count_all_post', function( data ) {
 	var active_user_id = <?php echo $this->session->login['id']; ?>;
 
 	if(data.user_new_post != active_user_id){
+		$('#count_new_post').html('(' + user_count_post + ')');
+		$('#count_new_post').removeClass('hidden');
 		toastr.success('<a href="#" onclick="load_timeline()" style="text-decoration:underline;">' + user_count_post + ' post terbaru</a>', '', {timeOut: 500000, positionClass : 'toast-top-center'});
 	}
 });
 
-function emit_new_notif(data_notif='', data_count_notif=''){
-	var socket = io.connect( 'http://'+window.location.hostname+':'+port_socket );
+socket.on( 'reload_chat_message', function( data ) {
+	var check_url = url_parts[url_parts.length-2] + "/" + url_parts[url_parts.length-1];
+	var active_user_id = <?php echo $this->session->login['id']; ?>;
 
-	var data = <?php echo (isset($_SESSION['data_socket']) ? $_SESSION['data_socket'] : 0); ?>;
-
-	if(data_notif != ''){
-		data = data_notif;
+	if(check_url == "message/" + data.member_chat_id && active_user_id == data.partner_id){
+		$("#chat-list").load(base_url + "social/load_chat_message/" + data.member_chat_id);
 	}
-
-	if(data != 0){
-		for (var i = 0, len = data.length; i < len; i++) {
-			socket.emit('new_notif', { 
-					new_notif_updates_count: data[i]['new_notif_updates_count'],
-					new_notif_detail: data[i]['notif_detail'],
-					new_notif_url: data[i]['notif_url'],
-					new_member_id: data[i]['member_id']
-			    });
-		}
-	}
-
-	var new_notif_updates_count = <?php echo (isset($_SESSION['new_notif_updates_count']) ? $_SESSION['new_notif_updates_count'] : 0); ?>;
-
-	if(data_count_notif != ''){
-		new_notif_updates_count = data_count_notif;
-	}
-
-	if(new_notif_updates_count != 0){
-		socket.emit('new_notif_updates_count', { 
-				new_count: new_notif_updates_count.jml,
-				new_count_member_id: new_notif_updates_count.member_id
-		  });
-	}
-};
+});
 
 function load_timeline(){
 	window.location.href = base_url + 'social/timeline';

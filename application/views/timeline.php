@@ -1,6 +1,6 @@
 <?php include('includes/header.php'); ?>
 <?php include('includes/team-rank.php'); ?>
-<div class="container-fluid main-content">
+<div class="container main-content">
 	<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 		<?php include('includes/left-menu.php'); ?>
 	</div>
@@ -25,7 +25,7 @@
 					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopadding">
 						<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/member-images/'.$member_image; ?>">
 					</div>
-					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 nopadding">
+					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
 						<a href="<?php echo base_url().'member/profile/'.md5($data['member_id']); ?>" class="url-color"><h4><?php echo $data['member_name']; ?></h4></a>
 						<span class="long-time" title="<?php echo $data['post_created']; ?>"><?php echo $data['long_time']; ?></span>
 						<hr/>

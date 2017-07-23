@@ -75,15 +75,26 @@ class Team_model extends CI_Model {
 		return $this->db->update('team_request', $dataedit);
 	}
 
-	function list_other_team($team_id, $search_keyword='')
+	function list_other_team($team_id, $limit, $offset, $search_keyword='')
 	{
 		if($search_keyword != ''){
-			$data = $this->db->query("SELECT * FROM team WHERE md5(team_id) != '".$team_id."' AND ( team_name LIKE '%".$search_keyword."%' )");
+			$data = $this->db->query("SELECT * FROM team WHERE md5(team_id) != '".$team_id."' AND ( team_name LIKE '%".$search_keyword."%' ) LIMIT ".$limit.",".$offset);
 		} else{
-			$data = $this->db->get_where('team', array('md5(team_id) !='=>$team_id));
+			$data = $this->db->query("SELECT * FROM team WHERE md5(team_id) != '".$team_id."' LIMIT ".$limit.",".$offset);
 		}
 		
 		return $data->result_array();
+	}
+
+	function count_list_other_team($team_id, $search_keyword='')
+	{
+		if($search_keyword != ''){
+			$data = $this->db->query("SELECT count(*) AS jml FROM team WHERE md5(team_id) != '".$team_id."' AND ( team_name LIKE '%".$search_keyword."%' )")->row_array();
+		} else{
+			$data = $this->db->select('count(*) AS jml')->get_where('team', array('md5(team_id) !='=>$team_id))->row_array();
+		}
+		
+		return $data['jml'];
 	}
 
 	function challenge_log($data)
@@ -135,10 +146,16 @@ class Team_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	function team_challenge($team_id)
+	function team_challenge($team_id, $limit, $offset)
 	{
-		$query = $this->db->query("SELECT b.challenge_id as challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, status_challenge_name FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id INNER JOIN ref_status_challenge e ON b.status_challenge = e.status_challenge_id WHERE md5(inviter_team) = '".$team_id."' OR md5(rival_team) = '".$team_id."' ORDER BY a.start_time DESC, a.tanggal DESC");
+		$query = $this->db->query("SELECT b.challenge_id as challenge_id, b.inviter_team AS inviter_team_id, ( SELECT team_name FROM team WHERE team_id = b.inviter_team ) AS inviter_team_name, ( SELECT team_image FROM team WHERE team_id = b.inviter_team ) AS inviter_team_image, b.rival_team AS rival_team_id, ( SELECT team_name FROM team WHERE team_id = b.rival_team ) AS rival_team_name, ( SELECT team_image FROM team WHERE team_id = b.rival_team ) AS rival_team_image, a.tanggal AS challenge_date, a.start_time AS challenge_time, d.nama AS nama_lapangan, daerah, kota, status_challenge, status_challenge_name FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id INNER JOIN ref_status_challenge e ON b.status_challenge = e.status_challenge_id WHERE md5(inviter_team) = '".$team_id."' OR md5(rival_team) = '".$team_id."' ORDER BY a.tanggal DESC, a.start_time DESC LIMIT ".$limit.",".$offset);
 		return $query->result_array();
+	}
+
+	function count_all_team_challenge($team_id)
+	{
+		$result = $this->db->query("SELECT COUNT(*) AS jml FROM transaksi_challenge a INNER JOIN team_challenge b ON a.challenge_id = b.challenge_id INNER JOIN tipe_lapangan c ON a.id_tipe = c.id_tipe INNER JOIN lapangan d ON c.id_lapangan = d.id INNER JOIN ref_status_challenge e ON b.status_challenge = e.status_challenge_id WHERE md5(inviter_team) = '".$team_id."' OR md5(rival_team) = '".$team_id."' ORDER BY a.tanggal DESC, a.start_time DESC")->row_array();
+		return $result['jml'];
 	}
 
 	function statistic($team_id)

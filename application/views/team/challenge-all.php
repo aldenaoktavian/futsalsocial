@@ -1,55 +1,63 @@
 <?php include(APPPATH.'views/includes/header.php'); ?>
 <?php include(APPPATH.'views/includes/team-banner.php'); ?>
-<div class="container-fluid main-content nomargin">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+<style type="text/css">
+	.bg-post {
+		padding-top: 35px;
+	}
+	.post-item img {
+		float: none;
+	}
+</style>
+<div class="container main-content">
 	<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 		<?php include(APPPATH.'views/includes/left-menu-team.php'); ?>
 	</div>
-	<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
-		<!-- start list of challenge -->
-		<?php foreach($all_challenge as $list_challenge){ ?>
-		<div class="bg-post post-item challenge-item">
-			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/team-images/'.$list_challenge['inviter_team_image']; ?>">
-				<div class="clearfix"> </div>
-				<h5><?php echo $list_challenge['inviter_team_name']; ?></h5>
-			</div>
-			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 challenge-det">
-				<h4>VS</h4>
-				<hr/>
-				<p>
-					<?php echo 'Tanggal '.$list_challenge['challenge_date'].
-    						'<br/> Jam '.$list_challenge['challenge_time'].
-    						'<br/> di '.$list_challenge['nama_lapangan'].
-    						'<br/> '.$list_challenge['daerah'].', '.$list_challenge['kota']; 
-    				?>
-				</p>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
-				<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/team-images/'.$list_challenge['rival_team_image']; ?>">
-				<div class="clearfix"> </div>
-				<h5><?php echo $list_challenge['rival_team_name']; ?></h5>
-			</div>
-			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-			<div class="clearfix"> </div>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 challenge-comment">
-				<hr/>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 challenge-score">
-					Status : <?php echo $list_challenge['status_challenge_name']; ?>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<a href="#input-score" class="popup-input-score <?php echo (($team_id == md5($list_challenge['inviter_team_id'])) && $list_challenge['status_challenge'] == 1 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Input Score</button></a>
-
-					<a href="#input-score" class="popup-input-score <?php echo (($team_id == md5($list_challenge['rival_team_id'])) && $list_challenge['status_challenge'] == 7 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Update Score</button></a>
-
-					<a href="#input-score" class="popup-input-score <?php echo (($team_id == md5($list_challenge['inviter_team_id'])) && $list_challenge['status_challenge'] == 8 ? '' : 'hidden'); ?>" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Update Score</button></a>
-				</div>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
-		<?php } ?>
-		<!-- end list of challenge -->
+	<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12" id="all_challenge">
 	</div>
-</div>
+	<div style="text-align: center;">
+		<img id="loader" class="hidden" src="<?php echo base_url().'assets/img/loader.gif'; ?>">
+	</div>
 <div id="input-score" class="main-content zoom-anim-dialog mfp-hide popup-content"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+	last_part = url_parts[url_parts.length-1];
+
+	$.get( base_url + "team/load_mychallenge/" + last_part, function( data ) {
+		console.log(data);
+		$( "#all_challenge" ).append(data);
+	});
+
+	var total_page = <?php echo $total_page; ?>;
+	var page = 5;
+	$(window).scroll(function() {
+		if($(window).scrollTop() > $(document).height() - 750) {
+			if(page < total_page){
+				$('#loader').removeClass('hidden');
+				setTimeout(function(){
+						$.get( base_url + "team/load_mychallenge/" + last_part + "/"+page, function( data ) {
+						$( "#all_challenge" ).append(data);
+					});
+					$('#loader').addClass('hidden');
+
+						page = page+5;
+				}, 3000);
+			}
+		}
+	});
+});
+
+/*var app = angular.module('myApp', []);
+app.controller('MyCtrl', function($scope, $http) {
+    $http.get("http://localhost/futsalsocial/team/load_mychallenge/c4ca4238a0b923820dcc509a6f75849b").then(function(response) {
+        $scope.all_challenge = response.data;
+    });
+
+    $scope.tes = function(){
+    	alert('hai');
+    }
+});*/
+
+
+</script>
 <?php include(APPPATH.'views/includes/footer.php'); ?>

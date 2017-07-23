@@ -1,4 +1,12 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 for-comment">
+<style type="text/css">
+	.btn {
+		margin-right: 5px;
+	}
+	.bg-post {
+		padding: 5px;
+	}
+</style>
+<div id="list_team" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 for-comment">
 	<h3>Pilih Tim Lawan</h3>
 	<hr/>
 	<br/>
@@ -24,6 +32,7 @@
 			}
 		?>
 		<!-- end list member terdaftar -->
+		<?php echo $pagination; ?>
 	</div>
 
 	<div class="clearfix"> </div>

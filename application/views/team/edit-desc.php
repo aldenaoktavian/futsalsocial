@@ -3,8 +3,6 @@
 	<hr/>
 	<form action="<?php echo base_url(); ?>team/edit_description_save" method="POST">
 		<br/>
-		Nama Team
-		<input class="form-control" type="text" name="team_name" id="team_name" value="<?php echo $team_name; ?>" /><br/>
 		Deskripsi Team
 		<textarea class="form-control" name="team_desc" id="team_desc" style="height: 200px;resize: none;"><?php echo $team_description; ?></textarea><br/>
 		<button type="submit" class="btn btn-primary" style="float: right;">Update</button>

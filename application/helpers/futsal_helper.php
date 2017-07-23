@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function header_member()
+function header_member($member_id='')
 {
 	$CI = get_instance();
 	$CI->load->model('member_model');
@@ -11,6 +11,42 @@ function header_member()
 	$data['member_name'] = $dataMember['member_name'];
 	$data['member_image'] = ($dataMember['member_image'] ? $dataMember['member_image'] : 'no-img-profil.png');
 	$data['member_banner'] = ($dataMember['member_banner'] ? $dataMember['member_banner'] : 'no-banner.jpg');
+
+	if($member_id != ''){
+		$data['detail_member'] = $CI->member_model->data_member_md5($member_id);
+		$data['detail_member']['member_image'] = ($data['detail_member']['member_image'] ? $data['detail_member']['member_image'] : 'no-img-profil.png');
+		$data['detail_member']['member_banner'] = ($data['detail_member']['member_banner'] ? $data['detail_member']['member_banner'] : 'no-banner.jpg');
+	}
+
+	$disable_friend_request = $CI->member_model->disable_friend_request($member_id, $CI->session->login['id']);
+	$check_friend_request = $CI->member_model->check_friend_request($member_id, $CI->session->login['id']);
+	if($disable_friend_request == NULL){
+		if($check_friend_request != NULL){
+			if($check_friend_request['friend_status'] == 0){
+				if(md5($check_friend_request['member_id'] ) == $member_id){
+					$data['friend_request'] = '<a href="#friend_request" class="popup-friend-request"><button type="button" id="btn-add-friend" class="btn btn-default">Permintaan Pertemanan Sudah Dikirim</button></a>';
+				} else if(md5($check_friend_request['request_from']) == $member_id){
+					$data['friend_request'] = '<a href="#friend_request" class="popup-friend-request"><button type="button" id="btn-add-friend" class="btn btn-default">Respon Permintaan Pertemanan</button></a>';
+				}
+			} else if($check_friend_request['friend_status'] == 1){
+				$data['friend_request'] = '<a href="#friend_request" class="popup-friend-request"><button type="button" id="btn-add-friend" class="btn btn-default">Berteman</button></a>';
+			} else if($check_friend_request['friend_status'] == 3 && md5($check_friend_request['request_from']) == $member_id && $CI->uri->segment(4) != NULL){
+				$member_request_name = db_get_one_data('member_name', 'member', array('member_id'=>$check_friend_request['request_from']));
+				$data['friend_request'] = '<script>alert("'.$member_request_name.' membatalkan permintaan pertemanan.");</script><button type="button" id="btn-add-friend" class="btn btn-default" onclick="add_friend('.$member_id.')">Tambahkan Sebagai Teman</button>';
+			} else{
+				$data['friend_request'] = '<button type="button" id="btn-add-friend" class="btn btn-default" onclick="add_friend('.$member_id.')">Tambahkan Sebagai Teman</button>';
+			}
+			if($CI->uri->segment(4) != NULL){
+				read_notif($CI->uri->segment(4));
+			}
+			$data['friend_request_status'] = 1;
+		} else{
+			$data['friend_request_status'] = 0;
+		}
+	} else{
+		$data['friend_request_status'] = 1;
+		$data['friend_request'] = '';
+	}
 
     return array_merge($data, notif_list());
 }
@@ -244,4 +280,71 @@ function new_notif_updates_count()
 	$CI->load->model('notif_model');
 
 	$_SESSION['new_notif_updates_count'] = json_encode($CI->notif_model->notif_updates_count($CI->session->login['id']));
+}
+
+function get_pagination($page, $offset, $all_pages, $url, $action)
+{
+	$html = '';
+	$pages = ($all_pages % $offset == 0 ? $all_pages / $offset : ($all_pages / $offset)+1 );
+	$pages = (int)$pages;
+	$curr_page = 0 + ($page / $offset);
+
+	if($pages > 1){
+		if($pages > 5){
+			if($curr_page > 3){
+				$start_page = $curr_page;
+				$max_pages = $curr_page + 4;
+				if($max_pages >= $pages){
+					$start_page = $pages - 4;
+					$max_pages = $pages;
+				}
+			} else{
+				$start_page = 1;
+				$max_pages = 5;
+			}
+		} else{
+			$start_page = 1;
+			$max_pages = $pages;
+		}
+
+		$html .= '<div id="pagination" data-url="'.$url.'" style="margin-bottom: 20px; margin-top: 20px;">
+	                <button type="button" onclick="'.$action.'('.$start_page.')" class="btn btn-default" '.($start_page == 1 ? 'disabled' : '').'><<</button>';
+	        for($numb=$start_page; $numb<=$max_pages; $numb++){ 
+	    		$html .= '<button type="button" onclick="'.$action.'('.$numb.')" class="btn btn-'.($numb-1 == (int)$curr_page ? 'reverse' : 'default').' btn-page">'.$numb.'</button>';
+	            }
+	        $html .= '<button type="button" onclick="'.$action.'('.$max_pages.')" class="btn btn-default" '.($max_pages == $pages ? 'disabled' : '').'>>></button>
+	            </div>';
+	}
+    return $html;
+}
+
+function get_last_login($member_id)
+{
+	$CI = get_instance();
+	$CI->load->model('member_model');
+
+	$get_last_login = $CI->member_model->get_last_login($member_id);
+	if($get_last_login != "online"){
+		$date_now = new DateTime();
+		$selected_date = new DateTime($get_last_login);
+		$diff_time = date_diff($selected_date, $date_now);
+		if($diff_time->y != 0){
+			$long_time = "Aktif ".$diff_time->y." tahun yang lalu";
+		} else if($diff_time->m != 0){
+			$long_time = "Aktif ".$diff_time->m." bulan yang lalu";
+		} else if($diff_time->d != 0){
+			$long_time = "Aktif ".$diff_time->d." hari yang lalu";
+		} else if($diff_time->h != 0){
+			$long_time = "Aktif ".$diff_time->h." jam yang lalu";
+		} else if($diff_time->i != 0){
+			$long_time = "Aktif ".$diff_time->i." menit yang lalu";
+		} else if($diff_time->s != 0){
+			$long_time = "Aktif ".$diff_time->s." detik yang lalu";
+		} else{
+			$long_time = '';
+		}
+		return $long_time;
+	} else{
+		return $get_last_login;
+	}
 }

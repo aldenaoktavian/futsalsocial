@@ -36,6 +36,13 @@ io.on('connection', function (socket) {
     });
   });
 
+  socket.on( 'reload_chat_message', function( data ) {
+    io.sockets.emit( 'reload_chat_message', {
+      member_chat_id: data.member_chat_id,
+      partner_id: data.partner_id
+    });
+  });
+
   socket.on('error', function (err) {
     console.log(err);
   });

@@ -214,4 +214,109 @@ class Social extends CI_Controller {
 
 		$this->load->view('all-rangking', $data);
 	}
+
+	public function messages($member_id)
+	{
+		$data['title'] = "Pesan";
+
+		if($member_id == "all"){
+			$message_list = $this->member_model->message_list($this->session->login['id']);
+			foreach ($message_list as $key => $value) {
+				if($value['chat_group_id'] != 0){
+					$message_list[$key]['member_name'] = $this->member_model->group_chat_member($value['chat_group_id']);
+				}
+			}
+			$data['message_list'] = $message_list;
+			$data['partner_detail']['member_id'] = 0;
+
+			$this->load->view('message', $data);
+		} else{
+			$check_chat_message = $this->member_model->check_chat_message(md5($this->session->login['id']), $member_id);
+			if($check_chat_message == NULL){
+				$create_message = $this->member_model->create_message($this->session->login['id'], $member_id);
+				redirect('social/message/'.md5($create_message));
+			} else{
+				redirect('social/message/'.md5($check_chat_message['member_chat_id']));
+			}
+		}
+	}
+
+	public function message($member_chat_id)
+	{
+		$chat_group_id = $member_id = db_get_one_data('chat_group_id', 'member_chat', array('md5(member_chat_id)'=>$member_chat_id));
+		if($chat_group_id != 0){
+			$data['last_login'] = "";
+			$data['partner_detail']['member_id'] = $this->member_model->group_chat_member_id($chat_group_id);
+			$data['partner_detail']['member_name'] = $this->member_model->group_chat_member($chat_group_id);
+			$data['partner_detail']['member_image'] = 'no-img-profil.png';
+		} else{
+			$member_id = db_get_one_data('member_partner_id', 'member_chat', array('md5(member_chat_id)'=>$member_chat_id));
+			if($member_id == $this->session->login['id']){
+				$member_id = db_get_one_data('member_id', 'member_chat', array('md5(member_chat_id)'=>$member_chat_id));
+			}
+			
+			$data['last_login'] = get_last_login(md5($member_id));
+			$data['partner_detail'] = $this->member_model->data_member_md5(md5($member_id));
+			$data['partner_detail']['member_image'] = ($data['partner_detail']['member_image'] ? $data['partner_detail']['member_image'] : 'no-img-profil.png');
+		}
+
+		$message_list = $this->member_model->message_list($this->session->login['id']);
+		foreach ($message_list as $key => $value) {
+			if($value['chat_group_id'] != 0){
+				$message_list[$key]['member_name'] = $this->member_model->group_chat_member($value['chat_group_id']);
+			}
+		}
+		$data['message_list'] = $message_list;
+
+		$data['title'] = "Pesan - ".$data['partner_detail']['member_name'];
+
+		$this->load->view('message', $data);
+	}
+
+	public function add_new_chat()
+	{
+		$post = $this->input->post();
+
+		$create_chat = $this->member_model->create_chat($post['member_chat_id'], $this->session->login['id'], $post['new_chat']);
+
+		if($create_chat != 0){
+			$result['status'] = 1;
+		} else{
+			$result['status'] = 0;
+		}
+
+		echo json_encode($result);
+	}
+
+	public function load_profile_partner($member_chat_id)
+	{
+		$member_id = db_get_one_data('member_partner_id', 'member_chat', array('md5(member_chat_id)'=>$member_chat_id));
+		if($member_id == $this->session->login['id']){
+			$member_id = db_get_one_data('member_id', 'member_chat', array('md5(member_chat_id)'=>$member_chat_id));
+		}
+		$last_login = get_last_login(md5($member_id));
+		$partner_detail = $this->member_model->data_member_md5(md5($member_id));
+		$partner_detail['member_image'] = ($partner_detail['member_image'] ? $partner_detail['member_image'] : 'no-img-profil.png');
+
+		$partner_detail_html = '<img class="img-circle" src="'.base_url().'uploadfiles/member-images/'.$partner_detail['member_image'].'" style="width: 100%;max-width: 50px;float: left;margin-right: 10px;">
+			<h4>'.$partner_detail['member_name'].'</h4>
+			<span style="float: left;">'.$last_login.'</span>';
+
+		echo $partner_detail_html;
+	}
+
+	public function load_chat_message($member_chat_id)
+	{
+		$chat_message = $this->member_model->chat_message($member_chat_id);
+		$chat_message_html = '';
+		foreach ($chat_message as $chat) {
+			if($chat['member_id'] == $this->session->login['id']){
+				$chat_message_html .= '<div class="send_chat"><span>'.$chat['detail_chat'].'</span></div>';
+			} else{
+				$chat_message_html .= '<div class="receive_chat"><span>'.$chat['detail_chat'].'</span></div>';
+			}
+		}
+
+		echo $chat_message_html;
+	}
 }

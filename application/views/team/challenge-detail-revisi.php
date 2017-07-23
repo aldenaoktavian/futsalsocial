@@ -1,6 +1,6 @@
 <?php include(APPPATH.'views/includes/header.php'); ?>
 <?php include(APPPATH.'views/includes/revisi-challenge.php'); ?>
-<div class="container-fluid main-content nomargin">
+<div class="container main-content nomargin">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 		<!-- start column -->
 		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>

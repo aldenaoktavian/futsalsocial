@@ -28,12 +28,14 @@
     <script type="text/javascript">
         base_url = '<?php echo base_url(); ?>';
         port_socket = 3500;
+        var url = $(location).attr('href');
+        var url_parts = url.split("/");
     </script>
 </head>
 <body>
     <nav class="navbar-default navbar-static-top" role="navigation">
         <div class="navbar-header">
-            <h1><a class="navbar-brand" href="<?php echo base_url(); ?>">Futsal Yuk</a></h1>         
+            <h1><a class="navbar-brand" href="<?php echo base_url(); ?>"><img src="<?php echo base_url().'assets/img/logo-dark.png'; ?>" width="100%"></a></h1>         
         </div>
         <div class="border-bottom">
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -59,6 +61,28 @@
                             </li>
                         <?php }  ?>
                         <li><a href="<?php echo base_url().'notif/all'; ?>" class="view">Lihat Semua Notifikasi</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown at-drop">
+                      <a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-comments" style="vertical-align: middle;"></i> <span class="number" id="count_unread_message"><?php echo $count_notif_updates; ?></span></a>
+                      <ul class="dropdown-menu menu1 " role="menu" id="dropdown-notif">
+                        <?php 
+                            foreach($notif_updates as $notif){ 
+                        ?>
+                            <li>
+                                <a href="<?php echo $notif['notif_url'] ?>">
+                                    <div class="user-new" style="width:100px;">
+                                        <p><?php echo $notif['notif_detail']; ?>...</p>
+                                        <span><?php echo $notif['notif_time']; ?></span>
+                                    </div>
+                                    <div class="user-new-left">
+                                        <?php echo $notif['notif_icon']; ?>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </a>
+                            </li>
+                        <?php }  ?>
+                        <li><a href="<?php echo base_url().'social/messages/all'; ?>" class="view">Lihat Semua Pesan</a></li>
                       </ul>
                     </li>
                     <img class="img-circle" src="<?php echo base_url(); ?>uploadfiles/member-images/<?php echo $member_image?>" style="width: 35px;">

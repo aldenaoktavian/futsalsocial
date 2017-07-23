@@ -246,3 +246,194 @@ $(document).ready(function() {
 	});
 	/* end request process */
 });
+
+function load_page_other_team(numb){
+	var url = $('#pagination').attr('data-url');
+	var search_keyword = $('#search_team').val();
+	if(search_keyword != ''){
+		$.post(url + numb,
+		{
+		  search_keyword: search_keyword
+		},
+		function(data,status){
+			$('#list-rival-team').html(data);
+		});
+	} else{
+		$('#list-team').load(url + numb);
+	}
+}
+
+function load_page_search_lap(numb){
+	var url = $('#pagination').attr('data-url');
+	var item_id = $(this).attr('data-id');
+	var search_area = $('#search-area').val();
+	var search_date = $('#datepicker').val();
+	var search_time = $('#search-time').val();
+	var search_hour = $('#slider-range-value').html();
+	$.post(url + numb ,
+	{
+	  id_tipe: item_id,
+	  search_area: search_area,
+	  search_lng: $('#lng').val(),
+	  search_lat: $('#lat').val(),
+	  search_date: search_date,
+	  search_time: search_time,
+	  search_hour: search_hour
+	},
+	function(data,status){
+		$('#list-lapangan').html(data);
+	});
+}
+
+function add_friend(member_added)
+{
+	$.post(base_url + "member/add_friend/",
+	{
+	  member_id: member_added
+	},
+	function(data,status){
+		data = $.parseJSON(data);
+		if(data.status == 1){
+			emit_new_notif($.parseJSON(data.data_notif), $.parseJSON(data.data_count_notif));
+			$('#btn-add-friend').html("Permintaan Pertemanan Sudah Dikirim");
+		}
+	});
+}
+
+function emit_new_notif(data_notif='', data_count_notif=''){
+	var socket = io.connect( 'http://'+window.location.hostname+':'+port_socket );
+
+	if(data_notif != ''){
+		for (var i = 0, len = data_notif.length; i < len; i++) {
+			socket.emit('new_notif', { 
+					new_notif_updates_count: data_notif[i]['new_notif_updates_count'],
+					new_notif_detail: data_notif[i]['notif_detail'],
+					new_notif_url: data_notif[i]['notif_url'],
+					new_member_id: data_notif[i]['member_id']
+			    });
+		}
+	}
+
+	if(data_count_notif != ''){
+		socket.emit('new_notif_updates_count', { 
+				new_count: data_count_notif.jml,
+				new_count_member_id: data_count_notif.member_id
+		  });
+	}
+};
+
+function emit_member_chat(member_chat_id, partner_id){
+	var socket = io.connect( 'http://'+window.location.hostname+':'+port_socket );
+
+	socket.emit('reload_chat_message', { 
+			member_chat_id: member_chat_id,
+			partner_id: partner_id
+	  });
+};
+
+/* start pop up friend_request */
+$('.popup-friend-request').on('click', function(event){
+	last_part = url_parts[url_parts.length-1];
+	$.post(base_url + "member/open_friend_request",
+	{
+	  member_id: last_part
+	},
+	function(data,status){
+		if(status == 'success'){
+			$("#friend_request").empty().html(data); 
+		}
+	});
+})
+$('.popup-friend-request').magnificPopup({
+  type: 'inline',
+
+  fixedContentPos: false,
+  fixedBgPos: true,
+  alignTop: true,
+
+  overflowY: 'auto',
+
+  closeBtnInside: true,
+  preloader: false,
+  
+  midClick: true,
+  removalDelay: 300,
+  mainClass: 'my-mfp-slide-bottom'
+});
+/* end pop up friend_request */
+
+function cancel_friend_request()
+{
+	last_part = url_parts[url_parts.length-1];
+	$.post(base_url + "member/cancel_friend_request",
+	{
+	  member_id: last_part
+	},
+	function(data,status){
+		data = $.parseJSON(data);
+		if(data.status == 1){
+			$("#detail").empty();
+			$("#message").empty().html(data.message); 
+			location.reload();
+		} else{
+			$("#message").empty().html(data.message); 
+		}
+	});
+}
+
+function accept_friend_request()
+{
+	last_part = url_parts[url_parts.length-1];
+	$.post(base_url + "member/accept_friend_request",
+	{
+	  member_id: last_part
+	},
+	function(data,status){
+		data = $.parseJSON(data);
+		if(data.status == 1){
+			emit_new_notif($.parseJSON(data.data_notif), $.parseJSON(data.data_count_notif));
+			$("#detail").empty();
+			$("#message").empty().html(data.message); 
+			location.reload();
+		} else{
+			$("#message").empty().html(data.message); 
+		}
+	});
+}
+
+function delete_friend_request()
+{
+	last_part = url_parts[url_parts.length-1];
+	$.post(base_url + "member/delete_friend_request",
+	{
+	  member_id: last_part
+	},
+	function(data,status){
+		data = $.parseJSON(data);
+		if(data.status == 1){
+			$("#detail").empty();
+			$("#message").empty().html(data.message); 
+			location.reload();
+		} else{
+			$("#message").empty().html(data.message); 
+		}
+	});
+}
+
+function load_history_upteam(challenge_id)
+{
+	$.post(base_url + "team/challengelist_history",
+	{
+	  challenge_id: challenge_id
+	},
+	function(data,status){
+		data = $.parseJSON(data);
+		if(data.status == 1){
+			$("#detail").empty();
+			$("#message").empty().html(data.message); 
+			location.reload();
+		} else{
+			$("#message").empty().html(data.message); 
+		}
+	});
+}

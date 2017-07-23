@@ -10,7 +10,7 @@
         margin: auto;
     }
 </style>
-<div class="container-fluid main-content">
+<div class="container main-content">
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
         <?php include(APPPATH.'views/includes/left-menu.php'); ?>
     </div>

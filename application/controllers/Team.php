@@ -36,6 +36,11 @@ class Team extends CI_Controller {
 		$this->load->view('team/challenge-list', $data);
 	}
 
+	public function challengelist_history()
+	{
+		
+	}
+
 	public function challengecomment()
 	{
 		$challenge_id = $this->input->post('challenge_id');
@@ -258,7 +263,6 @@ class Team extends CI_Controller {
 		$post = $this->input->post();
 		$team_id = $this->session->login['team_id'];
 		$dataedit = array(
-				'team_name'			=> $post['team_name'],
 				'team_description'	=> $post['team_desc']
 			);
 		$update_team = $this->team_model->edit_data_team($team_id, $dataedit);
@@ -420,22 +424,64 @@ class Team extends CI_Controller {
 	public function mychallenge($get_team_id='')
 	{
 		$data['title'] = "My Challenge - Futsal Yuk";
+		
 		$team_id = ($get_team_id != '' ? $get_team_id : ($this->session->login['team_id'] != 0 ? md5($this->session->login['team_id']) : ''));
 		$data_team = $this->team_model->data_team($team_id);
 		$data['team_id'] = $team_id;
 		$data['team_banner'] = ($data_team['team_banner'] ? $data_team['team_banner'] : 'no-banner.jpg');
 		$data['team_image'] = ($data_team['team_image'] ? $data_team['team_image'] : 'no-img-profil.png');
 		$data['team_name'] = $data_team['team_name'];
+
+		$data['total_page'] = $this->team_model->count_all_team_challenge($get_team_id);
 		
-		$all_challenge = $this->team_model->team_challenge($get_team_id);
-		foreach ($all_challenge as $key => $value) {
-			$all_challenge[$key]['inviter_team_image'] = ($value['inviter_team_image'] ? $value['inviter_team_image'] : 'no-img-profil.png');
-			$all_challenge[$key]['rival_team_image'] = ($value['rival_team_image'] ? $value['rival_team_image'] : 'no-img-profil.png');
-			$all_challenge[$key]['challenge_date'] = date('d/m/Y', strtotime($value['challenge_date']));
-			$all_challenge[$key]['challenge_time'] = date('H:i', strtotime($value['challenge_time']));
-		}
-		$data['all_challenge'] = $all_challenge;
 		$this->load->view('team/challenge-all', $data);
+	}
+
+	public function load_mychallenge($get_team_id='', $limit=0)
+	{
+		$offset = 5;
+		$all_challenge = $this->team_model->team_challenge($get_team_id, $limit, $offset);
+		$string = '';
+		foreach ($all_challenge as $data_challenge) {
+			$inviter_team_image = ($data_challenge['inviter_team_image'] ? $data_challenge['inviter_team_image'] : 'no-img-profil.png');
+			$rival_team_image = ($data_challenge['rival_team_image'] ? $data_challenge['rival_team_image'] : 'no-img-profil.png');
+			$string .= '<div class="bg-post post-item">
+							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+							<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
+								<img class="img-circle post-img" src="'.base_url().'uploadfiles/team-images/'.$inviter_team_image.'">
+								<div class="clearfix"> </div>
+								<h5>'.$data_challenge['inviter_team_name'].'</h5>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 challenge-det">
+								<h4>VS</h4>
+								<hr/>
+								<p>
+									Tanggal '.date('d/m/Y', strtotime($data_challenge['challenge_date'])).' <br/>
+									Jam '.date('H:i', strtotime($data_challenge['challenge_time'])).' <br/>
+									di '.$data_challenge['nama_lapangan'].' <br/>
+									'.$data_challenge['daerah'].', '.$data_challenge['kota'].'
+								</p>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
+								<img class="img-circle post-img" src="'.base_url().'uploadfiles/team-images/'.$rival_team_image.'">
+								<div class="clearfix"> </div>
+								<h5>'.$data_challenge['rival_team_name'].'</h5>
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+							<div class="clearfix"> </div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 challenge-comment">
+								<hr/>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 challenge-score">
+									Status : '.$data_challenge['status_challenge_name'].'
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									
+								</div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>';
+		}
+		echo $string;
 	}
 
 	public function setting($get_team_id='')

@@ -1,4 +1,12 @@
 <?php $sess_newchallenge = $this->session->newchallenge; ?>
+<style type="text/css">
+	.form-control {
+		font-size: 12px;
+	}
+	.nomargin {
+		padding: 0px 3px;
+	}
+</style>
 <script type="text/javascript">
 	$('#datepicker').datepicker({
 	    format: 'mm/dd/yyyy',
@@ -25,7 +33,7 @@
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 nomargin" style="padding-top: 7px;">
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 nomargin" style="padding-top: 7px;padding-left: 20px;">
 				<div id="slider-range" class="noUi-target noUi-ltr noUi-horizontal" style="margin-bottom: 10px;"></div>
 				<span id="slider-range-value">1</span><span> Jam</span>
 			</div>

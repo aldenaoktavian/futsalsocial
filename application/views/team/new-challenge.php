@@ -37,7 +37,7 @@ function geolocate() {
   }
 }
 </script>
-<div class="container-fluid main-content nomargin">
+<div class="container main-content">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 		<div class="challenge-step">
 			<div class="col-lg-3 col-md-3 hidden-sm hidden-xs"></div>
@@ -55,11 +55,11 @@ function geolocate() {
 		</div>
 
 		<!-- start column -->
-		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
-		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 bg-post challenge-item" id="challenge-content">
+		<div class="col-lg-2 col-md-2 hidden-sm hidden-xs"></div>
+		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 bg-post challenge-item" id="challenge-content">
 			<div id="detail-challenge"></div>
 		</div>
-		<div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
+		<div class="col-lg-2 col-md-2 hidden-sm hidden-xs"></div>
 		<!-- end column -->
 	</div>
 </div>

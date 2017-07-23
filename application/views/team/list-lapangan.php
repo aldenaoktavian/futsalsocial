@@ -14,16 +14,7 @@
 						</div>
 					</div>
 				<?php } ?>
-				<div class="<?php echo ($pages != 0 ? '' : 'hidden'); ?>" id="pagination" style="margin-bottom: 20px;">
-					<button type="button" class="btn btn-default"><<</button>
-					<?php 
-						for($numb=1; $numb<=$pages; $numb++){ 
-							$curr_page = 0 + ($currentPage / 2);
-					?>
-						<button type="button" data-page="<?php echo $numb; ?>" class="btn btn-<?php echo ($numb-1 == (int)$curr_page ? 'reverse' : 'default'); ?> btn-page"><?php echo $numb; ?></button>
-					<?php } ?>
-					<button type="button" class="btn btn-default">>></button>
-				</div>
+				<?php echo $pagination; ?>
 				<script type="text/javascript">
 					$('.choose-lap').click(function(){
 						var item_id = $(this).attr('data-id');
@@ -45,17 +36,6 @@
 							$("#next").prop('disabled', false);
 							$('.lapangan-item').removeClass('active');
 							$('#' + item_id).addClass('active');
-						});
-					});
-
-					$('.btn-page').click(function(){
-						var page = $(this).attr('data-page');
-						$.post(base_url + "challenge/search_lapangan",
-						{
-						  page: page
-						},
-						function(data,status){
-							$('#list-lapangan').html(data);
 						});
 					});
 				</script>

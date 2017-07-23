@@ -4,9 +4,8 @@ ul, ol {margin: 0;padding: 0;}
 p {margin: 0;}
 
 html, body{
-  	font-family:'Montserrat-Regular';
-    font-size: 100%;
-  	background:#F3F3F4;
+    font-size: 14px;
+  	background:#fff;
   	overflow-x: hidden;
 }
 @font-face{
@@ -212,11 +211,11 @@ h1 a.navbar-brand {
 	color: black !important;
 	font-size: 30px;
 	font-weight: 500;
-    padding: 20px 0px;
-    text-align: center;
+  /*padding: 20px 0px;*/
+  text-align: center;
 	width:248px;
-	height: 60px;
-	
+	/*height: 60px;*/
+  padding-top: 11px;
 }
 .navbar-default .navbar-brand:hover {
     color: #717171;
@@ -352,7 +351,8 @@ a.dropdown-toggle.dropdown-at {
 	margin-left: 6%;
 }
 .border-bottom {
-    background-color: #d4f4dd;
+    /*background-color: #d4f4dd;*/
+    background-color: #337ab7;
 }
 .full-left {
     float: left;
@@ -389,12 +389,12 @@ nav.navbar.navbar-static-top {
 }
 .drop-men {
     float: right;
-    margin: 12px;
+    margin: 6px;
 }
 .dropdown-at {
     padding: 0 !important;
     position: relative;
-    color: #999;
+    color: #fff;
     font-size: 0.9em;
     text-decoration: none;
 }
@@ -409,14 +409,19 @@ nav.navbar.navbar-static-top {
 }
 i.fa.fa-globe {
     font-size: 1.8em;
-    color: #999;
+    color: #fff;
+}
+i.fa.fa-comments {
+    font-size: 1.8em;
+    color: #fff;
 }
 .dropdown, .dropup {
     display: inline-block;
 	padding:0;
 }
 .at-drop {
-   padding:0 1em ;
+   /*padding:0 1em ;*/
+   padding-right: 1em;
 }
 .number{
 	position: absolute;
@@ -506,7 +511,7 @@ i.fa.fa-globe {
 }
 .dropdown-menu>li>a.view:focus, .dropdown-menu>li>a.view:hover{
 	background: none;
-	color: #d4f4dd;
+	color: #9e9e9e;
 }
  .dropdown-menu {
  border: 1px solid #b7c8e6;
@@ -2777,9 +2782,11 @@ margin-left : 10px;
 text-transform : uppercase;
 }
 .sngl_team .team_item {
-	background-color: white;
+	background-color: #f3f3f4;
 	padding: 5px;
 	margin: 10px 1px 10px 1px;
+  border-radius: 3px;
+  border: solid 1px #e0e0e0;
 }
 .sngl_team .team_item h2 {
 	margin: 2px 0px 2px 0px !important;
@@ -2898,10 +2905,12 @@ letter-spacing : 1px;
 /* end carousel team */
 
 .main-content {
-	background-color: white;
+	background-color: #f3f3f4;
 	margin-top: 20px;
 	padding: 15px;
 	min-height: 500px;
+  border: solid 1px #e0e0e0;
+  border-radius: 3px;
 }
 
 .collapse {
@@ -2917,8 +2926,10 @@ letter-spacing : 1px;
 }
 
 .bg-post {
-	background-color: #d4f4dd;
+	background-color: #fff;
 	padding: 10px;
+  border: solid 1px #e0e0e0;
+  border-radius: 3px;
 }
 
 .write-post textarea {
@@ -3139,7 +3150,6 @@ hr {
   text-align: left;
   border-color: #a29a9a;
   padding: 3px 10px 3px 10px;
-  font-size: 15px;
 }
 
 .step-item.active {
@@ -3147,7 +3157,8 @@ hr {
 }
 
 .challenge-item {
-  padding-top: 50px;
+  padding-top: 20px;
+  margin-bottom: 50px;
 }
 
 .challenge-item img{
@@ -3159,7 +3170,7 @@ hr {
 .challenge-vs {
   margin-top: 50px;
   font-weight: bold;
-  font-size: 35px;
+  font-size: 16px;
 }
 
 /*.challenge-item div {
@@ -3169,12 +3180,13 @@ hr {
 .pilih-tim {
   border-style: solid;
   border-color: #a29a9a;
-  width: 130px;
-  height: 130px;
+  width: 100%;
+  max-width: 89px;
+  max-height: 89px;
   margin: auto;
   margin-bottom: 15px !important;
   padding: 30px;
-  font-size: 45px;
+  font-size: 19px;
   font-weight: bold;
 }
 
@@ -3370,6 +3382,9 @@ opacity: 0;
   padding: 3px 10px 3px 10px;
   font-size: 15px;
   margin-bottom: 15px;
+  height: 130px;
+  display : flex;
+  align-items : center;
 }
 
 .lapangan-item h4 {
@@ -3383,10 +3398,15 @@ opacity: 0;
 .lapangan-item img {
   width: 100%;
   max-width: 110px;
+  margin-bottom: 0px;
+}
+
+.lapangan-item p {
+  font-size: 13px;
 }
 
 .lapangan-item.active{
-  background-color: #99bda3;
+  background-color: #eaeaea;
 }
 
 .lap-price {
@@ -3444,3 +3464,78 @@ opacity: 0;
 .post-item hr {
   margin: 5px 0px 0px 0px !important;
 }
+
+#side-menu .active {
+  background-color: #f3f3f4;
+}
+
+.friend-btn {
+  position: absolute;
+  margin: 35% 0% 0% 68%;
+}
+
+/* chat message */
+.messages h5 {
+    padding-left: 5px;
+    padding-top: 3px;
+    font-weight: bold;
+    margin-bottom: 0px;
+  }
+  .messages h4 {
+    padding-top: 5px;
+    font-weight: bold;
+    margin-bottom: 0px;
+  }
+  .messages p {
+    padding-left: 5px;
+    color: #696565;
+    font-size: 12px;
+  }
+  .messages span {
+    float: right;
+    color: #969393;
+    font-size: 12px;
+  }
+  .messages .member_message {
+    cursor: pointer;
+      width: 100%;
+      height: 53px;
+      padding: 5px;
+  }
+  .messages .member_message:hover {
+    background-color: #f1f1f1;
+  }
+  .send_chat {
+    width: 100%;
+    float: right;
+    padding: 5px 15px;
+    display: flow-root;
+  }
+  .send_chat span {
+    background-color: #e2e2e2;
+    padding: 6px 12px;
+    border-radius: 13px;
+    color: #616161;
+  }
+  .receive_chat {
+    width: 100%;
+    float: left;
+    padding: 5px 15px;
+    display: flex;
+  }
+  .receive_chat span {
+    background-color: #e2e2e2;
+    padding: 6px 12px;
+    border-radius: 13px;
+    color: #616161;
+  }
+  /* chat message */
+
+  .challengelist-history-table {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #c3c2c2;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    text-align: center;
+  }
