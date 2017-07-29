@@ -11,11 +11,11 @@
 					<img class="img-circle" src="<?php echo base_url().'uploadfiles/member-images/'.$member_image; ?>" style="width: 100%;max-width: 50px;">
 				</div>
 				<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 nopadding">
-					<h5><?php echo $msg['member_name']; ?></h5>
+					<h5><?php echo $msg['member_name'].$msg['unread_message']; ?></h5>
 					<p><?php echo $msg['detail_chat']; ?></p>
 				</div>
 				<div class="col-lg-2 col-md-6 col-sm-12 col-xs-12 nopadding">
-					<span>20:53</span>
+					<span><?php echo $msg['chat_time']; ?></span>
 				</div>
 			</div>
 		<?php } ?>

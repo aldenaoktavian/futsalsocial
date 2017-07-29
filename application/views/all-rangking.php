@@ -5,6 +5,7 @@
 		text-align: center;
 		padding: 0px 5px;
 		min-height: 190px;
+		margin: 0px 10px;
 	}
 	.team_item {
 		background-color: #fff;
@@ -26,38 +27,33 @@
 		<?php include(APPPATH.'views/includes/left-menu.php'); ?>
 	</div>
 	<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="padding-top: 20px;">
+		<input class="form-control" type="text" name="search" id="search" value="<?php echo $search_keyword; ?>" style="width: 40%;float: right;margin-bottom: 20px;" placeholder="Cari . . ." /><br/>
+		<div class="clearfix"></div>
 		<div id="team_rangking" style="width: 100%;">
 		<?php 
-			$rangking = $limit + 1;
 			foreach($all_rangking as $data){ 
 		?>
-			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 team_rank">   
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 team_rank nopadding">   
 		        <a href="<?php echo base_url().'team/profile/'.md5($data['team_id']); ?>" class="url-color">
 		        	<div class="team_item">                  
 			            <img class="img-circle" src="<?php echo base_url().'uploadfiles/team-images/'.$data['team_image']; ?>" alt="">
-			            <h2><?php echo $rangking; ?></h2>
+			            <h2><?php echo $data['rangking']; ?></h2>
 			            <h5><?php echo $data['team_name']; ?></h5>
 			        </div>
 		        </a>
 	        </div>
-	    <?php $rangking++; } ?>
+	    <?php } ?>
     	</div>
     	<div class="clearfix"></div>
-    	<div id="pagination" class="<?php echo ($pages == 1 ? 'hidden' : ''); ?>" style="margin-bottom: 20px; margin-top: 20px;">
-            <button type="button" class="btn btn-default"><<</button>
-            <?php 
-                for($numb=1; $numb<=$pages; $numb++){ 
-                    $curr_page = 0 + ($currentPage / $offset);
-            ?>
-                <button type="button" onclick="load_page('<?php echo base_url().'social/all_rangking/'.$numb.'/'; ?>')" class="btn btn-<?php echo ($numb-1 == (int)$curr_page ? 'reverse' : 'default'); ?> btn-page"><?php echo $numb; ?></button>
-            <?php } ?>
-            <button type="button" class="btn btn-default">>></button>
-        </div>
+    	<?php echo $pagination; ?>
 	</div>
 </div>
 <script type="text/javascript">
-	function load_page(url){
-		window.location.href = url;
-	}
+	$('#search').on('keydown', function(e){
+		if(e.which == 13){
+			var search_keyword = $(this).val();
+			load_pagination(search_keyword, base_url + 'social/all_rangking/0/');
+		}
+	});
 </script>
 <?php include(APPPATH.'views/includes/footer.php'); ?>

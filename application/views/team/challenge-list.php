@@ -15,7 +15,7 @@
 	<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
 		<!-- start list of challenge -->
 		<?php foreach($upcoming_challenge as $list_challenge){ ?>
-		<div class="bg-post post-item">
+		<div class="bg-post post-item" id="<?php echo md5($list_challenge['challenge_id']); ?>">
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 challenge-img">
 				<a href="<?php echo base_url().'team/profile/'.md5($list_challenge['inviter_team_id']); ?>">
@@ -48,15 +48,11 @@
 			</div>
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			<div class="clearfix"> </div>
-			<div id="<?php echo md5($list_challenge['challenge_id']); ?>_history" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hidden" style="margin-top: 20px;">
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 challengelist-history-table">tes</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 challengelist-history-table">tos</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 challengelist-history-table">tus</div>
-			</div>
+			<div id="<?php echo md5($list_challenge['challenge_id']); ?>_history" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;"></div>
 			<div class="clearfix"> </div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 challenge-comment">
 				<hr/>
-				<a href="#<?php echo md5($list_challenge['challenge_id']); ?>_history" onclick="load_history_upteam('<?php echo md5($list_challenge['challenge_id']); ?>')">History Pertandingan</a>
+				<a href="#<?php echo md5($list_challenge['challenge_id']); ?>_history" onclick="load_history_upteam('<?php echo md5($list_challenge['challenge_id']); ?>', '<?php echo md5($list_challenge['inviter_team_id']); ?>', '<?php echo md5($list_challenge['rival_team_id']); ?>')">History Pertandingan</a>
 				<a href="#comment-content" class="popup-with-move-anim-challenge" data-id="<?php echo md5($list_challenge['challenge_id']); ?>"><button type="button" class="btn btn-inverse">Comment</button></a>
 			</div>
 			<div class="clearfix"> </div>

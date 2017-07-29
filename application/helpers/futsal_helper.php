@@ -48,7 +48,8 @@ function header_member($member_id='')
 		$data['friend_request'] = '';
 	}
 
-    return array_merge($data, notif_list());
+	$data['unread_all_messages'] = $CI->member_model->unread_all_messages($CI->session->login['id']);
+    return array_merge($data, notif_list(), header_messages());
 }
 
 function get_long_time($selected_date)
@@ -347,4 +348,103 @@ function get_last_login($member_id)
 	} else{
 		return $get_last_login;
 	}
+}
+
+function upcoming_challenge()
+{
+	$CI = get_instance();
+	$CI->load->model('team_model');
+
+	$upcoming_challenge = $CI->team_model->upcoming_challenge();
+	foreach ($upcoming_challenge as $key => $value) {
+		$upcoming_challenge[$key]['inviter_team_image'] = ($value['inviter_team_image'] ? $value['inviter_team_image'] : 'no-img-profil.png');
+		$upcoming_challenge[$key]['rival_team_image'] = ($value['rival_team_image'] ? $value['rival_team_image'] : 'no-img-profil.png');
+		$upcoming_challenge[$key]['challenge_date'] = date('d/m/Y', strtotime($value['challenge_date']));
+		$upcoming_challenge[$key]['challenge_time'] = date('H:i', strtotime($value['challenge_time']));
+	}
+	$data['up_challenge'] = $upcoming_challenge;
+
+	return $data;
+}
+
+function header_messages()
+{
+	$CI = get_instance();
+	$CI->load->model('member_model');
+
+	$message_list = $CI->member_model->message_list($CI->session->login['id'], 0, 5);
+	$date_now = new DateTime();
+	foreach ($message_list as $key => $value) {
+		if($value['chat_group_id'] != 0){
+			$message_list[$key]['member_name'] = $CI->member_model->group_chat_member($value['chat_group_id']);
+		}
+
+		$selected_date = new DateTime($value['last_member_chat']);
+		$diff_time = date_diff($selected_date, $date_now);
+
+		if($diff_time->y > 0){
+			$message_list[$key]['chat_time'] = date("d/m/Y", strtotime($value['last_member_chat']));
+		} else if($diff_time->d > 7){
+			$message_list[$key]['chat_time'] = date("d F", strtotime($value['last_member_chat']));
+		} else if($diff_time->d != 0 && $diff_time->d <= 7){
+			$message_list[$key]['chat_time'] = date("D", strtotime($value['last_member_chat']));
+		} else if($diff_time->d == 0){
+			$message_list[$key]['chat_time'] = date("H:i", strtotime($value['last_member_chat']));
+		} else{
+			$message_list[$key]['chat_time'] = "";
+		}
+
+		$unread_message = $CI->member_model->unread_message($value['member_chat_id']);
+		$message_list[$key]['unread_message'] = ($unread_message == 0 ? "" : " (".$unread_message.")");
+	}
+	$data['header_message_list'] = $message_list;
+
+	return $data;
+}
+
+function load_messages($limit=0, $offset=0)
+{
+	$CI = get_instance();
+	$CI->load->model('member_model');
+
+	$message_list = $CI->member_model->message_list($CI->session->login['id'], $limit, $offset);
+	$date_now = new DateTime();
+	foreach ($message_list as $key => $value) {
+		if($value['chat_group_id'] != 0){
+			$message_list[$key]['member_name'] = $CI->member_model->group_chat_member($value['chat_group_id']);
+		}
+
+		$selected_date = new DateTime($value['last_member_chat']);
+		$diff_time = date_diff($selected_date, $date_now);
+
+		if($diff_time->y > 0){
+			$message_list[$key]['chat_time'] = date("d/m/Y", strtotime($value['last_member_chat']));
+		} else if($diff_time->d > 7){
+			$message_list[$key]['chat_time'] = date("d F", strtotime($value['last_member_chat']));
+		} else if($diff_time->d != 0 && $diff_time->d <= 7){
+			$message_list[$key]['chat_time'] = date("D", strtotime($value['last_member_chat']));
+		} else if($diff_time->d == 0){
+			$message_list[$key]['chat_time'] = date("H:i", strtotime($value['last_member_chat']));
+		} else{
+			$message_list[$key]['chat_time'] = "";
+		}
+
+		$unread_message = $CI->member_model->unread_message($value['member_chat_id']);
+		$message_list[$key]['unread_message'] = ($unread_message == 0 ? "" : " (".$unread_message.")");
+	}
+	$data['message_list'] = $message_list;
+
+	return $data;
+}
+
+function read_message($detail_id)
+{
+	$CI = get_instance();
+	$CI->load->model('member_model');
+
+	/*foreach ($detail_id as $id) {
+		$CI->member_model->read_message($id);
+	}*/
+
+	$CI->member_model->read_message($detail_id);
 }

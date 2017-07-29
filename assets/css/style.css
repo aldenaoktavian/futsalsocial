@@ -2794,21 +2794,21 @@ text-transform : uppercase;
 .owl-carousel .owl-item img {
 	width: 100px !important;
 }
-.all_team .owl-controls .owl-prev i {
+.owl-controls .owl-prev i {
 color : #3399ff;
 font-size : 30px;
 position : absolute;
 top : 46%;
 left : 0;
 }
-.all_team .owl-controls .owl-next i {
+.owl-controls .owl-next i {
 position : absolute;
 top : 46%;
 font-size : 30px;
 color : #3399FF;
 right : 0%;
 }
-.all_team .owl-controls .owl-dot {
+.owl-controls .owl-dot {
 background-color : #363636;
 border : none medium;
 border-radius : 5px;
@@ -2819,14 +2819,49 @@ text-indent : 0;
 width : 25px;
 margin-right : 5px;
 }
-.all_team .owl-controls .owl-dot.active {
+.owl-controls .owl-dot.active {
 background-color : #03B0F0;
 }
-.all_team .owl-controls {
+.owl-controls {
 display : inline-block;
 width : 100%;
 text-align : center;
 }
+
+.upcoming_challenge {
+  padding: 10px;
+}
+
+.upcoming_challenge img {
+  max-width: 30px;
+}
+
+.upcoming_challenge .owl-dots {
+  display: none !important;
+}
+
+.upcoming_challenge_title {
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+}
+
+.upcoming_challenge .challengelist-history-table {
+  margin-top: 10px;
+}
+
+.upcoming_challenge .owl-controls .owl-next i {
+  top: 12%;
+}
+
+.upcoming_challenge .owl-controls .owl-prev i {
+  top: 12%;
+}
+
+.upcoming_challenge .sngl_team {
+  cursor: pointer;
+}
+
 #tstm_sec {
 background-image : url("../img/testimonial_bg.jpg");
 background-position : center center;
@@ -3034,7 +3069,6 @@ hr {
   position: absolute;
   margin: 28% 0% 0% 43%;
   background-color: white;
-  padding: 5px;
   width: 10%;
   min-width: 80px;
   border-style: solid;
@@ -3044,6 +3078,7 @@ hr {
   height: 25%;
   z-index: 1;
   min-height: 90px;
+  cursor: pointer;
 }
 
 .profile-image img {
@@ -3057,6 +3092,28 @@ hr {
 
 .profile-image h6 {
   margin-top: 4px;
+}
+
+.profile-image-top {
+  padding: 5px;
+}
+
+.profile-image-bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(60, 58, 58);
+  color: white;
+  opacity: 0;
+}
+
+.profile-image-bottom .fa {
+  margin-right: 5px;
+}
+
+.profile-image-bottom form {
+  margin-bottom: 0px;
 }
 
 .profile-members hr {
@@ -3427,8 +3484,15 @@ opacity: 0;
   color: black;
 }
 
-.cover-style span {
-  vertical-align: super;
+.cover-style .profile-banner-style {
+  opacity: 0;
+  border-style: solid;
+  border-width: 2px;
+  padding: 5px;
+}
+
+.pbs #update_text {
+  opacity: 0;
 }
 
 .cover-style:hover {
@@ -3476,66 +3540,81 @@ opacity: 0;
 
 /* chat message */
 .messages h5 {
-    padding-left: 5px;
-    padding-top: 3px;
-    font-weight: bold;
-    margin-bottom: 0px;
-  }
-  .messages h4 {
-    padding-top: 5px;
-    font-weight: bold;
-    margin-bottom: 0px;
-  }
-  .messages p {
-    padding-left: 5px;
-    color: #696565;
-    font-size: 12px;
-  }
-  .messages span {
-    float: right;
-    color: #969393;
-    font-size: 12px;
-  }
-  .messages .member_message {
-    cursor: pointer;
-      width: 100%;
-      height: 53px;
-      padding: 5px;
-  }
-  .messages .member_message:hover {
-    background-color: #f1f1f1;
-  }
-  .send_chat {
+  padding-left: 5px;
+  padding-top: 3px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+.messages h4 {
+  padding-top: 5px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+.messages p {
+  padding-left: 5px;
+  color: #696565;
+  font-size: 12px;
+}
+.messages span {
+  float: right;
+  color: #969393;
+  font-size: 12px;
+}
+.messages .member_message {
+  cursor: pointer;
     width: 100%;
-    float: right;
-    padding: 5px 15px;
-    display: flow-root;
-  }
-  .send_chat span {
-    background-color: #e2e2e2;
-    padding: 6px 12px;
-    border-radius: 13px;
-    color: #616161;
-  }
-  .receive_chat {
-    width: 100%;
-    float: left;
-    padding: 5px 15px;
-    display: flex;
-  }
-  .receive_chat span {
-    background-color: #e2e2e2;
-    padding: 6px 12px;
-    border-radius: 13px;
-    color: #616161;
-  }
-  /* chat message */
+    height: 53px;
+    padding: 5px;
+}
+.messages .member_message:hover {
+  background-color: #f1f1f1;
+}
+.send_chat {
+  width: 100%;
+  float: right;
+  padding: 5px 15px;
+  display: flow-root;
+}
+.send_chat span {
+  background-color: #e2e2e2;
+  padding: 6px 12px;
+  border-radius: 13px;
+  color: #616161;
+}
+.receive_chat {
+  width: 100%;
+  float: left;
+  padding: 5px 15px;
+  display: flex;
+}
+.receive_chat span {
+  background-color: #e2e2e2;
+  padding: 6px 12px;
+  border-radius: 13px;
+  color: #616161;
+}
+/* chat message */
 
-  .challengelist-history-table {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #c3c2c2;
-    padding-top: 3px;
-    padding-bottom: 4px;
-    text-align: center;
-  }
+.challengelist-history-table {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #c3c2c2;
+  padding-top: 3px;
+  padding-bottom: 4px;
+  text-align: center;
+}
+
+.all_messages .user-new-left {
+  margin-top: 0px;
+  text-align: right;
+}
+
+.all_messages .user-new-left .fa {
+  font-size: 10px;
+}
+
+.all_messages .user-new-left span {
+  color: #B1B0B0;
+  font-size: 0.8em;
+  font-family: 'Muli-Regular';
+}

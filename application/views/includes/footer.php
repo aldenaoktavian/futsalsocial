@@ -55,6 +55,8 @@ socket.on( 'reload_chat_message', function( data ) {
 
 	if(check_url == "message/" + data.member_chat_id && active_user_id == data.partner_id){
 		$("#chat-list").load(base_url + "social/load_chat_message/" + data.member_chat_id);
+	} else if(check_url != "message/" + data.member_chat_id && active_user_id == data.partner_id){
+		toastr.info('<a href="message/' + data.member_chat_id + '" target="_blank" style="text-decoration: underline;">' + '</a>', '', {timeOut: 500000, positionClass : 'toast-bottom-right'});
 	}
 });
 

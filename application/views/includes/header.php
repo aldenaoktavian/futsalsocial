@@ -64,18 +64,19 @@
                       </ul>
                     </li>
                     <li class="dropdown at-drop">
-                      <a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-comments" style="vertical-align: middle;"></i> <span class="number" id="count_unread_message"><?php echo $count_notif_updates; ?></span></a>
-                      <ul class="dropdown-menu menu1 " role="menu" id="dropdown-notif">
+                      <a href="#" class="dropdown-toggle dropdown-at " data-toggle="dropdown"><i class="fa fa-comments" style="vertical-align: middle;"></i> <span class="number" id="unread_all_messages"><?php echo $unread_all_messages; ?></span></a>
+                      <ul class="dropdown-menu menu1 all_messages" role="menu" id="dropdown-notif">
                         <?php 
-                            foreach($notif_updates as $notif){ 
+                            foreach($header_message_list as $msg){ 
                         ?>
                             <li>
-                                <a href="<?php echo $notif['notif_url'] ?>">
+                                <a href="<?php echo base_url()."social/message/".md5($msg['member_chat_id']); ?>">
                                     <div class="user-new" style="width:100px;">
-                                        <p><?php echo $notif['notif_detail']; ?>...</p>
-                                        <span><?php echo $notif['notif_time']; ?></span>
+                                        <p><?php echo $msg['member_name'].$msg['unread_message']; ?></p>
+                                        <span><?php echo $msg['detail_chat']; ?></span>
                                     </div>
                                     <div class="user-new-left">
+                                        <span><?php echo $msg['chat_time']; ?></span><br/>
                                         <?php echo $notif['notif_icon']; ?>
                                     </div>
                                     <div class="clearfix"> </div>

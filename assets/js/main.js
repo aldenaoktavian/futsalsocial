@@ -64,6 +64,27 @@ jQuery(document).ready(function () {
 				items:10
 			}
 		}
+	});
+
+	$('.upcoming_challenge_slider').owlCarousel({
+		items:1,
+		loop:true,
+		margin:5,
+		nav:true,
+		autoplay:false,
+		smartSpeed:1000,
+		navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:1
+			}
+		}
 	})
 	
 /*----------------------------------------------------*/

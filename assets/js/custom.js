@@ -263,6 +263,21 @@ function load_page_other_team(numb){
 	}
 }
 
+function load_pagination(numb, new_url=''){
+	var url = $('#pagination').attr('data-url');
+	var search_keyword = $('#search').val();
+
+	if(new_url != ''){
+		url = new_url;
+	}
+
+	if(search_keyword != ''){
+		numb = numb + '/' + search_keyword;
+	}
+
+	window.location = url + numb;
+}
+
 function load_page_search_lap(numb){
 	var url = $('#pagination').attr('data-url');
 	var item_id = $(this).attr('data-id');
@@ -420,20 +435,57 @@ function delete_friend_request()
 	});
 }
 
-function load_history_upteam(challenge_id)
+function load_history_upteam(challenge_id, inviter_team_id, rival_team_id)
 {
-	$.post(base_url + "team/challengelist_history",
-	{
-	  challenge_id: challenge_id
-	},
-	function(data,status){
-		data = $.parseJSON(data);
-		if(data.status == 1){
-			$("#detail").empty();
-			$("#message").empty().html(data.message); 
-			location.reload();
+	if($("#" + challenge_id + "_history").is(":empty")){
+		$.post(base_url + "team/challengelist_history",
+		{
+		  inviter_team_id: inviter_team_id,
+		  rival_team_id: rival_team_id
+		},
+		function(data,status){
+			$("#" + challenge_id + "_history").empty().html(data);
+		});
+	} else{
+		if($("#" + challenge_id + "_history").hasClass("hidden")){
+			$("#" + challenge_id + "_history").removeClass("hidden");
 		} else{
-			$("#message").empty().html(data.message); 
+			$("#" + challenge_id + "_history").addClass("hidden");
 		}
-	});
+	}
 }
+
+$(".profile-image").mouseenter(function(){
+	$(".profile-image .profile-image-bottom").fadeTo( "slow", 1 );
+});
+
+$(".profile-image").mouseleave(function(){
+	$(".profile-image .profile-image-bottom").fadeTo( "slow", 0 );
+});
+
+$("#member_cover").mouseenter(function(){
+	$(".pbs").addClass("profile-banner-style");
+	$("#update_text").fadeTo( "slow", 1 );
+	$(".profile-banner-style").fadeTo( "slow", 1 );
+});
+
+$("#member_cover").mouseleave(function(){
+	$(".update_cover").fadeTo( "slow", 1 );
+	$(".profile-banner-style").fadeTo( "slow", 0 );
+});
+
+$("#team_cover").mouseenter(function(){
+	$(".pbs").addClass("profile-banner-style");
+	$("#update_text").fadeTo( "slow", 1 );
+	$(".profile-banner-style").fadeTo( "slow", 1 );
+});
+
+$("#team_cover").mouseleave(function(){
+	$(".update_cover").fadeTo( "slow", 1 );
+	$(".profile-banner-style").fadeTo( "slow", 0 );
+});
+
+$(".upcoming_challenge .sngl_team").click(function(){
+	var challenge_id = $(this).attr('data-id');
+	window.location = base_url + "team/challengelist/#" + challenge_id;
+});

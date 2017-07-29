@@ -8,7 +8,7 @@ class Notif extends CI_Controller {
         $this->load->model('notif_model');
         $this->load->model('team_model');
         $this->load->model('member_model');
-		$this->load->vars(array_merge(header_member(), team_rank()));
+		$this->load->vars(array_merge(header_member(), team_rank(), upcoming_challenge()));
     }
 
 	public function index()

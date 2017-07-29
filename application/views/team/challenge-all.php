@@ -35,7 +35,7 @@ $(document).ready(function() {
 			if(page < total_page){
 				$('#loader').removeClass('hidden');
 				setTimeout(function(){
-						$.get( base_url + "team/load_mychallenge/" + last_part + "/"+page, function( data ) {
+					$.get( base_url + "team/load_mychallenge/" + last_part + "/"+page, function( data ) {
 						$( "#all_challenge" ).append(data);
 					});
 					$('#loader').addClass('hidden');

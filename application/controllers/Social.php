@@ -9,7 +9,7 @@ class Social extends CI_Controller {
 			redirect('login'); 
 		}
 		$data_header = header_member();
-		$this->load->vars(array_merge($data_header, team_rank()));
+		$this->load->vars(array_merge($data_header, team_rank(), upcoming_challenge()));
 		$this->load->model('social_model');
 		$this->load->model('member_model');
 		$this->session->unset_userdata('team_pass');
@@ -188,7 +188,7 @@ class Social extends CI_Controller {
 		$this->load->view('detail-post', $data);
 	}
 
-	public function all_rangking($page=0)
+	public function all_rangking($page=0, $search_keyword='')
 	{
 		$data['title'] = "Semua Rangking - Futsal Yuk";
 
@@ -200,17 +200,16 @@ class Social extends CI_Controller {
 			$limit = 0;
 		}
 
-		$all_rangking = $this->team_model->all_rangking($limit, $offset);
+		$all_rangking = $this->team_model->all_rangking($limit, $offset, $search_keyword);
 		foreach ($all_rangking as $key => $value) {
 			$all_rangking[$key]['team_image'] = ($value['team_image'] ? $value['team_image'] : 'no-img-profil.png');
 		}
 		$data['all_rangking'] = $all_rangking;
 
-		$all_pages = $this->team_model->count_all_rangking();
-		$pages = ($all_pages % $offset == 0 ? $all_pages / $offset : ($all_pages / $offset)+1 );
-		$data['pages'] = (int)$pages;
-		$data['currentPage'] = $page;
+		$all_pages = $this->team_model->count_all_rangking($search_keyword);
+		$data['pagination'] = get_pagination($limit, $offset, $all_pages, base_url().'social/all_rangking/', 'load_pagination');
 		$data['limit'] = $limit;
+		$data['search_keyword'] = $search_keyword;
 
 		$this->load->view('all-rangking', $data);
 	}
@@ -220,16 +219,7 @@ class Social extends CI_Controller {
 		$data['title'] = "Pesan";
 
 		if($member_id == "all"){
-			$message_list = $this->member_model->message_list($this->session->login['id']);
-			foreach ($message_list as $key => $value) {
-				if($value['chat_group_id'] != 0){
-					$message_list[$key]['member_name'] = $this->member_model->group_chat_member($value['chat_group_id']);
-				}
-			}
-			$data['message_list'] = $message_list;
-			$data['partner_detail']['member_id'] = 0;
-
-			$this->load->view('message', $data);
+			$this->load->view('message', array_merge($data, load_messages()));
 		} else{
 			$check_chat_message = $this->member_model->check_chat_message(md5($this->session->login['id']), $member_id);
 			if($check_chat_message == NULL){
@@ -260,16 +250,9 @@ class Social extends CI_Controller {
 			$data['partner_detail']['member_image'] = ($data['partner_detail']['member_image'] ? $data['partner_detail']['member_image'] : 'no-img-profil.png');
 		}
 
-		$message_list = $this->member_model->message_list($this->session->login['id']);
-		foreach ($message_list as $key => $value) {
-			if($value['chat_group_id'] != 0){
-				$message_list[$key]['member_name'] = $this->member_model->group_chat_member($value['chat_group_id']);
-			}
-		}
-		$data['message_list'] = $message_list;
-
 		$data['title'] = "Pesan - ".$data['partner_detail']['member_name'];
-
+		$data = array_merge($data, load_messages());
+		
 		$this->load->view('message', $data);
 	}
 
@@ -314,6 +297,7 @@ class Social extends CI_Controller {
 				$chat_message_html .= '<div class="send_chat"><span>'.$chat['detail_chat'].'</span></div>';
 			} else{
 				$chat_message_html .= '<div class="receive_chat"><span>'.$chat['detail_chat'].'</span></div>';
+				read_message($chat['detail_id']);
 			}
 		}
 

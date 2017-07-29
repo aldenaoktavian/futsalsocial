@@ -10,7 +10,7 @@ class Team extends CI_Controller {
 		}
 		$data_header = header_member();
 		$header_team = header_team();
-		$this->load->vars(array_merge($data_header, $header_team, team_rank()));
+		$this->load->vars(array_merge($data_header, $header_team, team_rank(), upcoming_challenge()));
 		$this->load->model('team_model');
 		$this->load->model('member_model');
 		$this->load->model('notif_model');
@@ -38,7 +38,16 @@ class Team extends CI_Controller {
 
 	public function challengelist_history()
 	{
-		
+		$post = $this->input->post();
+
+		$upcoming_challenge_history = $this->team_model->upcoming_challenge_history($post['inviter_team_id'], $post['rival_team_id']);
+		$html = '';
+		foreach ($upcoming_challenge_history as $uch) {
+			$html .= '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 challengelist-history-table">'.$uch['inviter_score'].'</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 challengelist-history-table">'.date('d/m/Y', strtotime($uch['challenge_date'])).'</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 challengelist-history-table">'.$uch['rival_score'].'</div>';
+		}
+		echo $html;
 	}
 
 	public function challengecomment()

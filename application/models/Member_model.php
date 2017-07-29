@@ -135,28 +135,44 @@ class Member_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	function message_list($member_id)
+	function message_list($member_id, $limit=0, $offset=0)
 	{
+		$limit_query = "";
+		if($offset != 0){
+			$limit_query = " LIMIT ".$limit.", ".$offset;
+		}
 		$query = $this->db->query("
-				SELECT a.member_chat_id, 0 AS chat_group_id, member_name, member_image, detail_chat FROM member_chat a 
+				SELECT a.member_chat_id, 0 AS chat_group_id, member_name, member_image, 
+					( SELECT detail_chat FROM member_chat_detail WHERE member_chat_id = a.member_chat_id AND created_date = ( SELECT MAX(created_date) FROM member_chat_detail WHERE member_chat_id = a.member_chat_id )) AS detail_chat, 
+					( SELECT MAX(created_date) FROM member_chat_detail WHERE member_chat_id = a.member_chat_id ) AS last_member_chat 
+					FROM member_chat a 
 					INNER JOIN member_chat_detail b ON a.member_chat_id = b.member_chat_id 
 					INNER JOIN member c ON a.member_partner_id = c.member_id 
 				WHERE a.member_id = ".$member_id." AND a.status = 0 
 				GROUP BY a.member_chat_id
 				UNION
-				SELECT a.member_chat_id, 0 AS chat_group_id, member_name, member_image, detail_chat FROM member_chat a 
+				SELECT a.member_chat_id, 0 AS chat_group_id, member_name, member_image, 
+					( SELECT detail_chat FROM member_chat_detail WHERE member_chat_id = a.member_chat_id AND created_date = ( SELECT MAX(created_date) FROM member_chat_detail WHERE member_chat_id = a.member_chat_id )) AS detail_chat, 
+					( SELECT MAX(created_date) FROM member_chat_detail WHERE member_chat_id = a.member_chat_id ) AS last_member_chat FROM member_chat a 
 					INNER JOIN member_chat_detail b ON a.member_chat_id = b.member_chat_id 
 					INNER JOIN member c ON a.member_id = c.member_id 
 				WHERE a.member_partner_id = ".$member_id." AND a.status = 0 
 				GROUP BY a.member_chat_id
 				UNION 
-				SELECT a.member_chat_id, a.chat_group_id, '' AS member_name, '' AS member_image, detail_chat FROM member_chat a 
+				SELECT a.member_chat_id, a.chat_group_id, '' AS member_name, '' AS member_image, 
+					( SELECT detail_chat FROM member_chat_detail WHERE member_chat_id = a.member_chat_id AND created_date = ( SELECT MAX(created_date) FROM member_chat_detail WHERE member_chat_id = a.member_chat_id )) AS detail_chat, 
+					( SELECT MAX(created_date) FROM member_chat_detail WHERE member_chat_id = a.member_chat_id ) AS last_member_chat 
+					FROM member_chat a 
 					INNER JOIN member_chat_group b ON a.chat_group_id = b.chat_group_id 
 					INNER JOIN member_chat_group_detail c ON b.chat_group_id = c.chat_group_id 
 					INNER JOIN member_chat_detail d ON a.member_chat_id = d.member_chat_id 
 				WHERE c.member_id = ".$member_id." AND a.status = 0 
 				GROUP BY a.member_chat_id
+
+				ORDER BY last_member_chat DESC
+				".$limit_query."
 				");
+		
 		return $query->result_array();
 	}
 
@@ -244,6 +260,34 @@ class Member_model extends CI_Model {
 		$members = $this->db->query("SELECT a.member_id FROM member_chat_group_detail a INNER JOIN member b ON a.member_id = b.member_id WHERE chat_group_id = ".$chat_group_id)->result_array();
 
 		return json_encode($members);
+	}
+
+	function unread_message($member_chat_id)
+	{
+		$query = $this->db->query(" SELECT count(*) AS jml FROM member_chat_detail WHERE member_chat_id = ".$member_chat_id." AND member_id != ".$this->session->login['id']." AND detail_id NOT IN ( SELECT detail_id FROM member_chat_read )")->row_array();
+		return $query['jml'];
+	}
+
+	function unread_message_md5($member_chat_id)
+	{
+		$query = $this->db->query(" SELECT count(*) AS jml FROM member_chat_detail WHERE md5(member_chat_id) = '".$member_chat_id."' AND member_id != ".$this->session->login['id']." AND detail_id NOT IN ( SELECT detail_id FROM member_chat_read )")->row_array();
+		return $query['jml'];
+	}
+
+	function unread_all_messages($member_id)
+	{
+		$query = $this->db->query(" SELECT count(*) AS jml FROM member_chat_detail WHERE member_chat_id IN ( SELECT member_chat_id FROM member_chat WHERE member_id = ".$member_id." OR member_partner_id = ".$member_id." OR chat_group_id IN ( SELECT chat_group_id FROM member_chat_group_detail WHERE member_id = ".$member_id." ) ) AND member_id != ".$member_id." AND detail_id NOT IN ( SELECT detail_id FROM member_chat_read )")->row_array();
+		return $query['jml'];
+	}
+
+	function read_message($detail_id)
+	{
+		$data = array(
+				'detail_id'		=> $detail_id,
+				'created_date'	=> date("Y-m-d H:i:s")
+			);
+		$this->db->insert("member_chat_read", $data);
+		return $this->db->insert_id();
 	}
 
 }
