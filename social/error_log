@@ -1,0 +1,1 @@
+[10-Jun-2017 09:57:44 UTC] PHP Fatal error:  Call to a member function get() on a non-object in /home/u5436601/public_html/test/application/models/Team_model.php on line 100

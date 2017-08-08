@@ -75,12 +75,16 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
+	// 'hostname' => '31.220.56.83',
 	'hostname' => 'localhost',
+	// 'username' => 'app',
+	// 'password' => 'hanyaaku1',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'futsalsocial',
+	'database' => 'futsalyuk-20170808',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
+	'port'	   => '3306',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,

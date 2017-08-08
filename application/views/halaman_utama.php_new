@@ -1,0 +1,290 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>futsalyuk.com - cari lapangan futsal murah, nyaman dan berkualitas</title>
+    <meta charset="utf-8" />
+    <meta name="title" content="futsalyuk.com - cari lapangan futsal murah, nyaman dan berkualitas">
+    <meta name="description" content="cari lapangan futsal murah, nyaman dan berkualitas">
+    <meta name="keywords" content="lapangan futsal murah, lapangan futsal online, booking lapangan futsal online murah, pertandingan futsal">
+    <meta name="robots" content="index,follow">
+
+    <title>futsalyuk</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+
+    <link href="http://futsalyuk.com/assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="http://futsalyuk.com/assets/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <style>
+        body,html{
+            height: 100%;
+        }
+        .container-fluid{
+            width: 100%;
+            height: 100% !important;
+            background: url('<?php echo base_url(); ?>assets/img/landing/background.jpg') center no-repeat;
+            background-size: cover;
+        }
+        .wrapper{
+            width: 90%;
+            height: 80%;
+            background: rgba(0,0,0,0.6);
+            margin: 60px auto;
+            z-index: 1000;
+        }
+    
+        .black-trans{
+            background: rgba(0,0,0,0.3);
+        }
+
+        .height-100{
+            height: 100%;
+        }
+        .btn-clear{
+            color: #fff;
+            border-radius: 0px;
+        }
+
+        .btn-clear:hover{
+            color: #2ecc71;
+        }
+        .btn-active{
+            border-bottom: solid 2px #2ecc71    ;
+        }
+        .bg-default{
+            background: #f4f4f4;
+        }
+        .goal img{
+            position: absolute;
+            z-index: 100;
+            width: 300px;
+            bottom: -30px;
+            left: 30%;
+        }
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
+    <script>
+ 
+        var placeSearch, autocomplete;
+        var componentForm = {
+          street_number: 'short_name',
+          route: 'long_name',
+          locality: 'long_name',
+          administrative_area_level_1: 'short_name',
+          country: 'long_name',
+          postal_code: 'short_name'
+        };
+         
+        function initialize() {
+         
+          autocomplete = new google.maps.places.Autocomplete(
+              /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+              { types: ['geocode'] });
+         
+          google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            fillInAddress();
+          });
+        }
+         
+         
+        // function fillInAddress() {
+         
+        //   var place = autocomplete.getPlace();
+         
+        //   for (var component in componentForm) {
+        //     document.getElementById(component).value = '';
+        //     document.getElementById(component).disabled = false;
+        //   }
+         
+         
+        //   for (var i = 0; i < place.address_components.length; i++) {
+        //     var addressType = place.address_components[i].types[0];
+        //     if (componentForm[addressType]) {
+        //       var val = place.address_components[i][componentForm[addressType]];
+        //       document.getElementById(addressType).value = val;
+        //     }
+        //   }
+        // }
+         
+        function geolocate() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var geolocation = new google.maps.LatLng(
+                  position.coords.latitude, position.coords.longitude);
+              var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+              });
+              autocomplete.setBounds(circle.getBounds());
+            });
+          }
+        }
+    </script>
+
+</head>
+<body onload="initialize()">
+    <div class="container-fluid">
+        <div class="container" style="height: 100%;">
+        <div class="wrapper">
+            <div class="col col-lg-5 col-md-5 col-sm-12 col-xs-12 col-sm col-md-12-12 black-trans height-100">
+                <div class="logo col col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;color: #fff;"> 
+                    <h3>Futsalyuk.com</h3>
+                </div>
+                <div class="switch col col-lg-12 col-md-12 col-sm-12 col-xs-12 mt2">
+                    <div class="row">
+                        <div class="booking col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div id="booking" onclick="active(this.id)" class="btn btn-clear btn-block btn-active">BOOKING</div>
+                        </div>
+                        <div class="social col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div id="social" onclick="active(this.id)" class="btn btn-clear btn-block">SOCIAL</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form col col-lg-12 col-md-12 col-sm-12 col-xs-12 mt3">
+                    <div class="row">
+                        <div id="booking" class="block-form" style="color: #fff;">
+                            <form action="<?php echo base_url() ?>cari_lapangan" method="get">
+                                <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="autocomplete" class="control-label">Daerah</label>
+                                    <div>
+                                        <input class="form-control easyui-textbox" id="autocomplete" name="daerah" placeholder="Ketik Alamat yang anda cari" onFocus="geolocate()" type="text" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="autocomplete" class="control-label">Tanggal</label>
+                                    <!-- <div>
+                                        <input type="text" class="form-control" placeholder="Pilih Tanggal" />
+                                    </div> -->
+                                    <div id="data_1">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"></span><input type="text" class="form-control" name="tanggal" placeholder="pilih tanggal booking" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="autocomplete" class="control-label">Jam</label>
+                                    <div>
+                                        <select class="form-control m-b" id="jam" name="jam" required>
+                                            <option value="">Pilih Jam</option>
+                                            <option value="0800">08.00</option>
+                                            <option value="0900">09.00</option>
+                                            <option value="1000">10.00</option>
+                                            <option value="1100">11.00</option>
+                                            <option value="1200">12.00</option>
+                                            <option value="1300">13.00</option>
+                                            <option value="1400">14.00</option>
+                                            <option value="1500">15.00</option>
+                                            <option value="1600">16.00</option>
+                                            <option value="1700">17.00</option>
+                                            <option value="1800">18.00</option>
+                                            <option value="1900">19.00</option>
+                                            <option value="2000">20.00</option>
+                                            <option value="2100">21.00</option>
+                                            <option value="2200">22.00</option>
+                                            <option value="2300">23.00</option>
+                                            <option value="0000">00.00</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="autocomplete" class="control-label">Durasi</label>
+                                    <div>
+                                        <div id="basic_slider" style="margin-top: 8px;"></div>
+                                        <br>
+                                        <div style="margin-top: -16px;text-align: center;"><span id="durasi_value"></span> Jam</div>
+                                        <input type="hidden" id="nilai_durasi" name="durasi" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <button class="btn btn-success btn-block">Cari Lapangan</button>
+                                </div>
+                                
+
+                            </form>
+                        </div>
+
+                    </div>                  
+                </div>
+            </div>
+            <div class="col col-lg-7 col-md-7 col-sm-7 col-xs-7 sm-hide xs-hide md-hide height-100" style="background: url('<?php echo base_url(); ?>assets/img/landing/1.jpg') center no-repeat;background-size: cover;background-attachment: fixed;">
+                <h1 style="text-align: center;color: #fff;margin-top: 180px;background: rgba(0,0,0,0.5);">Booking Lapangan dengan Mudah di Futsalyuk Booking</h1>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="http://futsalyuk.com/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="http://futsalyuk.com/assets/js/plugins/rangeslider/rangeslider.min.js"></script>
+    <script src="http://futsalyuk.com/assets/js/plugins/nouslider/jquery.nouislider.min.js"></script>
+    <script src='http://futsalyuk.com/assets/js/wNumb.min.js'></script>
+    <script>
+
+        $('#data_1 .input-group.date').datepicker({
+            todayBtn: "linked",
+            format: 'yyyy-mm-dd',
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true
+        });
+
+        var basic_slider = document.getElementById('basic_slider');
+        var bigValueSpan = document.getElementById('durasi_value');
+
+        noUiSlider.create(basic_slider, {
+            start: 1,
+            step: 1,
+            format: wNumb({
+                decimals: 0
+            }),
+            range: {
+                'min':  [1],
+                'max':  [5]
+            }
+        });
+
+        basic_slider.noUiSlider.on('update', function ( values, handle ) {
+            bigValueSpan.innerHTML = values[handle];
+            nilai_durasi.value = values[handle];
+        });
+
+
+        function active(vars)
+        {
+            if (vars == 'booking') 
+            {
+                act = vars;
+                nact = 'social';
+            }
+            else
+            {
+                act = vars;
+                nact = 'booking';
+            }
+
+            $('#'+act).addClass('btn-active');
+            $('#'+nact).removeClass('btn-active');
+        }
+    </script>
+</body>
+</html>
