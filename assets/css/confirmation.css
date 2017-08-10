@@ -1,0 +1,25 @@
+.wrapper-container {
+	width: 100%;
+	background: #fff;
+    box-shadow: 0 0 18px -3px #888;
+}
+
+
+.type-picture {
+	width: 100%;
+	height: 400px;
+	background: #f4f4f4;
+	box-shadow: 0 0 18px -3px #888;
+}
+
+.badge-review {
+	background: #33b16f;
+	padding: 10px;
+	text-align: left;
+	color: #fff;
+}
+
+.deskripsi {
+	background: #f4f4f4;
+	padding: 10px;
+}

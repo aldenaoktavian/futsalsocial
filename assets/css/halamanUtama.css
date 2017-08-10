@@ -1,0 +1,56 @@
+.cont-booking {
+	color: #fff;
+}
+
+.cont-booking h2 {
+	color: #fff;
+}
+
+.cont-social {
+	color: #fff;
+}
+
+.cont-social h2 {
+	color: #fff;
+}
+
+.headline {
+	color: #fff;
+	font-weight: 600;
+	font-size: 15px;
+}
+
+.sub {
+	color: #fff;
+	font-weight: 300;
+	font-size: 13px;
+	max-width: 50%;
+}
+
+.benefits {
+	margin-top: 10px;
+}
+
+.active {
+	display: block;
+}
+
+.hidden {
+	display: none;
+}
+
+.hero-image-form-wrapper form {
+	min-height: 360px;
+}
+
+.social {
+	background: #c6af5c !important;
+} 
+
+.hero-image-content {
+	z-index: 1;
+}
+
+.btn-login-social {
+	background: #009f8b !important;
+}

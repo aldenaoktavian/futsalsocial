@@ -20,10 +20,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <link href="http://futsalyuk.com/assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="http://futsalyuk.com/assets/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+    <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
 
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/css/confirmation.css" rel="stylesheet" type="text/css" >
 
-    <title>Boooking Lapangan Futsal Online gGampang di futsalyuk.com</title>
+    <title>Boooking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
 </head>
 
@@ -39,7 +41,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="main-inner">
             <div class="container">
                 <div class="content">
-                  <h1>Konfirmasi Tipe Lapangan</h1>
+                    <div class="mx-auto wrapper-container overflow-hidden">
+                      <div class="col col-7">
+                        <div class="type-picture" style="background: url('<?php echo base_url() ?>assets/img/lapangan/raya_futsal.jpg') center no-repeat;background-size: cover; "></div>
+                      </div>
+                      <div class="col col-5">
+                        <div class="clearfix">
+                          <div class="col-10 mt3 right badge-review">Review Pesanan</div>  
+                          <div class="col-11 mt3 deskripsi right">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quia quam assumenda facilis ab aut, sunt fuga et cum fugit tempore nihil. Ex optio similique necessitatibus, minima harum porro reprehenderit.
+                          </div>
+                        </div>
+                      </div>
+                    </div>                
                 </div><!-- /.content -->
             </div><!-- /.container -->
         </div><!-- /.main-inner -->

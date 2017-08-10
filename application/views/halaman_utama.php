@@ -43,6 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="http://futsalyuk.com/assets/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
 
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/css/halamanUtama.css" rel="stylesheet" type="text/css" >
 
     <title>Booking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
@@ -132,25 +133,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <ul class="header-nav-primary nav nav-pills collapse navbar-collapse">
     <li class="active">
-        <a href="#">Home </a>
+        <a href="<?php echo base_url(); ?>">Beranda </a>
     </li>
 
     <li >
-        <a href="#">Bantuan </a>
+        <a href="#">Cara Booking </a>
     </li>
 
     <li >
-        <a href="#">Term & Condition </a>
-
-    </li>
-
-    <li >
-        <a href="#">Hubungi Kami </a>
+        <a href="#">YukPay </a>
 
     </li>
 
     <li >
-        <a href="#">FAQ </a>
+        <a href="#">Fair Play </a>
+
+    </li>
+
+    <li >
+        <a href="#">Mitra Lapangan </a>
     </li>
     <li class="active">
         <a href="#">Member </a>
@@ -190,13 +191,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="hero-image">
     <div class="hero-image-inner" style="background-image: url('<?php echo base_url()?>assets/img/landing/1.jpg');">
         <div class="hero-image-content">
-            <div class="container">
-                <h1>futsalyuk.com</h1>
+            <div class="container cont-booking">
+                <h2>Futsalyuk Booking</h2>
+                
+                <div class="benefits">
+                    <div class="headline">Pilihan lapangan terbanyak</div>
+                    <div class="sub">Lapangan terbaikmu ada disini</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Peringatan harga</div>
+                    <div class="sub">Informasi dan promosi sewa lapangan serta promo-promo menarik langsung anda dapatkan secara realtime</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Satu account untuk dua aplikasi</div>
+                    <div class="sub">saat anda telah login pada booking lapangan, anda dapat menggunakan untuk masuk ke Futsal Yuk Community</div>
+                </div>
+            </div><!-- /.container -->
 
-                <p>Mempermudah kamu dan tim kamu dalam bermain futsal <br>pelajari lebih lanjut disini.</p>
-
-                <a href="http://www.futsalyuk.com/social/login" class="btn btn-primary btn-lg">futsalyuk social</a>
-                <a href="listing-submit.html" class="btn btn-secondary btn-lg">futsalyuk booking</a>
+            <div class="container cont-social hidden">
+                <h2>Futsalyuk Community</h2>
+                
+                <div class="benefits">
+                    <div class="headline">Satu account untuk dua aplikasi</div>
+                    <div class="sub">saat anda telah login pada booking lapangan, anda dapat menggunakan untuk masuk ke Futsal Yuk Community
+</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Temukan lawan terbaik anda</div>
+                    <div class="sub">Futsal Yuk Community menghadirkan fitur undangan bertanding, bahkan dengan team yang belum anda kenal</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Update Score</div>
+                    <div class="sub">Akan ada fitur untuk update score setelah bertanding, untuk menjunjung sportifitas dalam olahraga</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Papan Prestasi</div>
+                    <div class="sub">Setiap goal report dari pertandingan yang diselenggarakan melalui futsalyuk akan diakumulasikan menjadi persentase yang menentukan team anda adalah team terbaik</div>
+                </div>
             </div><!-- /.container -->
         </div><!-- /.hero-image-content -->
 
@@ -204,56 +235,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4 col-sm-offset-8 col-lg-4 col-lg-offset-7">
-                		<a href="listing-submit.html" class="btn btn-primary btn-lg" style="z-index: 1;min-width: 40%;">booking</a>
-                        <a href="http://www.futsalyuk.com/social/login" class="btn btn-secondary btn-lg" target="_blank" style="z-index: 1;min-width: 40%;">social</a>
-                        <form action="<?php echo base_url() ?>cari_lapangan" method="get">
+                		<div onclick="f_open_booking()" class="btn btn-primary btn-lg" style="z-index: 1;min-width: 40%;">Booking</div>
+                        <div onclick="f_open_social()" class="btn btn-secondary btn-lg" style="z-index: 1;min-width: 40%;">Community</div>
+                        
+                        <div class="container-booking">
+                            <form class="booking" action="<?php echo base_url() ?>cari_lapangan" method="get">
 
-                            <div class="hero-image-keyword form-group">
-                                <input type="text" class="form-control" id="autocomplete" name="daerah" placeholder="Masukan nama daerah" onFocus="geolocate()">
-                            </div><!-- /.form-group -->
+                                <div class="hero-image-keyword form-group">
+                                    <input type="text" class="form-control" id="autocomplete" name="daerah" placeholder="Masukan nama daerah" onFocus="geolocate()">
+                                </div><!-- /.form-group -->
 
-                            <div class="hero-image-location form-group" id="data_1">
-                                <input type="text" class="form-control" name="tanggal" data-toggle="datepicker" placeholder="pilih tanggal booking" required>
-                            </div><!-- /.form-group -->
+                                <div class="hero-image-location form-group" id="data_1">
+                                    <input type="text" class="form-control" name="tanggal" data-toggle="datepicker" placeholder="pilih tanggal booking" required>
+                                </div><!-- /.form-group -->
 
-                            <div class="hero-image-category form-group">
-                                <select class="form-control m-b" id="jam" name="jam" required>
-                                    <option value="">Pilih Jam</option>
-                                    <option value="0800">08.00</option>
-                                    <option value="0900">09.00</option>
-                                    <option value="1000">10.00</option>
-                                    <option value="1100">11.00</option>
-                                    <option value="1200">12.00</option>
-                                    <option value="1300">13.00</option>
-                                    <option value="1400">14.00</option>
-                                    <option value="1500">15.00</option>
-                                    <option value="1600">16.00</option>
-                                    <option value="1700">17.00</option>
-                                    <option value="1800">18.00</option>
-                                    <option value="1900">19.00</option>
-                                    <option value="2000">20.00</option>
-                                    <option value="2100">21.00</option>
-                                    <option value="2200">22.00</option>
-                                    <option value="2300">23.00</option>
-                                    <option value="0000">00.00</option>
-                                </select>
-                            </div><!-- /.form-group -->
+                                <div class="hero-image-category form-group">
+                                    <select class="form-control m-b" id="jam" name="jam" required>
+                                        <option value="">Pilih Jam</option>
+                                        <option value="0800">08.00</option>
+                                        <option value="0900">09.00</option>
+                                        <option value="1000">10.00</option>
+                                        <option value="1100">11.00</option>
+                                        <option value="1200">12.00</option>
+                                        <option value="1300">13.00</option>
+                                        <option value="1400">14.00</option>
+                                        <option value="1500">15.00</option>
+                                        <option value="1600">16.00</option>
+                                        <option value="1700">17.00</option>
+                                        <option value="1800">18.00</option>
+                                        <option value="1900">19.00</option>
+                                        <option value="2000">20.00</option>
+                                        <option value="2100">21.00</option>
+                                        <option value="2200">22.00</option>
+                                        <option value="2300">23.00</option>
+                                        <option value="0000">00.00</option>
+                                    </select>
+                                </div><!-- /.form-group -->
 
-                            <div class="hero-image form-group">
-                                <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div>
-                                        <div id="basic_slider" style="margin-top: 8px;"></div>
-                                        <br>
-                                        <div style="margin-top: -16px;text-align: center;color: #fff;"><span id="durasi_value"></span> Jam</div>
-                                        <input type="hidden" id="nilai_durasi" name="durasi" required>
+                                <div class="hero-image form-group">
+                                    <div class="form-group col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div>
+                                            <div id="basic_slider" style="margin-top: 8px;"></div>
+                                            <br>
+                                            <div style="margin-top: -16px;text-align: center;color: #fff;"><span id="durasi_value"></span> Jam</div>
+                                            <input type="hidden" id="nilai_durasi" name="durasi" required>
+                                        </div>
                                     </div>
-                                </div>
-                            </div><!-- /.form-group -->
-							
-							<input type="hidden" id="lat" name="lat">
-							<input type="hidden" id="lng" name="lng">
-                            <button type="submit" class="btn btn-primary btn-block">Cari Lapangan</button>
-                        </form>
+                                </div><!-- /.form-group -->
+    							
+    							<input type="hidden" id="lat" name="lat">
+    							<input type="hidden" id="lng" name="lng">
+                                <button type="submit" class="btn btn-primary btn-block">Cari Lapangan</button>
+                            </form>
+                        </div>
+                        <div class="container-social hidden">
+                            <form class="social" action="<?php echo base_url().'social/login'; ?>" method="post">
+                                <div class="hero-image-keyword form-group">
+                                    <input type="text" class="form-control" id="user" name="user" placeholder="Masukan email anda">
+                                </div><!-- /.form-group -->
+
+                                <div class="hero-image-location form-group" id="data_1">
+                                    <input type="password" class="form-control" id="pass" name="pass"  placeholder="Masukan password anda " required>
+                                </div><!-- /.form-group -->
+                                <button type="submit" class="btn btn-primary btn-block btn-login-social">Login</button>
+                            </form>
+                        </div>
                     </div><!-- /.col-* -->
                 </div><!-- /.row -->
             </div><!-- /.container -->
@@ -672,6 +718,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             bigValueSpan.innerHTML = values[handle];
             nilai_durasi.value = values[handle];
         });
+
+        function f_open_booking () {
+            $('.container-booking').removeClass('hidden');
+            $('.container-booking').addClass('active');
+            $('.container-social').addClass('hidden');
+
+            // banner text
+            $('.cont-booking').removeClass('hidden');
+            $('.cont-booking').addClass('active');
+            $('.cont-social').addClass('hidden');
+        }
+
+        function f_open_social () {
+            $('.container-social').removeClass('hidden');
+            $('.container-social').addClass('active');
+            $('.container-booking').addClass('hidden');
+
+            // banner text
+            $('.cont-social').removeClass('hidden');
+            $('.cont-social').addClass('active');
+            $('.cont-booking').addClass('hidden');
+        }
 </script>
 </body>
 </html>
