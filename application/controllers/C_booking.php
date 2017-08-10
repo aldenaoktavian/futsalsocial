@@ -254,4 +254,8 @@ class C_booking extends CI_Controller {
 
 		
 	}
+
+	function proceed_review () {
+		$this->load->view('confirmation');
+	}
 }

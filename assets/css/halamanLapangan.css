@@ -1,0 +1,15 @@
+.detail_tipe {
+	display: none;
+}
+
+.font-center {
+	text-align: center;
+}
+
+.detail_toggle {
+	cursor: pointer;
+}
+
+.active {
+	display: block;
+}

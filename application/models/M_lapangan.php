@@ -97,4 +97,11 @@ class M_lapangan extends CI_Model {
         $queryRec = $this->db->query($sql,array($id));
         return $queryRec;
     }
+
+    public function insert_review($id_user, $id_lapangan, $food, $penjaga, $keamanan, $fasilitas, $kelebihan, $kekurangan) 
+    {
+        $sql = "insert into review_lapangan values (null,?,?,?,?,?,?,?,?)";     
+        $query = $this->db->query($sql,array($id_user, $id_lapangan, $kelebihan, $kekurangan, $food, $penjaga, $keamanan, $fasilitas)); 
+        return $query;
+    }
 }

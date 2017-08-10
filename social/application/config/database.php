@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'futsalsocial',
+	'hostname' => 'futsalyuk.com',
+	'username' => 'u0786856_admin',
+	'password' => 'hanyaaku1',
+	'database' => 'u0786856_futsalyuk',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

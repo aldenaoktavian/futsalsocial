@@ -193,4 +193,29 @@ class Lapangan extends CI_Controller {
 
 		echo json_encode($data);
 	}
+
+	public function send_review ()
+	{
+		$food = $_POST['food'];
+		$penjaga = $_POST['penjaga'];
+		$keamanan = $_POST['keamanan'];
+		$fasilitas = $_POST['fasilitas'];
+		$kelebihan = $_POST['kelebihan'];
+		$kekurangan = $_POST['kekurangan'];
+		$id_lapangan = $_POST['id_lapangan'];
+		$id_user = $this->session->userdata('id_user');
+
+
+		$this->load->model('M_lapangan');
+		$queryRecords = $this->M_lapangan->insert_review($id_user, $id_lapangan, $food, $penjaga, $keamanan, $fasilitas, $kelebihan, $kekurangan);
+
+		if ($queryRecords) {
+			echo "OK";
+		}
+		else
+		{
+			echo "FAIL";
+		}
+
+	} 
 }
