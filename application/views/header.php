@@ -9,7 +9,7 @@
             <div class="header-inner">
                 <div class="header-logo">
                     <a href="<?php echo base_url() ?>">
-                        <img src="<?php echo base_url()?>assets/img/logo-normal.png" width="210px" alt="Logo">
+                        <img src="<?php echo base_url()?>assets/img/background-putih.png" width="90px" alt="Logo">
                     </a>
                 </div><!-- /.header-logo -->
 
@@ -52,28 +52,25 @@
 
                         <ul class="header-nav-primary nav nav-pills collapse navbar-collapse">
     <li >
-        <a href="#">Home </a>
+        <a href="<?php echo base_url() ?>">Beranda </a>
     </li>
 
     <li class="">
-        <a href="#">Futsal Social </a>
+        <a href="<?php echo base_url() ?>cara_booking">Cara Booking </a>
     </li>
 
-    <li class="has-mega-menu ">
-        <a href="#">Term & Conditions </a>
-    </li>
-
-    <li >
-        <a href="#">Tentang Futsalyuk</a>
+    <li>
+        <a href="<?php echo base_url() ?>yukpay">YukPay </a>
     </li>
 
     <li >
-        <a href="#">Petunjuk Booking </a>
+        <a href="#">Fair Play</a>
     </li>
 
     <li >
-        <a href="#">Contact </a>
+        <a href="#">Mitra Lapangan </a>
     </li>
+
 </ul>
 
 <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".header-nav-primary">

@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
 
-    <title>Boooking Lapangan Futsal Online gGampang di futsalyuk.com</title>
+    <title>Booking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
     <style>
       .overlay {
@@ -139,9 +139,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <body onload="initialize()">
-
+<?php include_once("analyticstracking.php") ?>
 <div class="page-wrapper">
-    
+  
 
 <?php $this->load->view('header') ?>
 

@@ -3,13 +3,14 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url()?>assets/img/favicon/favicon.png">
 	<title><?php echo $title; ?></title>
 	<!-- Start CSS Bootstrap -->
     <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
 	<!--link href="<?php echo base_url(); ?>assets/css/bootstrap-grid.min.css" rel="stylesheet">
 	<link href="<?php echo base_url(); ?>assets/css/bootstrap-reboot.min.css" rel="stylesheet"-->
 	<!-- End CSS Bootstrap -->
-
+    
 	<link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/custom.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/font-awesome.css" rel="stylesheet">
@@ -35,7 +36,7 @@
 <body>
     <nav class="navbar-default navbar-static-top" role="navigation">
         <div class="navbar-header">
-            <h1><a class="navbar-brand" href="<?php echo base_url(); ?>"><img src="<?php echo base_url().'assets/img/logo-dark.png'; ?>" width="100%"></a></h1>         
+            <h1><a class="navbar-brand" href="<?php echo base_url(); ?>"><img src="<?php echo base_url().'assets/img/background-biru.png'; ?>" width="65px"></a></h1>         
         </div>
         <div class="border-bottom">
             <!-- Collect the nav links, forms, and other content for toggling -->

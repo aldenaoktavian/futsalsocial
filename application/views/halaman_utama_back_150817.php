@@ -222,8 +222,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="content">
                 <div class="mt-150">
     <div class="hero-image">
-    <div class="hero-image-inner" style="background-image: url('<?php echo base_url()?>assets/img/landing/hero-image.jpg');background-position: 0px -120px;">
-        
+    <div class="hero-image-inner" style="background-image: url('<?php echo base_url()?>assets/img/landing/hero-image.jpg');">
+        <div class="hero-image-content">
+            <div class="container cont-booking">
+                <h2>Futsalyuk Booking</h2>
+                
+                <div class="benefits">
+                    <div class="headline">Pilihan lapangan terbanyak</div>
+                    <div class="sub">Lapangan terbaikmu ada disini</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Peringatan harga</div>
+                    <div class="sub">Informasi dan promosi sewa lapangan serta promo-promo menarik langsung anda dapatkan secara realtime</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Satu account untuk dua aplikasi</div>
+                    <div class="sub">saat anda telah login pada booking lapangan, anda dapat menggunakan untuk masuk ke Futsal Yuk Community</div>
+                </div>
+            </div><!-- /.container -->
+
+            <div class="container cont-social hidden">
+                <h2>Futsalyuk Community</h2>
+                
+                <div class="benefits">
+                    <div class="headline">Satu account untuk dua aplikasi</div>
+                    <div class="sub">saat anda telah login pada booking lapangan, anda dapat menggunakan untuk masuk ke Futsal Yuk Community
+</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Temukan lawan terbaik anda</div>
+                    <div class="sub">Futsal Yuk Community menghadirkan fitur undangan bertanding, bahkan dengan team yang belum anda kenal</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Update Score</div>
+                    <div class="sub">Akan ada fitur untuk update score setelah bertanding, untuk menjunjung sportifitas dalam olahraga</div>
+                </div>
+                <div class="benefits">
+                    <div class="headline">Papan Prestasi</div>
+                    <div class="sub">Setiap goal report dari pertandingan yang diselenggarakan melalui futsalyuk akan diakumulasikan menjadi persentase yang menentukan team anda adalah team terbaik</div>
+                </div>
+            </div><!-- /.container -->
+        </div><!-- /.hero-image-content -->
 
         <div class="hero-image-form-wrapper">
             <div class="container">
@@ -317,10 +356,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </a> -->
             <div class="row center">
                 <div class="col col-lg-6 col-sm-12">
-                    <a href="<?php echo base_url() ?>landing/community"><div class="community-logo">Community</div></a>
+                    <a href=""><div class="community-logo">Community</div></a>
                 </div>
                 <div class="col col-lg-6 col-sm-12">
-                    <a href="<?php echo base_url() ?>landing/booking"><div class="booking-logo">Booking</div></a>
+                    <a href=""><div class="booking-logo">Booking</div></a>
                 </div>
             </div>
         </div><!-- /.partners -->

@@ -21,79 +21,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="http://futsalyuk.com/assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="http://futsalyuk.com/assets/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
 
+    <link href="<?php echo base_url(); ?>assets/css/basscss.min.css" rel="stylesheet" type="text/css">
+
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
     <title>Boooking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
-    <script>
- 
-        var placeSearch, autocomplete;
-        var componentForm = {
-          street_number: 'short_name',
-          route: 'long_name',
-          locality: 'long_name',
-          administrative_area_level_1: 'short_name',
-          country: 'long_name',
-          postal_code: 'short_name'
-        };
-         
-        function initialize() {
-         
-          autocomplete = new google.maps.places.Autocomplete(
-              /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
-              { types: ['geocode'] });
-         
-          google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            fillInAddress();
-          });
-        }
-         
 
-         
-        function fillInAddress() {
-         
-          var place = autocomplete.getPlace();
-         
-          // for (var component in componentForm) {
-          //   document.getElementById(component).value = '';
-          //   document.getElementById(component).disabled = false;
-          // }
+    <style>
+        .post-image img {
+            width: 100px;
+        }
+        .martop-10 {
+            margin-top : 10rem;
+        }
 
-          var lat = place.geometry.location.lat(),
-    			lng = place.geometry.location.lng();
-         
-         	document.getElementById('lat').value = lat;
-    		document.getElementById('lng').value = lng;
-         
-          // for (var i = 0; i < place.address_components.length; i++) {
-          //   var addressType = place.address_components[i].types[0];
-          //   if (componentForm[addressType]) {
-          //     var val = place.address_components[i][componentForm[addressType]];
-          //     document.getElementById(addressType).value = val;
-          //   }
-          // }
+        @media (max-width: 1199px) {
+            .post-image {
+                text-align:center;
+            }
         }
-         
-        function geolocate() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-              var geolocation = new google.maps.LatLng(
-                  position.coords.latitude, position.coords.longitude);
-              var circle = new google.maps.Circle({
-                center: geolocation,
-                radius: position.coords.accuracy
-              });
-              autocomplete.setBounds(circle.getBounds());
-            });
-          }
+
+        @media (max-width: 1199px) {
+            .post-content {
+                text-align:center;
+            }
         }
-    </script>
+        
+    </style>
 </head>
 
 
-<body onload="initialize()">
-
+<body>
 <?php include_once("analyticstracking.php") ?>
 
 <div class="page-wrapper">
@@ -105,32 +66,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="main-inner">
             <div class="container">
                 <div class="content">
-                    
+                
+                    <div class="col-12">
+                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto center">
+                            <h1>Cara Booking Lapangan</h1>
+                        </div>
+                        
+                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto martop-10">
+                            <div class="post animated bounceInLeft">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/cari-lapangan.png" alt="">
+                                </div><!-- /.post-image -->
 
+                                <div class="post-content">
+                                    <h2>CARI LAPANGAN</h2>
+                                    <p>Pilih dan booking lapangan terbaik anda, nama lapangan atau daerah, jadwal bertanding, durasi dan harga lapangan akan ditampilkan pada halaman hasil pencarian.</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
 
-                    <div class="row">
-    <div class="col-sm-4 col-sm-offset-4">
-        <div class="page-title">
-            <h1>Login</h1>
-        </div><!-- /.page-title -->
-        <form method="post" action="<?php echo base_url(); ?>member/do_login">
-            <div class="form-group">
-                <label for="login-form-email">E-mail</label>
-                <input type="email" class="form-control" name="email" id="login-form-email">
-            </div><!-- /.form-group -->
+                            <div class="post animated fadeInRight">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/login.png" alt="">
+                                </div><!-- /.post-image -->
 
-            <div class="form-group">
-                <label for="login-form-password">Password</label>
-                <input type="password" class="form-control" name="password" id="login-form-password">
-            </div><!-- /.form-group -->
+                                <div class="post-content">
+                                    <h2>LOGIN</h2>
+                                    <p>masuk menggunakan akun yang terdaftar, apabila belum memiliki silahkan daftarkan diri anda terlebih dahulu</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
 
-            <button type="submit" class="btn btn-primary pull-right">Login</button>
-        </form>
+                            <div class="post animated fadeInDown">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/ok.png" alt="">
+                                </div><!-- /.post-image -->
 
-            <div style="color: red;"><?php echo $this->session->flashdata('msg'); ?></div>
+                                <div class="post-content">
+                                    <h2>Click OK</h2>
+                                    <p>pastikan semua pesanan lapangan anda mulai dari tanggal, waktu, durasi dan lapangan sudah sesuai</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
 
-    </div><!-- /.col-sm-4 -->
-</div><!-- /.row -->
+                            <div class="post animated bounceInLeft">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/pay.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>YukPay</h2>
+                                    <p>anda cukup menyimpan lima puluh ribu rupiah, sebagai jaminan kepada penyewa lapangan, saat
+    anda butuhkan anda dapat menarik lima puluh ribu rupiah dimanapun dan kapanpun</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+
+                            <div class="post animated fadeInRight">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/kode.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>Kode Unik</h2>
+                                    <p>kode unik berupa kombinasi angka dan huruf kami kirimkan melalui email, tukarkan sebelum
+    anda bermain dilapangan</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+
+                            <div class="post animated fadeInDown">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/redeem.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>REDEEM</h2>
+                                    <p>saldo anda sebesar lima puluh ribu rupiah akan tertahan, saldo akan dikembalikan setelah anda
+    menukarkan kode unik dan anda dapat membooking lapangan kembali.</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+                        </div>
+                    </div>
 
                 </div><!-- /.content -->
             </div><!-- /.container -->

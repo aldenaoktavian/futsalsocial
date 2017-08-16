@@ -94,6 +94,7 @@
 
 
 <body class="">
+<?php include_once("analyticstracking.php") ?>
 
 <div class="page-wrapper">
     

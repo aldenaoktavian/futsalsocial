@@ -20,13 +20,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <link href="http://futsalyuk.com/assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="http://futsalyuk.com/assets/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
-    <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
+
+    <link href="<?php echo base_url(); ?>assets/css/basscss.min.css" rel="stylesheet" type="text/css">
 
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>assets/css/confirmation.css" rel="stylesheet" type="text/css" >
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
-    <title>Boooking Lapangan Futsal Online Gampang di futsalyuk.com</title>
+    <title>Booking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
+
+    <style>
+        .post-image img {
+            width: 100px;
+        }
+        .martop-10 {
+            margin-top : 10rem;
+        }
+
+        @media (max-width: 1199px) {
+            .post-image {
+                text-align:center;
+            }
+        }
+
+        @media (max-width: 1199px) {
+            .post-content {
+                text-align:center;
+            }
+        }
+        
+    </style>
 </head>
 
 
@@ -42,19 +66,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="main-inner">
             <div class="container">
                 <div class="content">
-                    <div class="mx-auto wrapper-container overflow-hidden">
-                      <div class="col col-7">
-                        <div class="type-picture" style="background: url('<?php echo base_url() ?>assets/img/lapangan/raya_futsal.jpg') center no-repeat;background-size: cover; "></div>
-                      </div>
-                      <div class="col col-5">
-                        <div class="clearfix">
-                          <div class="col-10 mt3 right badge-review">Review Pesanan</div>  
-                          <div class="col-11 mt3 deskripsi right">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quia quam assumenda facilis ab aut, sunt fuga et cum fugit tempore nihil. Ex optio similique necessitatibus, minima harum porro reprehenderit.
-                          </div>
+                
+                    <div class="col-12">
+                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto center">
+                            <h1>Futsalyuk Community</h1>
                         </div>
-                      </div>
-                    </div>                
+                        
+                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto martop-10">
+                            <div class="post animated bounceInLeft">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/cari-lapangan.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>Satu account untuk dua aplikasi</h2>
+                                    <p>saat anda telah login pada booking lapangan, anda dapat menggunakan untuk masuk ke Futsal Yuk Community
+</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+
+                            <div class="post animated fadeInRight">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/login.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>Temukan lawan terbaik anda</h2>
+                                    <p>Futsal Yuk Community menghadirkan fitur undangan bertanding, bahkan dengan team yang belum anda kenal</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+
+                            <div class="post animated fadeInDown">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/ok.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>Update Score</h2>
+                                    <p>Akan ada fitur untuk update score setelah bertanding, untuk menjunjung sportifitas dalam olahraga</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+
+                            <div class="post animated bounceInLeft">
+                                <div class="post-image">
+                                    <img src="<?php echo base_url(); ?>assets/img/cara-booking/pay.png" alt="">
+                                </div><!-- /.post-image -->
+
+                                <div class="post-content">
+                                    <h2>Papan Prestasi</h2>
+                                    <p>Setiap goal report dari pertandingan yang diselenggarakan melalui futsalyuk akan diakumulasikan menjadi persentase yang menentukan team anda adalah team terbaik</p>
+                                </div><!-- /.post-content -->
+                            </div><!-- /.post -->
+                        </div>
+                    </div>
+
                 </div><!-- /.content -->
             </div><!-- /.container -->
         </div><!-- /.main-inner -->
@@ -99,5 +164,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="http://futsalyuk.com/assets/js/plugins/nouslider/jquery.nouislider.min.js"></script>
 <script src='http://futsalyuk.com/assets/js/wNumb.min.js'></script>
 
+<script>
+	 $('[data-toggle="datepicker"]').datepicker({
+	 	autoHide: true,
+	 	format: 'yyyy-mm-dd'
+	 });
+
+	 var basic_slider = document.getElementById('basic_slider');
+        var bigValueSpan = document.getElementById('durasi_value');
+
+        noUiSlider.create(basic_slider, {
+            start: 1,
+            step: 1,
+            format: wNumb({
+                decimals: 0
+            }),
+            range: {
+                'min':  [1],
+                'max':  [5]
+            }
+        });
+
+        basic_slider.noUiSlider.on('update', function ( values, handle ) {
+            bigValueSpan.innerHTML = values[handle];
+            nilai_durasi.value = values[handle];
+        });
+</script>
 </body>
 </html>
