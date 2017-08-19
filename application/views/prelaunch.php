@@ -15,12 +15,15 @@
   <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
 </head>
 <body>
-	
+	<?php include_once("analyticstracking.php") ?>
 	<div class="header">
-		<div class="col-8 mx-auto">
-			<div class="logo">
+		<div class="col-10 mx-auto">
+			<div class="logo inline-block">
 				<img src="<?php echo base_url() ?>assets/img/background-putih.png" width="80" alt="">
 			</div>
+      <div class="h-title inline-block right">
+        PRELAUNCH SITE
+      </div>
 		</div>
 	</div>
 

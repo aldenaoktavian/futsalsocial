@@ -241,3 +241,8 @@ body {
 .mail-title {
   color: #fff;
 }
+
+.h-title {
+  height: 50px;
+  line-height: 50px;
+}
