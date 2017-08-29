@@ -238,6 +238,22 @@ body {
   background: #0C706D;
 }
 
+ @media (max-width: 832px) {
+    .email {
+      width: 100%;
+      padding: 50px;
+      background: #0C706D;
+    }
+}
+
+@media (max-width: 640px) {
+    .email {
+      width: 100%;
+      padding: 30px 10px;
+      background: #0C706D;
+    }
+}
+
 .mail-title {
   color: #fff;
 }
@@ -245,4 +261,8 @@ body {
 .h-title {
   height: 50px;
   line-height: 50px;
+}
+
+.seo p{
+  line-height: 15px !important;
 }

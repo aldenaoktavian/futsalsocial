@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Futsalyuk Prelaunch</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="title" content="Komunitas Futsal Indonesia, Booking Lapangan Futsal Online" />
+  <meta name="description" content="Situs Booking lapangan futsal online termudah, dan komunitas futsal terbesar di indonesia" />
+  <meta name="keywords" content="booking lapangan futsal online mudah murah indonesia komunitas futsal yang keren" />
+
+	<title>Situs Tempat Berkumpulnya Para Pecinta Futsal Di Seluruh Indonesia</title>
   <link href="<?php echo base_url(); ?>assets/assets/css/superlist.css" rel="stylesheet" type="text/css" >
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/prelaunch.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/basscss.min.css">
@@ -63,7 +71,7 @@
                   <p class="fs-text__subheading bold my3">
                       Cari Lawan Terkuatmu
                   </p>
-                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/chalenge.png" width="230" alt=""></center>
+                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/chalenge.png" width="200" alt=""></center>
                   <p class="fs-text__paragraph m0">
                       Kirim undangan untuk bertanding ke Lawan mu
                   </p>
@@ -79,7 +87,7 @@
                   <p class="fs-text__subheading bold my3">
                       Goal Report
                   </p>
-                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/report.png" width="230" alt=""></center>
+                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/report.png" width="200" alt=""></center>
                   <p class="fs-text__paragraph m0">
                       Laporkan Hasil Pertandingan mu
                   </p>
@@ -95,9 +103,25 @@
                   <p class="fs-text__subheading bold my3">
                       Best Team
                   </p>
-                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/team.png" width="230" alt=""></center>
+                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/team.png" width="200" alt=""></center>
                   <p class="fs-text__paragraph m0">
                       Table Rangking Team Terbaik
+                  </p>
+                  <p class="mt3 fs-text__detail bold">
+                      Lihat Detail
+                  </p>
+              </a>
+
+              <a class="md-col-3 my3 mx2 center fs-product__container" onclick="show('community')">
+                  <div class="fs-circle">
+                      <i class="fs__icon-circle icon--mitratoppers"></i>
+                  </div>
+                  <p class="fs-text__subheading bold my3">
+                      Community
+                  </p>
+                  <center><img src="<?php echo base_url() ?>assets/img/prelaunching/community.png" width="200" alt=""></center>
+                  <p class="fs-text__paragraph m0">
+                      Terhubung dengan Komunitas 
                   </p>
                   <p class="mt3 fs-text__detail bold">
                       Lihat Detail
@@ -110,10 +134,10 @@
     <!-- Section Detail Product -->
     <section class="section-product_detail">
         <div class="container-detail">
-            <div id="booking" class="row fs-detail__hidden" id="mitra-toppers">
+            <div id="booking" class="row fs-detail__hidden" >
                 <div class="md-col-12 sm-col-12 mx-auto fs-detail__container relative clearfix">
-                    <div class="col md-col-4">
-                      <img src="<?php echo base_url() ?>assets/img/prelaunching/booking.png" width="300" alt="">
+                    <div class="col md-col-4 px2">
+                      <img src="<?php echo base_url() ?>assets/img/prelaunching/booking.png" style="width: 100%;" alt="">
                     </div>
                     <div class="col md-col-8">
                         <h1 class="fs-text__headline">Booking Lapangan</h1>
@@ -124,10 +148,10 @@
                 </div>
             </div>
 
-            <div id="chalenge" class="row fs-detail__hidden" id="mitra-toppers">
+            <div id="chalenge" class="row fs-detail__hidden" >
                 <div class="md-col-12 sm-col-12 mx-auto fs-detail__container relative clearfix">
-                    <div class="col md-col-4">
-                      <img src="<?php echo base_url() ?>assets/img/prelaunching/chalenge.png" width="300" alt="">
+                    <div class="col md-col-4 px2">
+                      <img src="<?php echo base_url() ?>assets/img/prelaunching/chalenge.png" style="width: 100%;"` alt="">
                     </div>
                     <div class="col md-col-8">
                         <h1 class="fs-text__headline">Chalenge</h1>
@@ -141,10 +165,10 @@ bertanding.
                 </div>
             </div>
 
-            <div id="report" class="row fs-detail__hidden" id="mitra-toppers">
+            <div id="report" class="row fs-detail__hidden" >
                 <div class="md-col-12 sm-col-12 mx-auto fs-detail__container relative clearfix">
-                    <div class="col md-col-4">
-                      <img src="<?php echo base_url() ?>assets/img/prelaunching/report.png" width="300" alt="">
+                    <div class="col md-col-4 px2">
+                      <img src="<?php echo base_url() ?>assets/img/prelaunching/report.png" style="width: 100%;" alt="">
                     </div>
                     <div class="col md-col-8">
                         <h1 class="fs-text__headline">Goal Report</h1>
@@ -158,10 +182,10 @@ Laporkan hasil pertaandinganmu 24 jam setelah pertandingan.
                 </div>
             </div>
             
-            <div id="team" class="row fs-detail__hidden" id="mitra-toppers">
+            <div id="team" class="row fs-detail__hidden" >
                 <div class="md-col-12 sm-col-12 mx-auto fs-detail__container relative clearfix">
-                    <div class="col md-col-4">
-                      <img src="<?php echo base_url() ?>assets/img/prelaunching/team.png" width="300" alt="">
+                    <div class="col md-col-4 px2">
+                      <img src="<?php echo base_url() ?>assets/img/prelaunching/team.png" style="width: 100%;" alt="">
                     </div>
                     <div class="col md-col-8">
                         <h1 class="fs-text__headline">Table Team Rank</h1>
@@ -174,6 +198,21 @@ dapatkan point.
                     </div>
                 </div>
             </div>
+
+
+            <div id="community" class="row fs-detail__hidden" >
+                <div class="md-col-12 sm-col-12 mx-auto fs-detail__container relative clearfix">
+                    <div class="col md-col-4 px2">
+                      <img src="<?php echo base_url() ?>assets/img/prelaunching/community.png" style="width: 100%;" alt="">
+                    </div>
+                    <div class="col md-col-8">
+                        <h1 class="fs-text__headline">Community</h1>
+                        <p class="mt2 mb3 left fs-text__paragraph">
+                          Menghubungkan seluruh pecinta futsal di Indonesia
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- end of Section Detail Product -->
@@ -181,18 +220,50 @@ dapatkan point.
   </div>
 
   <div class="email overflow-hidden">
-    <div class="col-8 mx-auto">
+    <div class="md-col-8 sm-col-12 mx-auto">
       <div class="col-12 center">
         <h3 class="mail-title">Masukan Email Anda agar Tetap Terhubung Dengan Kami di Futsaklyuk.com dan Mendapatkan Info Lebih Lanjut</h3>
       </div>
-      <div class="col-8 mx-auto overflow-hidden">
-        <div class="col col-8 px2">
+      <div class="md-col-8 sm-col-12 mx-auto overflow-hidden">
+        <div class="col md-col-8 sm-col-8 px2">
           <input type="email" id="email" class="form-control" placeholder="masukan email anda">
         </div>
-        <div class="col col-4 px2">
+        <div class="col md-col-4 sm-col-4 px2">
           <button onclick="do_register()" class="form-control">Send</button>
         </div>
       </div>
+    </div>
+  </div>
+  
+  <div class="container seo py3" style="font-size: 12px;">
+    <div class="col col-4 px2">
+      <h5>Situs Terbaik dan Terpercaya untuk Booking Online Lapangan Futsal</h5>
+      <p>
+        FutsalYuk.com merupakan situs pertama yang menyediakan pengalaman terbaik dan terpercaya dalam pencarian informasi lapangan futsal hingga Pemesanan / booking lapangan futsal di berbagai lokasi secara online. Kemudahan dalam mengakses layanan di dalam situs, menjadikan FutsalYuk.com sebagai platform yang paling tepat bagi Anda yang hobi futsal atau pecinta futsal.
+      </p>
+      <h5>Tempat Berkumpulnya Para Hobi Futsal atau Pecinta Futsal</h5>
+      <p>
+        Kami mencintai olahraga futsal dan menyadari bahwa masih ada banyak lagi para pecinta futsal di luar sana. Dengan semangat kebersamaan yang kuat
+      </p>
+    </div>
+
+    <div class="col col-4 px2">
+      <p>
+        , kami mengajak Anda para sesama hobi futsal atau pecinta futsal untuk bergabung ke dalam komunitas futsal “FY Community” di FutsalYuk.com. Melalui komunitas futsal “FY Community,” Anda bisa berinteraksi dan berbagi informasi langsung dengan sesama pecinta futsal.
+      </p>
+      <h5>Situs Booking Online Lapangan Futsal dengan Jaringan yang Luas</h5>
+      <p>
+        FutsalYuk.com telah memiliki jaringan lapangan futsal yang luas dan tersebar di berbagai lokasi di Indonesia. Situs ini juga memungkinkan bagi pengusaha atau pemilik lapangan futsal untuk memperomosikan lapangan futsal dan menemukan pelanggan bagi lapangan futsal miliknya. Caranya, cukup hanya dengan mendaftarkan lapangan futsal Anda secara gratis di FutsalYuk.com. Hubungi nomor telepon dan email yang telah dicantumkan untuk informasi lebih lanjut.
+      </p>
+    </div>
+
+    <div class="col col-4 px2">
+      <h5>Cari, Pesan / Booking Lapangan Futsal Nggak Pake Ribet</h5>
+      <p>
+        FutsalYuk.com memiliki komitmen kuat untuk menjadi situs terbaik dalam pencarian informasi lapangan futsal hingga pemesanan / booking lapangan futsal. Kami menawarkan solusi bagi Anda yang hobi futsal atau pecinta futsal, serta ingin melakukan olahraga futsal, untuk memesan atau booking lapangan futsal secara online tanpa harus repot mendatangi langsung lapangan futsal yang diinginkan.
+      </p>
+ 
+
     </div>
   </div>
 
@@ -279,22 +350,27 @@ dapatkan point.
         if (vars === 'booking') {
             $('#'+vars).addClass('fs-detail__active');
             $('#'+vars).removeClass('fs-detail__hidden');
-            $('#chalenge,#report,#team').addClass('fs-detail__hidden');
+            $('#chalenge,#report,#team,#community').addClass('fs-detail__hidden');
         }
         else if (vars === 'chalenge') {
             $('#'+vars).addClass('fs-detail__active');
             $('#'+vars).removeClass('fs-detail__hidden');
-            $('#report,#booking,#team').addClass('fs-detail__hidden');
+            $('#report,#booking,#team,#community').addClass('fs-detail__hidden');
         }
         else if (vars === 'report') {
             $('#'+vars).addClass('fs-detail__active');
             $('#'+vars).removeClass('fs-detail__hidden');
-            $('#chalenge,#booking,#team').addClass('fs-detail__hidden');
+            $('#chalenge,#booking,#team,#community').addClass('fs-detail__hidden');
         }
         else if (vars === 'team') {
             $('#'+vars).addClass('fs-detail__active');
             $('#'+vars).removeClass('fs-detail__hidden');
-            $('#report,#booking,#chalenge').addClass('fs-detail__hidden');
+            $('#report,#booking,#chalenge,#community').addClass('fs-detail__hidden');
+        }
+        else if (vars === 'community') {
+            $('#'+vars).addClass('fs-detail__active');
+            $('#'+vars).removeClass('fs-detail__hidden');
+            $('#report,#booking,#chalenge,#team').addClass('fs-detail__hidden');
         }
 
         $("html, body").animate({ scrollTop: $(".section-product_detail").offset().top - 300 }, 300);
