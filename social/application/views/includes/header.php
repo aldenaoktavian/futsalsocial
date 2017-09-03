@@ -87,7 +87,7 @@
                         <li><a href="<?php echo base_url().'social/messages/all'; ?>" class="view">Lihat Semua Pesan</a></li>
                       </ul>
                     </li>
-                    <img class="img-circle" src="<?php echo base_url(); ?>uploadfiles/member-images/<?php echo $member_image?>" style="width: 35px;height: 35px;">
+                    <img class="img-circle" src="<?php echo base_url(); ?>uploadfiles/member-images/<?php echo $member_image?>" style="width: 35px;">
                     <a href="<?php echo base_url().'member/profile/'.md5($this->session->login['id']); ?>" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Profile</span></a>
                     <a href="<?php echo base_url(); ?>" class="dropdown-at dropdown-at-menu"><span class=" name-caret">Home</span></a>
                     <li class="dropdown" style="margin-right: 25px;">

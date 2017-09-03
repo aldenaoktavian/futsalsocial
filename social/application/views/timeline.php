@@ -19,11 +19,11 @@
 		<div id="member_post">
 			<?php
 				foreach($all_post as $data){ 
-				$member_image = ($data['member_image'] && file_exists(base_url().'uploadfiles/member-images/'.$data['member_image']) ? base_url().'uploadfiles/member-images/'.$data['member_image'] : base_url().'uploadfiles/member-images/no-img-profil.png');
+				$member_image = ($data['member_image'] ? $data['member_image'] : 'no-img-profil.png');
 			?>
 				<div class="bg-post post-item">
 					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopadding">
-						<img class="img-circle post-img" src="<?php echo $member_image; ?>">
+						<img class="img-circle post-img" src="<?php echo base_url().'uploadfiles/member-images/'.$member_image; ?>">
 					</div>
 					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
 						<a href="<?php echo base_url().'member/profile/'.md5($data['member_id']); ?>" class="url-color"><h4><?php echo $data['member_name']; ?></h4></a>

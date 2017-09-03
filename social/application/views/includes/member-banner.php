@@ -14,7 +14,7 @@
 
                 <div class="profile-image">
                     <div class="profile-image-top">
-                        <a href="<?php echo base_url().'uploadfiles/member-images/'.$detail_member['member_image']; ?>"><img class="img-circle" style="width: 73px;height: 73px;" src="<?php echo base_url().'uploadfiles/member-images/'.$detail_member['member_image']; ?>"></a>
+                        <a href="<?php echo base_url().'uploadfiles/member-images/'.$detail_member['member_image']; ?>"><img class="img-circle" src="<?php echo base_url().'uploadfiles/member-images/'.$detail_member['member_image']; ?>"></a>
                         <h5 class="hidden-sm hidden-xs"><?php echo $detail_member['member_name']; ?></h5>
                         <h6 class="hidden-lg hidden-md"><?php echo $detail_member['member_name']; ?></h6>
                     </div>

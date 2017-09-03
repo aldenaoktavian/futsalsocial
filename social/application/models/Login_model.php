@@ -9,11 +9,10 @@ class Login_model extends CI_Model {
 	function cek_user_login($username, $password){
 		$query = $this
 			->db
-			->join('member_social b', 'b.user_id = a.id_user')
 			->where('username', $username)
 			->where('password', $password)
 			->limit(1)
-			->get('user a');
+			->get('member');
 			
 		if ($query->num_rows() == 1) {
 			$data = $query->row_array();
