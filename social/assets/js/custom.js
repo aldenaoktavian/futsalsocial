@@ -512,3 +512,9 @@ function load_chat_message(member_chat_id)
 		}
 	});
 }
+
+function register_social()
+{
+	$("#register").removeClass("hidden");
+	$("#login").addClass("hidden");
+}

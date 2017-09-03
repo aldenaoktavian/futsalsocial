@@ -3624,3 +3624,7 @@ opacity: 0;
   font-size: 0.8em;
   font-family: 'Muli-Regular';
 }
+
+.span-required {
+  color: red;
+}
