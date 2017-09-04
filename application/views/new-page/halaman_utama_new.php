@@ -341,9 +341,9 @@
       </div>
     </div>
 
-    <div class="wrapper-footer py3" style="background-image: url('<?php echo base_url() ?>assets/img/halaman_utama/footer-image.png');">
+    <!-- <div class="wrapper-footer py3" style="background-image: url('<?php echo base_url() ?>assets/img/halaman_utama/footer-image.png');">
       <img class="icon-hp" src="<?php echo base_url() ?>assets/img/halaman_utama/footer-hp.png" alt="">
-    </div>
+    </div> -->
     
     <?php $this->load->view('footer') ?>
   </div>

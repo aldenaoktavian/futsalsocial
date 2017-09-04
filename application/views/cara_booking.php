@@ -62,14 +62,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php $this->load->view('header') ?>
 
-<div class="main">
-        <div class="main-inner">
+<style>
+    .bg-green {
+        background-color: #5bcfcf;
+    }
+    
+</style>
+
+<div class="main bg-green">
+        <div class="main-inner pt0">
             <div class="container">
                 <div class="content">
                 
                     <div class="col-12">
-                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto center">
-                            <h1>Cara Booking Lapangan</h1>
+                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto center animated bounceInTop">
+                            <!-- <h1>Cara Booking Lapangan</h1> -->
+                            <img src="<?php echo base_url() ?>assets/img/cara-booking/led-box.png" width="100%" alt="">
                         </div>
                         
                         <div class="md-col-8 sm-col-12 xs-col-12 mx-auto martop-10">

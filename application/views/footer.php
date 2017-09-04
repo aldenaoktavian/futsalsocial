@@ -1,3 +1,33 @@
+<style>
+    .wrapper-footer {
+    height: 350px;
+    background-color: #5bcfcf;
+    background-size: cover;
+    background-position: bottom;
+    position: relative;
+}
+
+.icon-hp{
+    width: 250px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -125px
+}
+
+/*footer section  */
+.footer-top {
+    background-color: #169494 !important;
+}
+
+.footer-bottom {
+    background-color: #064a4b !important;
+}
+</style>
+
+<div class="wrapper-footer py3" style="background-image: url('<?php echo base_url() ?>assets/img/halaman_utama/footer-image.png');">
+    <img class="icon-hp" src="<?php echo base_url() ?>assets/img/halaman_utama/footer-hp.png" alt="">
+</div>
 <footer class="footer">
     <div class="footer-top">
         <div class="container">
