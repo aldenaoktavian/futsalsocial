@@ -24,12 +24,13 @@ class Login extends CI_Controller {
 				$this->input->post('user'),
 				md5($this->input->post('pass'))
 			);
-			
+
 			if ( $result != FALSE) {
 				$this->member_model->add_login_log($result);
 				$dataMemberLogin = $this->member_model->data_member($result);
 				$login_session['username'] = $dataMemberLogin['username'];
 				$login_session['id'] = $dataMemberLogin['member_id'];
+				$login_session['user_id'] = $dataMemberLogin['user_id'];
 				$login_session['team_id'] = $dataMemberLogin['team_id'];
 				$login_session['is_team_admin'] = $dataMemberLogin['is_team_admin'];
 				$this->session->set_userdata('login', $login_session);

@@ -7,22 +7,48 @@ class Member_model extends CI_Model {
 		parent::__construct();
 	}
 
+	function add_member($data)
+	{
+		$this->db->insert('user', $data['user']);
+		$user_id = $this->db->insert_id();
+
+		if($data['member_booking'] == 1){
+			$data['booking']['user_id'] = $user_id;
+			$this->db->insert('member_booking', $data['booking']);
+		}
+
+		$data['social']['user_id'] = $user_id;
+		$this->db->insert('member_social', $data['social']);
+
+		return $this->db->insert_id();
+	}
+
+	/* start register function */
+	function cek_available_data($field, $value)
+	{
+		$this->db->where($field, $value);
+		$result = $this->db->get('user')->row_array();
+
+		return $result;
+	}
+	/* end register function */
+
 	function add_login_log($member_id)
 	{
-		$update = $this->db->update('login_log', array('status'=>1), array('member_id'=>$member_id));
+		$update = $this->db->update('login_log_social', array('status'=>1), array('member_id'=>$member_id));
 		if($update == TRUE){
-			$this->db->insert('login_log', array('member_id'=>$member_id, 'ip_address'=>$this->input->ip_address(), 'login_datetime'=>date('Y-m-d H:i:s')));
+			$this->db->insert('login_log_social', array('member_id'=>$member_id, 'ip_address'=>$this->input->ip_address(), 'login_datetime'=>date('Y-m-d H:i:s')));
 		}
 	}
 
 	function update_login_log($member_id)
 	{
-		$this->db->update('login_log', array('login_datetime'=>date('Y-m-d H:i:s'), 'status'=>1), array('member_id'=>$member_id));
+		$this->db->update('login_log_social', array('login_datetime'=>date('Y-m-d H:i:s'), 'status'=>1), array('member_id'=>$member_id));
 	}
 
 	function get_last_login($member_id)
 	{
-		$get_last_login = $this->db->query("SELECT login_datetime AS login_datetime, status FROM login_log WHERE md5(member_id) = '".$member_id."' AND login_datetime = (SELECT MAX(login_datetime) FROM login_log WHERE md5(member_id) = '".$member_id."')")->row_array();
+		$get_last_login = $this->db->query("SELECT login_datetime AS login_datetime, status FROM login_log_social WHERE md5(member_id) = '".$member_id."' AND login_datetime = (SELECT MAX(login_datetime) FROM login_log_social WHERE md5(member_id) = '".$member_id."')")->row_array();
 		if($get_last_login['status'] == 0){
 			return "online";
 		} else {
@@ -39,15 +65,17 @@ class Member_model extends CI_Model {
 	
 	function data_member($id)
 	{
-		$this->db->where('member_id', $id);
-		$data = $this->db->get('member')->row_array();
+		$query = $this->db->query("SELECT a.member_id, a.user_id, team_id, CONCAT(member_social_firstname, ' ', member_social_lastname) AS member_name, member_image, member_banner, is_team_admin, username, password, email FROM member_social a INNER JOIN user b ON a.user_id = b.id_user WHERE a.member_id = ".$id);
+		//$this->db->where('member_id', $id);
+		$data = $query->row_array();
 		return $data;
 	}
 	
 	function data_member_md5($id)
 	{
-		$this->db->where('md5(member_id)', $id);
-		$data = $this->db->get('member')->row_array();
+		$query = $this->db->query("SELECT a.member_id, a.user_id, team_id, CONCAT(member_social_firstname, ' ', member_social_lastname) AS member_name, member_image, member_banner, is_team_admin, username, password, email FROM member_social a INNER JOIN user b ON a.user_id = b.id_user WHERE md5(a.member_id) = '".$id."'");
+		//$this->db->where('md5(member_id)', $id);
+		$data = $query->row_array();
 		return $data;
 	}
 	
