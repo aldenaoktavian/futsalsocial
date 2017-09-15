@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
-    <title>Boooking Lapangan Futsal Online Gampang di futsalyuk.com</title>
+    <title>Booking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
 
