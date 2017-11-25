@@ -29,8 +29,6 @@
 
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
 
-    <title>Superlist - Directory Template</title>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
     <script>
  
@@ -75,6 +73,30 @@
         //     }
         //   }
         // }
+
+        function fillInAddress() {
+         
+          var place = autocomplete.getPlace();
+         
+          // for (var component in componentForm) {
+          //   document.getElementById(component).value = '';
+          //   document.getElementById(component).disabled = false;
+          // }
+
+          var lat = place.geometry.location.lat(),
+                lng = place.geometry.location.lng();
+         
+            document.getElementById('lat_form').value = lat;
+            document.getElementById('lng_form').value = lng;
+         
+          // for (var i = 0; i < place.address_components.length; i++) {
+          //   var addressType = place.address_components[i].types[0];
+          //   if (componentForm[addressType]) {
+          //     var val = place.address_components[i][componentForm[addressType]];
+          //     document.getElementById(addressType).value = val;
+          //   }
+          // }
+        }
          
         function geolocate() {
           if (navigator.geolocation) {
@@ -93,7 +115,7 @@
 </head>
 
 
-<body class="">
+<body class="" onload="initialize()">
 <?php include_once("analyticstracking.php") ?>
 
 <div class="page-wrapper">
@@ -104,18 +126,28 @@
 
 
     <div class="main" ng-controller="daftar_lapangan">
-        <div class="main-inner">
+        <div class="main-inner pt0">
+        
+        <div class="hidden-xs hidden-sm" style="margin-bottom: 20px;">
+            <img src="<?php echo base_url()?>assets/img/banner-result.png" style="width: 100%;" alt="">
+        </div>
+
+        <div class="hidden-md hidden-lg" style="margin-bottom: 20px;">
+            <img src="<?php echo base_url()?>assets/img/banner-result-mobile.png" style="width: 100%;" alt="">
+        </div>
+
             <div class="container">
                 <div class="content">
                     
-    <div class="document-title" style="background : url('<?php echo base_url()?>assets/img/header2.jpg') center no-repeat;background-size: cover;background-attachment: fixed;">
-        <h1>Booking Menjadi Cepat dan Gampang!</h1>
+    <!-- <div class="document-title" style="background : url('<?php echo base_url()?>assets/img/banner-result.png') center no-repeat;background-size: contain;"> -->
+        <!-- <h1>Booking Menjadi Cepat dan Gampang!</h1> -->
 
         <!-- <ul class="breadcrumb">
             <li><a href="#">Superlist</a></li>
             <li><a href="#">Listing</a></li>
         </ul> -->
-    </div><!-- /.document-title -->
+    <!-- </div> -->
+    <!-- /.document-title -->
 
 	<input type="hidden" name="daerah" id="daerah" value="<?php echo $daerah; ?>">
 	<input type="hidden" name="tanggal" id="tanggal" value="<?php echo $tanggal; ?>">
@@ -124,50 +156,67 @@
 	<input type="hidden" name="lat" id="lat" value="<?php echo $lat; ?>">
 	<input type="hidden" name="lng" id="lng" value="<?php echo $lng; ?>">
 
-                    <form class="filter" method="post" action="http://preview.byaviators.com/template/superlist/listing-row.html?">
+<form class="filter" method="get" action="<?php echo base_url() ?>cari_lapangan">
     <div class="row">
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-3">
             <div class="form-group">
-                <input type="text" placeholder="Keyword" class="form-control">
+                <input type="text" class="form-control" id="autocomplete" name="daerah" placeholder="Masukan nama daerah" onFocus="geolocate()">
             </div><!-- /.form-group -->
         </div><!-- /.col-* -->
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-3">
             <div class="form-group">
-                <select class="form-control" title="Select Location">
-                    <option>Bronx</option>
-                    <option>Brooklyn</option>
-                    <option>Manhattan</option>
-                    <option>Staten Island</option>
-                    <option>Queens</option>
-                </select>
+                <input type="text" class="form-control" name="tanggal" data-toggle="datepicker" placeholder="pilih tanggal booking" required>
             </div><!-- /.form-group -->
         </div><!-- /.col-* -->
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-3">
             <div class="form-group">
-                <select class="form-control" title="Select Category">
-                    <option value="">Automotive</option>
-                    <option value="">Jobs</option>
-                    <option value="">Nightlife</option>
-                    <option value="">Services</option>
-                </select>
+                <select class="form-control m-b" id="jam" name="jam" required>
+                  <option value="">Pilih Jam</option>
+                  <option value="0800">08.00</option>
+                  <option value="0900">09.00</option>
+                  <option value="1000">10.00</option>
+                  <option value="1100">11.00</option>
+                  <option value="1200">12.00</option>
+                  <option value="1300">13.00</option>
+                  <option value="1400">14.00</option>
+                  <option value="1500">15.00</option>
+                  <option value="1600">16.00</option>
+                  <option value="1700">17.00</option>
+                  <option value="1800">18.00</option>
+                  <option value="1900">19.00</option>
+                  <option value="2000">20.00</option>
+                  <option value="2100">21.00</option>
+                  <option value="2200">22.00</option>
+                  <option value="2300">23.00</option>
+                  <option value="0000">00.00</option>
+                  </select>
             </div><!-- /.form-group -->
         </div><!-- /.col-* -->
+
+        <div class="col-sm-12 col-md-3">
+            <div class="form-group">
+                <div>
+                    <div id="basic_slider" style="margin-top: 8px;"></div>
+                    <br>
+                    <div style="margin-top: -16px;text-align: center;"><span id="durasi_value"></span> Jam</div>
+                    <input type="hidden" id="nilai_durasi" name="durasi" required>
+                </div>
+            </div><!-- /.form-group -->
+        </div><!-- /.col-* -->
+
+
     </div><!-- /.row -->
 
+    <input type="hidden" id="lat_form" name="lat">
+    <input type="hidden" id="lng_form" name="lng">
+    
     <hr>
 
     <div class="row">
-        <div class="col-sm-8">
-            <div class="filter-actions">
-                <a href="#"><i class="fa fa-close"></i> Reset Filter</a>
-                <a href="#"><i class="fa fa-save"></i> Save Search</a>
-            </div><!-- /.filter-actions -->
-        </div><!-- /.col-* -->
-
-        <div class="col-sm-4">
-            <button type="submit" class="btn btn-primary">Redefine Search Result</button>
+        <div class="col-sm-2" style="float: right;">
+            <button type="submit" class="btn btn-primary mt0">Cari Ulang Lapangan</button>
         </div><!-- /.col-* -->
     </div><!-- /.row -->
 </form>
@@ -342,22 +391,22 @@
 	 var basic_slider = document.getElementById('basic_slider');
         var bigValueSpan = document.getElementById('durasi_value');
 
-        // noUiSlider.create(basic_slider, {
-        //     start: 1,
-        //     step: 1,
-        //     format: wNumb({
-        //         decimals: 0
-        //     }),
-        //     range: {
-        //         'min':  [1],
-        //         'max':  [5]
-        //     }
-        // });
+        noUiSlider.create(basic_slider, {
+            start: 1,
+            step: 1,
+            format: wNumb({
+                decimals: 0
+            }),
+            range: {
+                'min':  [1],
+                'max':  [5]
+            }
+        });
 
-        // basic_slider.noUiSlider.on('update', function ( values, handle ) {
-        //     bigValueSpan.innerHTML = values[handle];
-        //     nilai_durasi.value = values[handle];
-        // });
+        basic_slider.noUiSlider.on('update', function ( values, handle ) {
+            bigValueSpan.innerHTML = values[handle];
+            nilai_durasi.value = values[handle];
+        });
         function round(value, precision) {
 		    var multiplier = Math.pow(10, precision || 0);
 		    return Math.round(value * multiplier) / multiplier;

@@ -31,7 +31,7 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                             <li><a href="<?php echo base_url() ?>member/profile">Lihat Profil</a></li>
                                             <li><a href="change-password.html">Ganti Password</a></li>
-                                            <li><a href="listing-submit.html">Keluar</a></li>
+                                            <li><a href="<?php echo base_url() ?>member/logout">Keluar</a></li>
                                             <li>
                                                 <div style="width: 100%;background: #78AE62;padding: 20px;color:#f4f4f4;"><b>Saldo</b> Rp.50.000</div>
                                             </li>

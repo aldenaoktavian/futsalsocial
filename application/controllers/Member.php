@@ -50,6 +50,7 @@ class Member extends CI_Controller {
 				$email = $value['email'];
 				$full_name = $value['fullname'];
 				$picture = $value['picture'];
+				$saldo = $value['saldo'];
 			}
 
 			$newdata = array(
@@ -57,7 +58,8 @@ class Member extends CI_Controller {
 		        'username'     => $username,
 		        'email' => $email,
 		        'full_name' => $full_name,
-		        'picture' => $picture
+		        'picture' => $picture,
+		        'saldo' => $saldo
 			);
 
 			$this->session->set_userdata($newdata);
@@ -65,8 +67,8 @@ class Member extends CI_Controller {
 		}
 		else
 		{
-			$this->load->view('login');
 			$this->session->set_flashdata('msg', 'User tidak ditemukan');
+			redirect('member/login');
 		}
 	}
 
@@ -129,5 +131,19 @@ class Member extends CI_Controller {
 		  show_error($this->email->print_debugger());
 		 }
 
+	}
+
+	public function logout ()
+	{
+		$newdata = array(
+	        'id_user'  => '',
+	        'username'     => '',
+	        'email' => '',
+	        'full_name' => '',
+	        'picture' => ''
+		);
+
+		$this->session->set_userdata($newdata);
+		redirect('c_halaman_utama');
 	}
 }

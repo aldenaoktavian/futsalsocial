@@ -1,0 +1,16 @@
+.header-yukpay {
+	width: 100%;
+	background-color: #5bcfcf;
+}
+
+.saldo {
+	background-color: #FFF;
+	border-radius: 15px;
+	padding-left: 4rem;
+    padding-right: 1rem;
+}
+
+.img-yukpay {
+	position: absolute;
+	left: -15px;
+}

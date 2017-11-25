@@ -14,7 +14,7 @@ class M_member extends CI_Model {
 
     public function login($email,$password)
     {
-            $sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+            $sql = "SELECT a.*, b.* FROM user a left join member_booking b on a.id_user = b.user_id WHERE email = ? AND password = ?";
 
         $queryRec = $this->db->query($sql,array($email,$password));
         return $queryRec->result_array();

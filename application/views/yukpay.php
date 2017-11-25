@@ -22,11 +22,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="http://futsalyuk.com/assets/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
 
     <link href="<?php echo base_url(); ?>assets/css/basscss.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url(); ?>assets/css/yukpay.css" rel="stylesheet" type="text/css">
 
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
-    <title>Boooking Lapangan Futsal Online Gampang di futsalyuk.com</title>
+    <title>Booking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmp5jSQ-LYSC07qKVF_2Cj2yVzfaoZukQ&v=3.exp&signed_in=true&libraries=places"></script>
 
@@ -34,11 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .post-image img {
             width: 100px;
         }
-        .martop-10 {
-            margin-top : 10rem;
+        .martop-5 {
+            margin-top : 5rem;
         }
-        .marbot-10 {
-            margin-bottom : 10rem;
+        .marbot-5 {
+            margin-bottom : 5rem;
         }
 
         @media (max-width: 1199px) {
@@ -71,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          }
          
          .background-black-light {
-            background-color: #99d8b7;
+            background-color: rgba(115, 237, 237, 0.61);
             color: #fff;
          }
         
@@ -87,17 +88,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('header') ?>
 
 <div class="main">
-        <div class="main-inner">
+        <div class="">
+	        	<div class="header-yukpay overflow-hidden px2 py4">
+	        		<div class="container">
+	        			<div class="wrapper-saldo-yukpay right relative">
+	        				<img class="inline-block img-yukpay" src="<?php echo base_url() ?>assets/img/yukpay.png" width="50px" alt="">
+		        			<div class="inline-block saldo py2 ">
+		        				<b>Saldo Yukpay anda Rp. <?php echo $this->session->userdata('saldo'); ?></b>
+		        			</div>
+		        		</div>
+	        		</div>
+	        	</div>
             <div class="container">
                 <div class="content">
                 
                     <div class="col-12">
-                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto center">
-                            <h1>Cara Booking Lapangan</h1>
+                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto center mt4">
+                            <h3>Lengkapi data Pengirim!</h3>
                         </div>
                         
-                        <div class="md-col-8 sm-col-12 xs-col-12 mx-auto martop-10 marbot-10">
-                            <h1>Content Goes Here...</h1>
+                        <div class="md-col-5 sm-col-12 xs-col-12 mx-auto martop-5 marbot-5">
+                            <div class="form-group">
+								                <label for="login-form-email">Nominal</label>
+								                <input type="text" class="form-control" name="nominal">
+								            </div><!-- /.form-group -->
+
+								            <div class="form-group">
+								                <label for="login-form-email">Atas Nama</label>
+								                <input type="text" class="form-control" name="atas_nama">
+								            </div><!-- /.form-group -->
+
+								            <div class="form-group">
+								                <label for="login-form-email">No Rekening</label>
+								                <input type="text" class="form-control" name="no_rekening">
+								            </div><!-- /.form-group -->
+
+								            <div class="form-group">
+								                <label for="login-form-email">Pilih Bank</label>
+								                <select name="bank" id="bank" class="form-control">
+								                	<option value="bca">Bank BCA</option>
+								                	<option value="bni">Bank BNI</option>
+								                	<option value="bri">Bank BRI</option>
+								                	<option value="mandiri">Bank Mandiri</option>
+								                </select>
+								            </div><!-- /.form-group -->
+														<div class="center">
+															<button class="btn btn-primary">Transfer</button>	
+														</div>
+								            
                         </div>
                     </div>
 

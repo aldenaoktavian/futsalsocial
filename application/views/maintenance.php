@@ -99,7 +99,34 @@
     </style>
 </head>
 <body>
-    <div class="container overflow-hidden" style="background: url('<?php echo base_url() ?>assets/img/maintenance/background.png') top no-repeat;">
+	<?php include_once("analyticstracking.php") ?>
+    <div class="container overflow-hidden xs-hide sm-hide" style="background: url('<?php echo base_url() ?>assets/img/maintenance/background.png') top no-repeat;">
+        <div class="content">
+            <div class="plang center">
+                <img src="<?php echo base_url() ?>assets/img/maintenance/plang.png" alt="">
+            </div>
+            <div class="copy center relative mt3">
+                <h2 class="mb1" style="color:#fff;">Penasaran ?</h2>
+                <div class="sm-col-10 md-col-6 lg-col-6 col-10 mx-auto">
+                    <p>Silahkan masukan email kamu dan jadilah yang pertama menikmati setiap kemudahan dari platform dunia futsal tanpa batas!</p>
+                </div>
+                <div class="email overflow-hidden mt1">
+                    <div class="md-col-8 sm-col-12 mx-auto">
+                        <div class="md-col-9 sm-col-12 mx-auto overflow-hidden">
+                            <div class="col col-12 md-col-8 sm-col-12 mt1 px1">
+                            <input type="email" id="email" class="form-control" placeholder="masukan email anda">
+                            </div>
+                            <div class="col col-12 md-col-3 sm-col-12 mt1 px1">
+                            <button onclick="do_register()" class="form-control">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container overflow-hidden md-hide lg-hide" style="background: url('<?php echo base_url() ?>assets/img/maintenance/background-mobile.png') top no-repeat;    background-size: cover;">
         <div class="content">
             <div class="plang center">
                 <img src="<?php echo base_url() ?>assets/img/maintenance/plang.png" alt="">

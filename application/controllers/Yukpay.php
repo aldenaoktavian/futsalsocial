@@ -28,5 +28,33 @@ class Yukpay extends CI_Controller {
             $this->load->view('login');
         }
 	}
+
+	public function topup()
+	{
+		$this->load->model('M_yukpay');
+		$month=date("m");
+		$year=date("Y");
+		$day= date("d");
+		$tanggal = $year.'-'.$month.'-'.$day;
+		$kode = $this->M_yukpay->check_code($tanggal);
+		$kode_transaksi = 1;
+
+		$id_user = $this->session->userdata('id_user');
+		$atas_nama = $_POST['atas_nama'];
+		$no_rekening = $_POST['nomor_rekening'];
+		$nominal = $_POST['nominal'];
+		$bank = $_POST['bank'];
+		$status = 0;
+
+		if (count($kode) >= 1) {
+			$kode_transaksi = $kode['code'];
+			$kode_transaksi = $kode_transaksi+1;
+			$insert = $this->M_yukpay->insert_topup($tanggal,$id_user,$atas_nama,$no_rekening,$nominal,$bank,$status,$kode_transaksi);
+		}
+		else
+		{
+			$insert = $this->M_yukpay->insert_topup($tanggal,$id_user,$atas_nama,$no_rekening,$nominal,$bank,$status,$kode_transaksi);
+		}
+	}
 	
 }

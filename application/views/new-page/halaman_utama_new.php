@@ -168,13 +168,24 @@
                                   <a href="#">Mitra Lapangan </a>
                               </li>
                               <li class="">
+                              		<?php 
+																	    $name = $this->session->userdata('username');
+																	    $picture = $this->session->userdata('picture');
+																	 ?>
                                   <a href="#">Member </a>
-                                  <ul class="sub-menu">
-                                          <li><a href="<?php echo base_url(); ?>member/login">Masuk</a></li>
-                                          <li><a href="<?php echo base_url(); ?>member/register">Daftar</a></li>
-                                      
-                                      <li><a href="index-google-map.html">Mitra</a></li>
-                                  </ul>
+                                  <?php if ($name == '') { ?>
+	                                  <ul class="sub-menu">
+	                                          <li><a href="<?php echo base_url(); ?>member/login">Masuk</a></li>
+	                                          <li><a href="<?php echo base_url(); ?>member/register">Daftar</a></li>  
+	                                      <li><a href="index-google-map.html">Mitra</a></li>
+	                                  </ul>
+	                                <?php } else {?>
+																		<ul class="sub-menu">
+																			<li><a href="<?php echo base_url() ?>member/profile">Lihat Profil</a></li>
+                                      <li><a href="change-password.html">Ganti Password</a></li>
+                                      <li><a href="<?php echo base_url() ?>member/logout">Keluar</a></li>
+																		</ul>
+	                                <?php } ?>
                               </li>
                           </ul>
 
@@ -280,6 +291,9 @@
             </div>
             <div class="inline-block box-feature">
               <img src="<?php echo base_url() ?>assets/img/halaman_utama/target.png" alt="">
+            </div>
+            <div class="inline-block box-feature">
+              <img src="<?php echo base_url() ?>assets/img/halaman_utama/news.png" alt="">
             </div>
           </div>
         </div>

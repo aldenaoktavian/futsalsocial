@@ -281,9 +281,10 @@
                                 <dl>
                                     
                                         <dd>Harga</dd><dt> <?php echo $row->tarif; ?> / jam</dt>
+                                        <dd>Harga Booking</dd><dt> <?php echo $row->tarif_booking; ?></dt>
                                         <dd>Luas Lapangan</dd><dt> 30 * 30 m</dt>
                                 </dl>
-                                <button class="btn btn-primary btn-block" type="submit" onclick="choose_lapangan('<?php echo $row->id_lapangan; ?>')"><i class="fa fa-hand-pointer-o"></i>Booking</button>
+                                <button class="btn btn-primary btn-block" type="submit" onclick="choose_lapangan('<?php echo $row->id_tipe; ?>')"><i class="fa fa-hand-pointer-o"></i>Booking</button>
                                 <h5 class="font-center detail_toggle mt30" onclick="show_detail(<?php echo $idx; ?>)">Lihat Detail Lapangan <i class="fa fa-chevron-down"></i></h5>
                             </div><!-- /.card-row-properties -->
                         </div><!-- /.card-row-inner -->
@@ -694,6 +695,12 @@
 
         function choose_lapangan(id) {
             let id_lapangan = id;
+            localStorage.setItem('id_lapangan', id);
+            localStorage.setItem('tanggal', '<?php echo $tanggal; ?>');
+            localStorage.setItem('jam', '<?php echo $jam; ?>');
+            localStorage.setItem('durasi', '<?php echo $durasi; ?>');
+            localStorage.setItem('nama_lapangan', '<?php echo $nama; ?>');
+
             window.location.href = '<?php echo base_url()?>c_booking/proceed_review';
             // jQuery.ajax({
             //   url: '<?php echo base_url()?>c_booking/proceed_review',

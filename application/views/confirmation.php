@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link  href="<?php echo base_url(); ?>assets/assets/datepicker/datepicker.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/confirmation.css" rel="stylesheet" type="text/css" >
 
-    <title>Boooking Lapangan Futsal Online Gampang di futsalyuk.com</title>
+    <title>Booking Lapangan Futsal Online Gampang di futsalyuk.com</title>
 
 </head>
 
@@ -43,13 +43,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container">
                 <div class="content">
                     <div class="mx-auto wrapper-container overflow-hidden">
-                      <div class="col col-7">
+                      <div class="col col-12 md-col-7 sm-col-12">
                         <div class="type-picture" style="background: url('<?php echo base_url() ?>assets/img/lapangan/raya_futsal.jpg') center no-repeat;background-size: cover; "></div>
                       </div>
-                      <div class="col col-5">
+                      <div class="col col-12 md-col-5 sm-col-12">
                         <div class="clearfix">
-                          <div class="col-10 mt3 right badge-review">Review Pesanan</div>  
-                          <div class="col-11 mt3 deskripsi right">
+                          <div class="col-10 mt3 mx-auto badge-review">Review Pesanan</div>  
+                          <div class="col-11 mt3 deskripsi mx-auto">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quia quam assumenda facilis ab aut, sunt fuga et cum fugit tempore nihil. Ex optio similique necessitatibus, minima harum porro reprehenderit.
                           </div>
                         </div>

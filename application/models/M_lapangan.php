@@ -92,7 +92,9 @@ class M_lapangan extends CI_Model {
     public function review_lapangan($id)
     {
         $sql = "SELECT a.*,c.rating_sum,b.fullname,b.picture FROM review_lapangan a 
-                LEFT JOIN user b ON a.id_user = b.id_user 
+                LEFT JOIN (SELECT a.id_user, CONCAT(b.member_booking_firstname,' ',b.member_booking_lastname) AS fullname, b.picture 
+				FROM  `user` a LEFT JOIN member_booking b ON a.id_user = b.user_id) b 
+				ON a.id_user = b.id_user 
                 LEFT JOIN rating_lapangan c ON a.id = c.id_review WHERE a.id_lapangan = ?";
         $queryRec = $this->db->query($sql,array($id));
         return $queryRec;
